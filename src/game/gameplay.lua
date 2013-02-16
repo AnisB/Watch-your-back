@@ -7,6 +7,7 @@ require("game.environment")
 require("game.background")
 require("game.proxbackground")
 require("game.hud")
+require("game.pedobear")
 Gameplay = {}
 Gameplay.__index = Gameplay
 
@@ -42,12 +43,15 @@ function Gameplay:new()
 	self.environment = Environment:new(self)
 
 	-- Character -- 
-
+	-- self.boy = Boy
+	
+	
 	-- HUD --
 	self.hud = Hud:new(self)
 
-	--
-	-- self.boy = Boy
+	-- PEDO
+	self.pedobear = Pedobear:new()
+
 	return self
 end
 
@@ -100,4 +104,5 @@ function Gameplay:draw()
 	-- Draw the HUD (obviously at the end)
 	self.hud:draw()
 	p:draw()
+	self.pedobear:draw()
 end

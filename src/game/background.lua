@@ -6,7 +6,7 @@ Background = {}
 Background.__index =  Background
 function Background:new(gameplay)
     local self = {}
-    self.bgsize = 1280
+    self.bgsize = 4000
     setmetatable(self,Background)
     self.gp = gameplay
     self.backs ={ImgDirectory.."firstbg.png", ImgDirectory.."secondbg.png"}
@@ -18,7 +18,7 @@ function Background:new(gameplay)
     self.nextBg=self.back2
     self.isclicked=false
     self.cx =0
-    self.nx=1281
+    self.nx=self.bgsize
     self.drawNext=false
     self.myScrolled =0
     return self
@@ -27,9 +27,9 @@ end
 function Background:update(dt)
 	self.myScrolled=self.gp.scrolledDistance/10
 	
-	if math.floor((self.myScrolled+1024)%1280)>0 and math.floor((self.myScrolled+1024)%1280)< 10 then
+	if math.floor((self.myScrolled+1024)%self.bgsize)>0 and math.floor((self.myScrolled+1024)%self.bgsize)< 5 then
 		self.drawNext=true
-		self.nx=self.cx+1280
+		self.nx=self.cx+self.bgsize
 		self.nextBg=love.graphics.newImage(self.backs[(self.currentbgnum+1)% (self.nbBG+1)])
 	 	
 	end
