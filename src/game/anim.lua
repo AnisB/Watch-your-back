@@ -9,7 +9,7 @@ Anim.ANIMS = {  -- set of animations available :
 	dying = {}
 }
 
-Anim.DELAY = 0.200  -- toutes les 200ms, on fait anim.next()
+Anim.DELAY = 0.100  -- toutes les 200ms, on fait anim.next()
 
 -- name
 Anim.ANIMS.running.name = "running"

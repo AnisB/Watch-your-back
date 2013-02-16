@@ -30,15 +30,15 @@ function love.load()
 	
 	--let's create the ground
 	objects.ground = {}
-	local shape1W = 1500
+	local shape1W = 1000500
 	local shape1H = 50
 	local shape1X = 0
 	local shape1Y = 550
 	
-	objects.ground.body = love.physics.newBody(world, shape1X+shape1W/2, shape1Y-shape1H/2) --remember, the shape (the rectangle we create next) anchors to the body from its center, so we have to move it to (650/2, 650-50/2)
-	objects.ground.shape = love.physics.newRectangleShape(shape1W, shape1H) --make a rectangle with a width of 650 and a height of 50
-	objects.ground.fixture = love.physics.newFixture(objects.ground.body, objects.ground.shape); --attach shape to body
-	objects.ground.fixture:setUserData("GROUND")
+	-- objects.ground.body = love.physics.newBody(world, shape1X+shape1W/2, shape1Y-shape1H/2) --remember, the shape (the rectangle we create next) anchors to the body from its center, so we have to move it to (650/2, 650-50/2)
+	-- objects.ground.shape = love.physics.newRectangleShape(shape1W, shape1H) --make a rectangle with a width of 650 and a height of 50
+	-- objects.ground.fixture = love.physics.newFixture(objects.ground.body, objects.ground.shape); --attach shape to body
+	-- objects.ground.fixture:setUserData("GROUND")
  
 	gameState = GameState:new()
 end
@@ -48,8 +48,11 @@ function beginContact(a, b, coll)
     -- print ("p=", tostring(p))
     -- p:collideWith(b:getUserData(), coll)
     -- print ("\n"..tostring(a:getUserData()).." colliding with "..tostring(b:getUserData()).." with a vector normal of: "..x..", "..y)
+    
     -- print (a, b)
-    -- a:getUserData():collideWith(b:getUserData(), coll)
+    -- print (a:getUserData())
+    a:getUserData():collideWith(b:getUserData(), coll)
+    b:getUserData():collideWith(a:getUserData(), coll)
 end
 
 persisting = 0

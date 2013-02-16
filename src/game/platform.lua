@@ -15,10 +15,23 @@ function Platform.new(minx, miny, tileSize, sprite)
 	self.miny = miny
 
 	-- Physics Component (pc)
-	self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.R, minx, miny, false, {width=tileSize, height=tileSize})
+	self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.R, minx, miny, true, {width=tileSize, height=tileSize})
 	self.pc.fixture:setUserData(self)
+	self.pc.fixture:setFriction(0.0)
 
 	return self
+end
+
+
+function Platform:collideWith( object, collision )
+	if object == "GROUND" then
+		self.state = "running"
+	end
+	print ("Colliding with", tostring(object))
+end
+
+function Platform:unCollideWith( object, collision )
+	-- body
 end
 
 function Platform:mousePressed(x, y, button)
