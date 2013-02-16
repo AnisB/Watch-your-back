@@ -21,22 +21,25 @@ function ProxBackground:new(gameplay)
     self.nx=1281
     self.drawNext=false
     self.myScrolled =0
+    self.nbBlocs=0
     return self
 end
 
 function ProxBackground:update(dt)
 	self.myScrolled=self.gp.scrolledDistance
-	if math.floor((self.myScrolled+1024)%self.bgsize)>0 and math.floor((self.myScrolled+1024)%self.bgsize)< 5 then
+	if self.myScrolled+1024 -self.nbBlocs*self.bgsize>1024 and not self.done then
 		self.drawNext=true
 		self.nx=self.cx+self.bgsize
 		self.nextBg=love.graphics.newImage(self.backs[(self.currentbgnum+1)% (self.nbBG+1)])
-	 	
+	 	self.done =true
 	end
-	if math.abs((math.floor(self.nx)-math.floor(self.myScrolled)))<5  then
+	if math.abs(self.nx-self.myScrolled)<5  then
 		self.drawNext=false
 		self.cx=self.nx
 		self.currentbgnum=((self.currentbgnum+1)% self.nbBG)
 		self.currentBg=self.nextBg
+		self.done=true
+		self.nbBlocs= self.nbBlocs+1
 	end
 end
 

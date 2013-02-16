@@ -18,13 +18,14 @@ function Environment:new(gameplay)
 	self.platformBufferN = PlatformSet.new(2, self.gp.scrolledDistance)
 
 	self.myScrooled =0
-	self.cx= 0
+	self.cx= 100
 	self.nx=1100
 	self.nextPL = 2
 	self.currentPL = 1
 	
 	self.done =false
 	self.done2 = false
+	self.nbBlocs =0
 	return self
 end
 
@@ -45,24 +46,24 @@ function Environment:keyReleased(key, unicode)
 end
 
 function Environment:update(dt)
-	if dt > 0.1 then
-		dt = 0.1
-	end
-		
+
 	self.myScrolled=self.gp.scrolledDistance
-	if math.floor((self.myScrolled+1024)%1100)>0 and math.floor((self.myScrolled+1024)%1100)<5  then
+	if (self.myScrolled+1024 -self.nbBlocs*1100)>1100 and not self.done then		
 		self.drawNext=true
 		self.nx=self.cx+1100
 		self.nextPL=math.random(1, PlatformSet.getNbSets())
 		self.platformBufferN =PlatformSet.new(self.nextPL, self.gp.scrolledDistance+1100)
+		self.done = true
 		
 	end
-	if math.abs((math.floor(self.nx)-math.floor(self.myScrolled)))<5  then
+	if math.abs((math.floor(self.nx)-math.floor(self.myScrolled)))<0 and self.done  then
 		self.drawNext=false
 		self.cx=self.nx
 		self.currentBg=self.nextBg
 		--self.platformBufferC:destroy()--
 		self.platformBufferC =self.platformBufferN
+		self.done = false
+		self.nbBlocs =self.nbBlocs+1
 	end
 end
 
