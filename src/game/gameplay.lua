@@ -4,6 +4,7 @@ Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 
 require('strict') -- JS strict mode emulation!
 require("game.environment")
+require("game.background")
 
 Gameplay = {}
 Gameplay.__index = Gameplay
