@@ -7,6 +7,7 @@ require("game.gamestate")
 
 SourceDirectory="./"
 ImgDirectory="img/"
+gameState = nil
 
 
 function love.load()
@@ -14,18 +15,18 @@ function love.load()
 end
 
 function love.mousepressed(x, y, button)
-	GameState:mousePressed(x, y, button)
+	gameState:mousePressed(x, y, button)
 end
 
 function love.mousereleased(x, y, button)
-	GameState:mouseReleased(x, y, button)
+	gameState:mouseReleased(x, y, button)
 end
 
 function love.keypressed(key, unicode)
 	if key == "escape" then
 		love.event.push("quit")
     else
-		GameState:keyPressed(key, unicode)
+		gameState:keyPressed(key, unicode)
 	end
 end
 
