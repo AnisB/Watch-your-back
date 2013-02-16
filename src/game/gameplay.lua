@@ -33,9 +33,11 @@ function Gameplay:new()
 	self.objects[5] = {400,530}
 	
 	-- Background --
-	self.background = Background:new()
-	self.environment = Environment:new()
-
+	self.background = Background:new(self)
+	self.environment = Environment:new(self)
+	self.scrolledDistance=0
+	self.speed=100
+	self.timeelapsed=0
 	return self
 end
 
@@ -59,32 +61,21 @@ function Gameplay:update(dt)
 	if dt > 0.1 then
 		dt = 0.1
 	end
+	self.timeelapsed=self.timeelapsed +dt
 	self.environment:update(dt)
+	self.scrolledDistance=self.scrolledDistance+dt*200+self.timeelapsed/100
+	self.background:update(dt)
+
 end
 
 function Gameplay:draw()
 
-	
-	love.graphics.draw(self.scene, love.graphics:getWidth() / 2 - self.scene:getWidth()/2,
-				love.graphics:getHeight() / 2 - self.scene:getHeight() / 2) -- draw at the center of the screen
+	self.background:draw()
+	love.graphics.draw(self.scene, love.graphics:getWidth() / 2 - self.scene:getWidth()/2-self.scrolledDistance,
+				love.graphics:getHeight() / 2 - self.scene:getHeight() / 2 ) -- draw at the center of the screen
 
-	local drawn = false -- true when the character has been drawn
-
-	for i,v in ipairs(self.objects) do
-		if not drawn and self.objects[i][2] > self.character[2] then
-			love.graphics.draw(self.person, self.character[1] - self.person:getWidth()/2, self.character[2] - self.person:getHeight())
-			drawn = true
-		end
-		love.graphics.draw(self.object, self.objects[i][1] - self.object:getWidth()/2, self.objects[i][2] - self.object:getHeight())
-	end
-
-	if not drawn then -- if the self.person is below all self.objects it won't be drawn within the for loop
-		love.graphics.draw(self.person, self.character[1] - self.person:getWidth()/2, self.character[2] - self.person:getHeight())
-	end
-
+			
+	love.graphics.draw(self.person, self.character[1] - self.person:getWidth()/2-self.scrolledDistance, self.character[2] - self.person:getHeight())
 	-- any foreground objects go here
 	self.environment:draw()
-end
-
-function Gameplay.test()
 end

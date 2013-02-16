@@ -5,7 +5,8 @@ Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 Environment = {}
 Environment.__index = Environment
 
-function Environment:new()
+function Environment:new(gameplay)
+	self.gp = gameplay
 	local self = {}
 	setmetatable(self, Environment)
 
@@ -55,17 +56,16 @@ function Environment:update(dt)
 end
 
 function Environment:draw()
-	love.graphics.draw(self.scene, love.graphics:getWidth() / 2 - self.scene:getWidth()/2,
-				love.graphics:getHeight() / 2 - self.scene:getHeight() / 2) -- draw at the center of the screen
+
 
 	local drawn = false -- true when the character has been drawn
 
 	for i,v in ipairs(self.objects) do
 		if not drawn and self.objects[i][2] > self.character[2] then
-			love.graphics.draw(self.person, self.character[1] - self.person:getWidth()/2, self.character[2] - self.person:getHeight())
+			love.graphics.draw(self.person, self.character[1] - self.person:getWidth()/2-self.gp.scrolledDistance, self.character[2] - self.person:getHeight())
 			drawn = true
 		end
-		love.graphics.draw(self.object, self.objects[i][1] - self.object:getWidth()/2, self.objects[i][2] - self.object:getHeight())
+		love.graphics.draw(self.object, self.objects[i][1] - self.object:getWidth()/2-self.gp.scrolledDistance, self.objects[i][2] - self.object:getHeight())
 	end
 
 	if not drawn then -- if the self.person is below all self.objects it won't be drawn within the for loop
