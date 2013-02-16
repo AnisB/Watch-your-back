@@ -26,7 +26,7 @@ function Boy.new(gameplay)
 
 	-- Physics Component (pc)
 	self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.R, self.pos.x, self.pos.y, false, {width=self.w, height=self.h})
-	self.pc.body:setLinearDamping(0.9)
+	self.pc.body:setLinearDamping(0.5)
 	self.pc.fixture:setFriction(0.0)
 	self.pc.fixture:setRestitution(0.0) --let the PhysicsComponent bounce
 	self.pc.fixture:setUserData(self)
@@ -51,6 +51,10 @@ function Boy:jump()
 		self:loadAnimation("startjumping",true)
 		self.loopJump=true
 	end
+end
+
+function Boy:getSpeed(  )
+	return self.pc.body:getLinearVelocity()
 end
 
 function Boy:collideWith( object, collision )

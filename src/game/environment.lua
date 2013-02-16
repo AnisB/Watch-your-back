@@ -14,11 +14,11 @@ function Environment:new(gameplay)
 	local self = {}
 	setmetatable(self, Environment)
 
-	self.platformBufferC = PlatformSet.new(1, self.gp.scrolledDistance)
+	self.currentPlatformSet = PlatformSet.new(1, self.gp.scrolledDistance)
 
 	self.myScrooled =0
 	self.cx= 0 -- cx = Current X
-	self.nx=1100 -- nx = Next X
+	self.nx=1050 -- nx = Next X
 	self.nextPL = 2
 	self.currentPL = 1
 	
@@ -47,11 +47,11 @@ end
 function Environment:update(dt)
 
 	self.myScrolled=self.gp.scrolledDistance
-	if (self.myScrolled+1024 -self.nbBlocs*1100)>1100 and not self.done then		
+	if (self.myScrolled+1024 -self.nbBlocs*1050)>1050 and not self.done then		
 		self.drawNext=true
-		self.nx=self.cx+1100
+		self.nx=self.cx+1050
 		self.nextPL=math.random(1, PlatformSet.getNbSets())
-		self.platformBufferN =PlatformSet.new(self.nextPL, self.gp.scrolledDistance+1100)
+		self.nextPlatformSet =PlatformSet.new(self.nextPL, self.gp.scrolledDistance+1050)
 		self.done = true
 		print("newB detected")
 
@@ -60,8 +60,8 @@ function Environment:update(dt)
 		self.drawNext=false
 		self.cx=self.nx
 		self.currentBg=self.nextBg
-		self.platformBufferC:destroy()
-		self.platformBufferC =self.platformBufferN
+		self.currentPlatformSet:destroy()
+		self.currentPlatformSet =self.nextPlatformSet
 		self.done = false
 		self.nbBlocs =self.nbBlocs+1
 		print("newB replaced")
@@ -71,9 +71,9 @@ end
 
 function Environment:draw()
 	-- Platforms
-			self.platformBufferC:draw(self.gp.scrolledDistance)
+		self.currentPlatformSet:draw(self.gp.scrolledDistance)
 		if self.drawNext then
-			self.platformBufferN:draw(self.gp.scrolledDistance)
+			self.nextPlatformSet:draw(self.gp.scrolledDistance)
 		end
 end
 

@@ -11,7 +11,7 @@ require("game.pedobear")
 require("game.sound")
 require("game.backgroundinter1")
 require("game.backgroundinter2")
-
+require("game.playerstate")
 Gameplay = {}
 Gameplay.__index = Gameplay
 
@@ -52,6 +52,8 @@ function Gameplay:new()
 	-- Character -- 
 	-- self.boy = Boy
 	
+	-- Player state --
+	self.playerState = PlayerState:new(self)
 	
 	-- HUD --
 	self.hud = Hud:new(self)
@@ -130,7 +132,7 @@ function Gameplay:update(dt)
 	self.backgroundinter1:update(dt)
 	self.backgroundinter2:update(dt)
 	self.proxbackground:update(dt)
-
+	self.playerState:update()
 end
 
 function Gameplay:draw()
@@ -139,8 +141,9 @@ function Gameplay:draw()
 	self.environment:draw()
 	self.backgroundinter1:draw()
 	self.backgroundinter2:draw()
-	-- Draw the HUD (obviously at the end)
-	self.hud:draw()
 	p:draw()
 	self.pedobear:draw()
+	-- Draw the HUD (obviously at the end)
+	self.hud:draw()
+	-- Are you trying to write something after this line? Did you read the previous comment? Hmm.
 end
