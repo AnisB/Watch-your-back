@@ -6,6 +6,8 @@ PlatformSet = {}
 PlatformSet.__index = PlatformSet
 
 tileSize = 50
+tileOffsetX = 20
+tileOffsetY = 40
 
 function PlatformSet:new(platforms, imageSet)
 	local self = {}
@@ -43,7 +45,8 @@ function PlatformSet:draw()
 	for y,platformLine in ipairs(self.platforms) do
 		for x,platform in ipairs(platformLine) do
 			if platform ~= 0 then
-				love.graphics.draw(self.imageSet[platform], x*tileSize, y*tileSize)
+				print(x .. ' '..y .. ':' .. x*tileSize .. ' ' .. y*tileSize)
+				love.graphics.draw(self.imageSet[platform], (x-1)*tileSize - tileOffsetX, (y-1)*tileSize - tileOffsetY)
 			end
 		end
 	end
