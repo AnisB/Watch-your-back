@@ -5,12 +5,8 @@ Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 require('strict') -- JS strict mode emulation!
 require('debug')
 -- require("game.gamestate")
-PhysicsComponent = {}
-PhysicsComponent.ShapeType = {
-	"C" = 1,
-	"P" = 2,
-	"R" = 3
-}
+require('game/physics')
+require('game/boy')
 
 PLAYER_W = 10
 PLAYER_H = 10
@@ -29,7 +25,7 @@ end
 
 function love.load()
 	initPhysics()
-	p = PhysicsComponent:new(650/2, 650/2)
+	p = Boy:new()
 	
 	--let's create the ground
 	objects.ground = {}
@@ -92,18 +88,16 @@ end
 
 function love.draw()
 	love.graphics.setColor(72, 160, 14) -- set the drawing color to green for the ground
-	local a, b = objects.ground.body:getPosition()
-	print(objects.ground.body:getWidth())
-	print (a, b)
 	-- print (tostring(objects.ground.body:getPosition().getX()))
 	-- love.graphics.polygon("fill", objects.ground.body:getWorldPoints(objects.ground.shape:getPoints())) -- draw a "filled in" polygon using the ground's coordinates
 	-- love.graphics.rectangle("fill", a, b, )
+	p:draw()
 
 	love.graphics.setColor(255, 0, 0) -- set the drawing color to green for the ground
 	love.graphics.polygon("fill", objects.ground.body2:getWorldPoints(objects.ground.shape2:getPoints())) -- draw a "filled in" polygon using the ground's coordinates
 
 	love.graphics.setColor(193, 47, 14) --set the drawing color to red for the ball
-	love.graphics.circle("fill", p.body:getX(), p.body:getY(), p.shape:getRadius())
+	-- love.graphics.circle("fill", p.body:getX(), p.body:getY(), p.shape:getRadius())
 
 	-- love.graphics.setColor(50, 50, 50) -- set the drawing color to grey for the blocks
 	-- love.graphics.polygon("fill", objects.block1.body:getWorldPoints(objects.block1.shape:getPoints()))

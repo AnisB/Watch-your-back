@@ -69,7 +69,7 @@ function Anim.new(folder)
 	for key,val in pairs(Anim.ANIMS) do
 		self.sprites[key] = {}
 		for i=1, val.number do
-			local path = 'anim/'..folder..'/'..key..'/'..i..'.png'
+			local path = 'game/anim/'..folder..'/'..key..'/'..i..'.png'
 			print("loading image =>", path)
 			self.sprites[key][i] = love.graphics.newImage(path)
 		end
