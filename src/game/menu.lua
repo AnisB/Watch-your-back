@@ -8,6 +8,7 @@ Menu.__index = Menu
 function Menu:new()
     local self = {}
     setmetatable(self,Menu)
+    self.font = love.graphics.newImage(ImgDirectory.."menuBackground.jpg")
     return self
 end
 
@@ -34,6 +35,6 @@ function Menu:update(dt)
 
 end
 
-function Menu.draw()
-	print("My name is menu")
+function Menu:draw()
+	love.graphics.draw(self.font,0,0)
 end

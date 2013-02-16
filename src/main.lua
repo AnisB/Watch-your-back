@@ -4,6 +4,10 @@ Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 
 require("game.gamestate")
 
+SourceDirectory="./"
+ImgDirectory="img/"
+
+
 function love.load()
 	gameState = GameState.new()
 end
