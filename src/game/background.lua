@@ -26,6 +26,7 @@ end
 
 function Background:update(dt)
 	self.myScrolled=self.gp.scrolledDistance/10
+	
 	if math.floor((self.myScrolled+1024)%1280)>0 and math.floor((self.myScrolled+1024)%1280)< 10 then
 		self.drawNext=true
 		self.nx=self.cx+1280

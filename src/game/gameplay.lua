@@ -41,8 +41,8 @@ function Gameplay:new()
 	self.timeelapsed=0
 	
 	
-	--
-	self.boy = Boy
+	-- Character -- 
+
 	return self
 end
 
