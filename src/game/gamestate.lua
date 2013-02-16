@@ -27,7 +27,7 @@ function GameState:new()
         GameOver  = GameOver.new{},
         HighScore = HighScore.new{}
     }
-	self.currentState='Gameplay'
+	self.currentState='Menu'
 	return self
 end
 
