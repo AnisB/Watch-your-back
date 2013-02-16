@@ -21,6 +21,8 @@ UTILISATION :
 
 --]]--
 
+MUSIC_VOLUME = 0.05
+
 Sound.play = function ()
 	if Sound.currentMusic then Sound.currentMusic:play() end
 end
@@ -45,6 +47,7 @@ Sound.playMusic = function (name,isLoop)
 			Sound.currentMusic:stop()
 		end
 		Sound.currentMusic = src
+		src:setVolume(MUSIC_VOLUME)
 		Sound.currentMusic:play()
 	end
 end
@@ -53,6 +56,7 @@ Sound.playSound = function (name)
 	local path = Sound.SOUND_ROOT..name..'.ogg'
 	local src = love.audio.newSource(path, "static")
 	src:play()
+	src:setVolume(MUSIC_VOLUME)
 end
 
 -- PRIVATE
@@ -62,6 +66,7 @@ Sound.preload = function (name,isLoop)
 	end
 	local path = Sound.SOUND_ROOT..name..'.ogg'
 	local src = love.audio.newSource(path)
+	src:setVolume(MUSIC_VOLUME)
 	src:setLooping(isLoop)
 	Sound.sources[name] = src
 end

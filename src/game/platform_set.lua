@@ -15,7 +15,7 @@ sets = {
 		{N,N,N,N,N,Y,N,Y,N,N,N,Y,N,N,N,N,N,N,N,N,N,N},
 		{N,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,N,N,N,N,N,N,N},
 		{N,N,N,N,N,N,N,N,Y,N,N,N,N,N,N,N,N,N,N,N,N,N},
-		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
+		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,Y,N,N,N},
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
 		{Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y},
@@ -28,7 +28,7 @@ sets = {
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
-		{Y,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
+		{Y,N,N,N,N,N,N,N,Y,N,N,N,N,N,N,N,N,N,N,N,N,N},
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
@@ -62,8 +62,8 @@ function PlatformSet.new(setnb, scrollOffset)
 		for x,platform in ipairs(platformLine) do
 			if platform ~= N then
 				table.insert(self.platforms, Platform.new(
-					scrollOffset + (x-1)*tileSize - tileOffsetX, --minx
-					(y-1)*tileSize - tileOffsetY, -- miny
+					scrollOffset + (x-1) * tileSize - tileOffsetX, --minx
+					(y-1) * tileSize - tileOffsetY, -- miny
 					tileSize,
 					ImageSet[platform]
 				))
