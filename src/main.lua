@@ -2,7 +2,7 @@
 Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 ]]
 
-require("game.GameState")
+require("game.gamestate")
 
 function love.load()
 	gameS = GameState.new{}
@@ -19,10 +19,8 @@ end
 function love.keypressed(key, unicode)
 	if key == "escape" then
 		love.event.push("quit")
-    elseif key == "r" then
-        gameS:reset()
-    elseif key == " " then
-        gameS:togglePause()
+    else then
+	
 	end
 end
 
