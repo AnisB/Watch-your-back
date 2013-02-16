@@ -2,16 +2,14 @@
 Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 ]]
 
-require('strict') -- JS strict mode emulation!
-require("game.environment")
+Environment = {}
+Environment.__index = Environment
 
-Gameplay = {}
-Gameplay.__index = Gameplay
-
-function Gameplay:new()
+function Environment:new()
 	local self = {}
-	setmetatable(self, Gameplay)
+	setmetatable(self, Environment)
 
+	self.platform = love.graphics.newImage("platform.jpg")
 	--the background for our scene
 	self.scene = love.graphics.newImage("bg.png")
 	-- the character we will be moving around
@@ -30,40 +28,33 @@ function Gameplay:new()
 	self.objects[3] = {600,410}
 	self.objects[4] = {300,450}
 	self.objects[5] = {400,530}
-	
-	-- Background --
-	self.background = Background:new()
-	self.environment = Environment:new()
 
 	return self
 end
 
-function Gameplay:mousePressed(x, y, button)
+function Environment:mousePressed(x, y, button)
 
 end
 
-function Gameplay:mouseReleased(x, y, button)
+function Environment:mouseReleased(x, y, button)
 
 end
 
-function Gameplay:keyPressed(key, unicode)
+function Environment:keyPressed(key, unicode)
 	
 end
 
-function Gameplay:keyReleased(key, unicode)
+function Environment:keyReleased(key, unicode)
 
 end
 
-function Gameplay:update(dt)
+function Environment:update(dt)
 	if dt > 0.1 then
 		dt = 0.1
 	end
-	self.environment:update(dt)
 end
 
-function Gameplay:draw()
-
-	
+function Environment:draw()
 	love.graphics.draw(self.scene, love.graphics:getWidth() / 2 - self.scene:getWidth()/2,
 				love.graphics:getHeight() / 2 - self.scene:getHeight() / 2) -- draw at the center of the screen
 
@@ -82,8 +73,8 @@ function Gameplay:draw()
 	end
 
 	-- any foreground objects go here
-	self.environment:draw()
 end
 
-function Gameplay.test()
+function Environment.test()
+	print('test')
 end
