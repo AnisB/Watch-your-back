@@ -7,6 +7,7 @@ require("game.gamestate")
 
 SourceDirectory="./"
 ImgDirectory="img/"
+PlatformDirectory="platforms/"
 gameState = nil
 
 

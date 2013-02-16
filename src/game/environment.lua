@@ -2,6 +2,45 @@
 Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 ]]
 
+require('strict') -- JS strict mode emulation!
+require("game.platform")
+
+
+PlatformSets = {
+	{
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1},
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+	},
+	{
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1},
+		{1,0,1,1,1,0,0,1,1,0,1,1,0,1,1,0,1,1,0,0}
+	}
+}
+
+ImageSet = {}
+
 Environment = {}
 Environment.__index = Environment
 
@@ -10,25 +49,14 @@ function Environment:new(gameplay)
 	local self = {}
 	setmetatable(self, Environment)
 
-	self.platform = love.graphics.newImage("platform.jpg")
-	--the background for our scene
-	self.scene = love.graphics.newImage("bg.png")
-	-- the character we will be moving around
-	self.person = love.graphics.newImage("dude.jpg")
-	-- an object to move around
-	self.object = love.graphics.newImage("ball.jpg")
+	ImageSet = {
+		love.graphics.newImage(ImgDirectory .. "block1.png")
+	}
 
-
-	-- the character position
-	self.character = {400,400} -- x,y
-
-	-- a bunch of objects, each with a position
-	self.objects = {}
-	self.objects[1] = {550,370}
-	self.objects[2] = {220,390}
-	self.objects[3] = {600,410}
-	self.objects[4] = {300,450}
-	self.objects[5] = {400,530}
+	self.platformBuffer = {}
+	print(PlatformSets[1])
+	self.platformBuffer[1] = PlatformSet:new(PlatformSets[1], ImageSet)
+	self.platformBuffer[2] = PlatformSet:new(PlatformSets[2], ImageSet)
 
 	return self
 end
@@ -56,25 +84,30 @@ function Environment:update(dt)
 end
 
 function Environment:draw()
-
-
-	local drawn = false -- true when the character has been drawn
-
-	for i,v in ipairs(self.objects) do
-		if not drawn and self.objects[i][2] > self.character[2] then
-			love.graphics.draw(self.person, self.character[1] - self.person:getWidth()/2-self.gp.scrolledDistance, self.character[2] - self.person:getHeight())
-			drawn = true
-		end
-		love.graphics.draw(self.object, self.objects[i][1] - self.object:getWidth()/2-self.gp.scrolledDistance, self.objects[i][2] - self.object:getHeight())
+	-- Platforms
+	for i,v in ipairs(self.platformBuffer) do
+		v:draw()
 	end
-
-	if not drawn then -- if the self.person is below all self.objects it won't be drawn within the for loop
-		love.graphics.draw(self.person, self.character[1] - self.person:getWidth()/2, self.character[2] - self.person:getHeight())
-	end
-
-	-- any foreground objects go here
 end
 
-function Environment.test()
-	print('test')
+
+function Environment.loadTileSet()
+	tilesetImage = love.graphics.newImage( "tileset.png" )
+	tilesetImage:setFilter("nearest", "linear") -- this "linear filter" removes some artifacts if we were to scale the tiles
+	tileSize = 50
+	
+	-- grass
+	tileQuads[0] = love.graphics.newQuad(0 * tileSize, 20 * tileSize, tileSize, tileSize,
+		tilesetImage:getWidth(), tilesetImage:getHeight())
+	-- kitchen floor tile
+	tileQuads[1] = love.graphics.newQuad(2 * tileSize, 0 * tileSize, tileSize, tileSize,
+		tilesetImage:getWidth(), tilesetImage:getHeight())
+	-- parquet flooring
+	tileQuads[2] = love.graphics.newQuad(4 * tileSize, 0 * tileSize, tileSize, tileSize,
+		tilesetImage:getWidth(), tilesetImage:getHeight())
+	-- middle of red carpet
+	tileQuads[3] = love.graphics.newQuad(3 * tileSize, 9 * tileSize, tileSize, tileSize,
+		tilesetImage:getWidth(), tilesetImage:getHeight())
+
+	tilesetBatch = love.graphics.newSpriteBatch(tilesetImage, tilesDisplayWidth * tilesDisplayHeight)
 end

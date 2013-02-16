@@ -69,13 +69,6 @@ function Gameplay:update(dt)
 end
 
 function Gameplay:draw()
-
 	self.background:draw()
-	love.graphics.draw(self.scene, love.graphics:getWidth() / 2 - self.scene:getWidth()/2-self.scrolledDistance,
-				love.graphics:getHeight() / 2 - self.scene:getHeight() / 2 ) -- draw at the center of the screen
-
-			
-	love.graphics.draw(self.person, self.character[1] - self.person:getWidth()/2-self.scrolledDistance, self.character[2] - self.person:getHeight())
-	-- any foreground objects go here
 	self.environment:draw()
 end
