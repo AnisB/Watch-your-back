@@ -29,5 +29,9 @@ function PhysicsComponent.new(shape_type, x, y, isStatic, options)
 	end
 
 	pc.fixture = love.physics.newFixture(pc.body, pc.shape, 1) -- Attach fixture to body and give it a density of 1 (rigid body)
+	pc.body:setFixedRotation(true)
+	pc.fixture:setFriction(0.0)
+	pc.body:setInertia(0.0)
+
 	return pc
 end

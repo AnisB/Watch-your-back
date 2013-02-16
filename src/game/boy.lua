@@ -18,8 +18,8 @@ function Boy.new(gameplay)
 	-- >>>>> Initialisation des attributs :
 	self.gp = gameplay
 	self.pos = {x = 700, y = 300}
-	self.w = 50
-	self.h = 100
+	self.w = 20
+	self.h = 50
 	self.speed = {x = stdSpeed, y = 0}
 	self.state = "running"
 	self.anim = Anim.new('boy')

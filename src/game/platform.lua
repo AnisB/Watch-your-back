@@ -52,13 +52,13 @@ function Platform:update(dt)
 	
 end
 
-function Platform:draw(refIndex)
+function Platform:draw(scrolledDistance)
 	local x,y = self:getPosition()
-	love.graphics.draw(self.sprite, x - refIndex, y)
+	love.graphics.draw(self.sprite, x - scrolledDistance, y)
 end
 
 function Platform:getPosition()
-	return self.minx,self.miny
+	return self.pc.body:getPosition()
 end
 
 function Platform:destroy()
