@@ -1,3 +1,5 @@
+require 'anim'
+
 Boy = {}
 Boy.__index = Boy
 
@@ -13,18 +15,10 @@ function Boy.new()
 	self.img = love.graphics.newImage("me.png")
 	self.pos = {x = 100, y = 300}
 	self.vit = {x = 0, y = 0}
-	self.state = "normal"  -- can be "normal", "jumping", "dead", ...
+	self.state = "running"
+	self.anim = Anim.new('boy')
 	-- >>>>> Initialisation end
 	return self
-end
-
-function Boy:update(dt)
-	self.pos.x += self.vit.x * Boy.RUN_COEFF
-	self.pos.y += self.vit.y * Boy.JUMP_COEFF
-end
-
-function Boy:jump(val)
-	self.pos.y = self.pos.y - val
 end
 
 function Boy:applyForce(x, y)
@@ -36,12 +30,16 @@ function Boy:getPos()
 	-- return x, y
 end
 
-function Boy:loadAnimation(anim)
+function Boy:loadAnimation(anim, force)
+	self.anim:load(anim, force)
+end
 
+function Boy:update(seconds)
+	self.anim:update(seconds)
 end
 
 function Boy:draw()
 	x_calc = self.pos.x * Boy.X_COEFF
 	y_calc = self.pos.y * Boy.Y_COEFF
-	love.graphics.draw(self.img, x_calc, y_calc)
+	love.graphics.draw(self.anim:getSprite(), x_calc, y_calc)
 end
