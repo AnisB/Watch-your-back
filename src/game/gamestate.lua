@@ -2,20 +2,27 @@
 Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 ]]
 
-require("gameover")
-require("menu")
-require("gameplay")
-require("tutorial")
-require("highscore")
+
+require("game.menu")
+require("game.gameplay")
+require("game.gameover")
+require("game.tutorial")
+require("game.highscore")
+
+GameState = {}
+GameState.__index = GameState
 
 function GameState:new()
-	menu= Menu.new{}
-	gameover= GameOver.new{}
-	gameplay = Gameplay.new{}
-	tutorial= Tutorial.new{}
-	Highscore = Highscore.new{}
+    local self = {}
+    setmetatable(self, GameState)
+	self.menu= Menu.new{}
+	self.gameover= GameOver.new{}
+	self.gameplay = Gameplay.new{}
+	self.tutorial= Tutorial.new{}
+	self.Highscore = HighScore.new{}
 	state={Menu=0, Tutorial=1, Gameplay=2, GameOver=3, HighScore=4}
 	currentState=state.Menu
+	return self
 end
 
 function GameState:mousePressed(x, y, button)
@@ -91,7 +98,7 @@ end
 
 function GameState:draw()
 	if currentState == state.Menu then
-		menu:draw()
+		self.menu:draw()
     elseif currentState == state.Gameplay then
         gameplay:draw()
     elseif currentState == state.GameOver then

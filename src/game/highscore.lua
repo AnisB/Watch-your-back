@@ -2,9 +2,12 @@
 Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 ]]
 
-
+HighScore = {}
+HighScore.__index = HighScore
 function HighScore:new()
-
+    local self = {}
+    setmetatable(self, HighScore)
+    return self
 end
 
 function HighScore:mousePressed(x, y, button)
