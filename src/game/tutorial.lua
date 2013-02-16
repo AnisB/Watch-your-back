@@ -9,7 +9,7 @@ Tutorial.__index = Tutorial
 function Tutorial:new()
     local self = {}
     setmetatable(self,Tutorial)
-    self.font = love.graphics.newImage(ImgDirectory.."tutoBackground.jpg")
+    self.font = love.graphics.newImage(ImgDirectory.."tutobackground.jpg")
     local options = {x =200,y = 200,sizex=100,sizey=100}
     self.buttonTut = Button:new(options)
     local options = {x =200,y = 200,sizex=100,sizey=100}

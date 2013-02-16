@@ -13,8 +13,8 @@ function Button:new(options)
     self.sizey=options.sizey
     self.cx=0
     self.cy=0
-    self.unclicked = love.graphics.newImage(ImgDirectory.."uclickedB.jpg")
-    self.clicked = love.graphics.newImage(ImgDirectory.."clickedB.jpg")
+    self.unclicked = love.graphics.newImage(ImgDirectory.."uclickedb.jpg")
+    self.clicked = love.graphics.newImage(ImgDirectory.."clickedb.jpg")
     self.isclicked=false
     return self
 end

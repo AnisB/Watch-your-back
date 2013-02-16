@@ -9,7 +9,7 @@ Menu.__index = Menu
 function Menu:new()
     local self = {}
     setmetatable(self,Menu)
-    self.font = love.graphics.newImage(ImgDirectory.."menuBackground.jpg")
+    self.font = love.graphics.newImage(ImgDirectory.."menubackground.jpg")
     local options = {x =200,y = 200,sizex=100,sizey=100}
     self.buttonTut = Button:new(options)
     local options = {x =200,y = 200,sizex=100,sizey=100}
