@@ -83,14 +83,11 @@ function Gameplay:update(dt)
 	Sound.playMusic("themeprincipal")
 	self.firstRun =false
 	end
-	
-	p:update(dt)
-	world:update(dt) --this puts the world into motion
 
 	--here we are going to create some keyboard events
 	if love.keyboard.isDown("d") then --press the right arrow key to push the ball to the right
 		p:right()
-	elseif love.keyboard.isDown("q") or  love.keyboard.isDown("a") then --press the left arrow key to push the ball to the left
+	elseif love.keyboard.isDown("q") or love.keyboard.isDown("a") then --press the left arrow key to push the ball to the left
 		p:left()
 	else 
 		p:still()
@@ -98,6 +95,10 @@ function Gameplay:update(dt)
 	if love.keyboard.isDown("z") or love.keyboard.isDown("w") or love.keyboard.isDown(" ") then --press the left arrow key to push the ball to the left
 		p:jump()
 	end
+	
+	p:update(dt)
+	world:update(dt) --this puts the world into motion
+	
 	self.timeelapsed=self.timeelapsed +dt
 	self.environment:update(dt)
 	self.scrolledDistance=0 -- math.floor(self.scrolledDistance+dt*200+self.timeelapsed/100)

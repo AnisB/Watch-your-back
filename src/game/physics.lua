@@ -30,9 +30,9 @@ function PhysicsComponent.new(shape_type, x, y, isStatic, options)
 	end
 
 	if isStatic == true then
-		pc.body = love.physics.newBody(world, x - width/2, y + height/2)
+		pc.body = love.physics.newBody(world, width+x/2, y-height/2)
 	else
-		pc.body = love.physics.newBody(world, x - width/2, y + height/2, "dynamic")
+		pc.body = love.physics.newBody(world, width+x/2, y-height/2, "dynamic")
 	end
 
 	pc.fixture = love.physics.newFixture(pc.body, pc.shape, 1) -- Attach fixture to body and give it a density of 1 (rigid body)

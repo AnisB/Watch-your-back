@@ -18,14 +18,15 @@ function Boy.new(gameplay)
 	-- >>>>> Initialisation des attributs :
 	self.gp = gameplay
 	self.pos = {x = 700, y = 300}
-	self.w = 20
-	self.h = 50
+	-- self.w = 20
+	-- self.h = 50
+	self.r = 60
 	self.speed = {x = stdSpeed, y = 0}
 	self.state = "running"
 	self.anim = Anim.new('boy')
 
 	-- Physics Component (pc)
-	self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.R, self.pos.x, self.pos.y, false, {width=self.w, height=self.h})
+	self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.C, self.pos.x, self.pos.y, false, {r=self.r})
 	self.pc.body:setLinearDamping(0.5)
 	self.pc.fixture:setFriction(0.0)
 	self.pc.fixture:setRestitution(0.0) --let the PhysicsComponent bounce
@@ -49,7 +50,8 @@ function Boy:collideWith( object, collision )
 	if object.name == "paltform" then
 		self.state = "running"
 	end
-	-- print ("Colliding with", tostring(object))
+	local x, y = object:getPosition()
+	print ("Colliding with ", tostring(object.name), x, y)
 end
 
 function Boy:unCollideWith( object, collision )
@@ -66,10 +68,6 @@ end
 
 function Boy:right(  )
 	self.speed.x = fasterSpeed
-end
-
-function Boy:applyForce(x, y)
-	-- theo work here
 end
 
 function Boy:getPos()
