@@ -5,7 +5,7 @@ Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 require('strict') -- JS strict mode emulation!
 require("game.environment")
 require("game.background")
-
+require("game.proxbackground")
 Gameplay = {}
 Gameplay.__index = Gameplay
 
@@ -34,10 +34,15 @@ function Gameplay:new()
 	
 	-- Background --
 	self.background = Background:new(self)
+	self.proxbackground = ProxBackground:new(self)
 	self.environment = Environment:new(self)
 	self.scrolledDistance=0
 	self.speed=100
 	self.timeelapsed=0
+	
+	
+	--
+	self.boy = Boy
 	return self
 end
 
@@ -65,10 +70,12 @@ function Gameplay:update(dt)
 	self.environment:update(dt)
 	self.scrolledDistance=self.scrolledDistance+dt*200+self.timeelapsed/100
 	self.background:update(dt)
+	self.proxbackground:update(dt)
 
 end
 
 function Gameplay:draw()
 	self.background:draw()
+	self.proxbackground:draw()
 	self.environment:draw()
 end
