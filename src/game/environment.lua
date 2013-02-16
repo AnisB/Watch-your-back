@@ -55,8 +55,9 @@ function Environment:new(gameplay)
 
 	self.platformBuffer = {}
 	print(PlatformSets[1])
-	self.platformBuffer[1] = PlatformSet:new(PlatformSets[1], ImageSet, gameplay.scrolledDistance)
-	self.platformBuffer[2] = PlatformSet:new(PlatformSets[2], ImageSet, gameplay.scrolledDistance)
+	print(self.gp.scrolledDistance)
+	self.platformBuffer[1] = PlatformSet:new(PlatformSets[1], ImageSet, self.gp.scrolledDistance)
+	self.platformBuffer[2] = PlatformSet:new(PlatformSets[2], ImageSet, self.gp.scrolledDistance)
 
 	return self
 end
@@ -85,8 +86,8 @@ end
 
 function Environment:draw()
 	-- Platforms
-	for i,v in ipairs(self.platformBuffer) do
-		v:draw()
+	for i,platformSet in ipairs(self.platformBuffer) do
+		platformSet:draw(self.gp.scrolledDistance)
 	end
 end
 
