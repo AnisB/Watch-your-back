@@ -21,6 +21,7 @@ GRAVITY = 9.81
 function initPhysics(  )
 	world = love.physics.newWorld(0, GRAVITY*PHY_METER_RATIO, true) --create a world for the bodies to exist in with horizontal gravity of 0 and vertical gravity of 9.81
 	love.physics.setMeter(PHY_METER_RATIO) --the height of a meter our worlds will be 64px
+	world:setCallbacks(beginContact, endContact, preSolve, postSolve)
 end
 
 function love.load()
@@ -46,7 +47,9 @@ function love.load()
 	objects.ground.body = love.physics.newBody(world, shape1X+shape1W/2, shape1Y-shape1H/2) --remember, the shape (the rectangle we create next) anchors to the body from its center, so we have to move it to (650/2, 650-50/2)
 	objects.ground.shape = love.physics.newRectangleShape(shape1W, shape1H) --make a rectangle with a width of 650 and a height of 50
 	objects.ground.fixture = love.physics.newFixture(objects.ground.body, objects.ground.shape); --attach shape to body
-	
+	objects.ground.fixture:setUserData("GROUND")
+ 
+
 	-- objects.ground.body2 = love.physics.newBody(world, shape2X+shape2W/2, shape2Y-shape2H/2) --remember, the shape (the rectangle we create next) anchors to the body from its center, so we have to move it to (650/2, 650-50/2)
 	-- objects.ground.shape2 = love.physics.newRectangleShape(shape2W, shape2H) --make a rectangle with a width of 650 and a height of 50
 	-- objects.ground.fixture2 = love.physics.newFixture(objects.ground.body2, objects.ground.shape2); --attach shape to body
@@ -66,6 +69,35 @@ function love.load()
 	love.graphics.setBackgroundColor(104, 136, 248) --set the background color to a nice blue
 	love.graphics.setMode(650, 650, false, true, 0) --set the window dimensions to 650 by 650
 
+end
+
+function beginContact(a, b, coll)
+    local x,y = coll:getNormal()
+    print ("p=", tostring(p))
+    p:collideWith(b:getUserData(), coll)
+    print ("\n"..tostring(a:getUserData()).." colliding with "..tostring(b:getUserData()).." with a vector normal of: "..x..", "..y)
+    a:getUserData():collideWith(b:getUserData(), coll)
+
+end
+
+persisting = 0
+
+function endContact(a, b, coll)
+    persisting = 0    -- reset since they're no longer touching
+    print ("\n"..tostring(a:getUserData()).." uncolliding with "..tostring(b:getUserData()))
+end
+
+function preSolve(a, b, coll)
+    if persisting == 0 then    -- only say when they first start touching
+        print ("\n"..tostring(a:getUserData()).." touching "..tostring(b:getUserData()))
+    elseif persisting < 20 then    -- then just start counting
+        print (" "..persisting)
+    end
+    persisting = persisting + 1    -- keep track of how many updates they've been touching for
+end
+
+function postSolve(a, b, coll)
+-- we won't do anything with this function
 end
 
 function love.update(dt)

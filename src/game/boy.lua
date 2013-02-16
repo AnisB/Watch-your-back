@@ -27,6 +27,7 @@ function Boy.new()
 	self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.R, self.pos.x, self.pos.y, false, {width=self.w, height=self.h})
 	self.pc.body:setLinearDamping(0.9)
 	self.pc.fixture:setRestitution(0.8) --let the PhysicsComponent bounce
+	self.pc.fixture:setUserData(self)
 	-- >>>>> Initialisation end
 	return self
 end
@@ -36,6 +37,17 @@ function Boy:jump()
 		self.pc.body:applyLinearImpulse(0, -140)
 		self.state = "jumping"
 	end
+end
+
+function Boy:collideWith( object, collision )
+	if object == "GROUND" then
+		self.state = "running"
+	end
+	print ("Colliding with", tostring(object))
+end
+
+function Boy:unCollideWith( object, collision )
+	-- body
 end
 
 function Boy:left( )
@@ -61,6 +73,7 @@ end
 function Boy:update(seconds)
 	self.pc.body:applyForce(self.speed.x, 0)
 	self.anim:update(seconds)
+
 end
 
 function Boy:draw()
