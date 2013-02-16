@@ -32,6 +32,7 @@ function ProxBackground:update(dt)
 		self.nx=self.cx+self.bgsize
 		self.nextBg=love.graphics.newImage(self.backs[(self.currentbgnum+1)% (self.nbBG+1)])
 	 	self.done =true
+	 	print("new detected")
 	end
 	if math.abs(self.nx-self.myScrolled)<5  then
 		self.drawNext=false
@@ -40,6 +41,8 @@ function ProxBackground:update(dt)
 		self.currentBg=self.nextBg
 		self.done=true
 		self.nbBlocs= self.nbBlocs+1
+		print("new replaced")
+
 	end
 end
 

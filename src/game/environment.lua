@@ -15,11 +15,10 @@ function Environment:new(gameplay)
 	setmetatable(self, Environment)
 
 	self.platformBufferC = PlatformSet.new(1, self.gp.scrolledDistance)
-	self.platformBufferN = PlatformSet.new(2, self.gp.scrolledDistance)
 
 	self.myScrooled =0
-	self.cx= 100
-	self.nx=1100
+	self.cx= 0 -- cx = Current X
+	self.nx=1100 -- nx = Next X
 	self.nextPL = 2
 	self.currentPL = 1
 	

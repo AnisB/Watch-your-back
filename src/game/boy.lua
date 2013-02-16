@@ -45,7 +45,7 @@ function Boy:collideWith( object, collision )
 	if object.name == "paltform" then
 		self.state = "running"
 	end
-	print ("Colliding with", tostring(object))
+	-- print ("Colliding with", tostring(object))
 end
 
 function Boy:unCollideWith( object, collision )
