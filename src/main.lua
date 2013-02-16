@@ -34,6 +34,7 @@ function love.update(dt)
 	if dt > 0.1 then
 		dt = 0.1
 	end
+	gameState:update(dt)
 end	
 
 function love.draw()
