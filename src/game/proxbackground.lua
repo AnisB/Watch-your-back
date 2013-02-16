@@ -6,7 +6,7 @@ ProxBackground = {}
 ProxBackground.__index =  ProxBackground
 function ProxBackground:new(gameplay)
     local self = {}
-    self.bgsize = 4000
+    self.bgsize = 1900
     setmetatable(self,ProxBackground)
     self.gp = gameplay
     self.backs ={ImgDirectory.."firstfg.png", ImgDirectory.."firstfg.png"}
