@@ -25,10 +25,6 @@ end
 
 
 function Platform:collideWith( object, collision )
-	if object == "GROUND" then
-		self.state = "running"
-	end
-	print ("Colliding with", tostring(object))
 end
 
 function Platform:unCollideWith( object, collision )

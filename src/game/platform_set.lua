@@ -47,7 +47,7 @@ PlatformSet = {}
 PlatformSet.__index = PlatformSet
 
 tileSize = 50
-tileOffsetX = 20
+tileOffsetX = 0
 tileOffsetY = 40
 
 function PlatformSet.new(setnb, scrollOffset)
@@ -58,6 +58,7 @@ function PlatformSet.new(setnb, scrollOffset)
 	self.width = tileSize * #sets[setnb][1]
 	self.platforms = {}
 
+	print("sO=", scrollOffset)
 	for y,platformLine in ipairs(sets[setnb]) do
 		for x,platform in ipairs(platformLine) do
 			if platform ~= 0 then
