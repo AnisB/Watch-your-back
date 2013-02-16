@@ -1,4 +1,4 @@
---[[ 
+--[[
 Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 ]]
 
@@ -6,6 +6,7 @@ require('strict') -- JS strict mode emulation!
 require("game.environment")
 require("game.background")
 require("game.proxbackground")
+require("game.hud")
 Gameplay = {}
 Gameplay.__index = Gameplay
 
@@ -31,7 +32,7 @@ function Gameplay:new()
 	self.objects[3] = {600,410}
 	self.objects[4] = {300,450}
 	self.objects[5] = {400,530}
-	
+
 	-- Background --
 	self.scrolledDistance=0
 	self.background = Background:new(self)
@@ -39,8 +40,10 @@ function Gameplay:new()
 	self.environment = Environment:new(self)
 	self.speed=100
 	self.timeelapsed=0
-	
-	
+
+	-- HUD --
+	self.hud = Hud:new(self)
+
 	--
 	-- self.boy = Boy
 	return self
@@ -55,7 +58,7 @@ function Gameplay:mouseReleased(x, y, button)
 end
 
 function Gameplay:keyPressed(key, unicode)
-	
+
 end
 
 function Gameplay:keyReleased(key, unicode)
@@ -78,4 +81,7 @@ function Gameplay:draw()
 	self.background:draw()
 	self.proxbackground:draw()
 	self.environment:draw()
+
+	-- Draw the HUD (obviously at the end)
+	self.hud:draw()
 end
