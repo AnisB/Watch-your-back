@@ -8,9 +8,9 @@ Boy.JUMP_COEFF = 1
 Boy.INIT_X = 100
 Boy.INIT_Y = 300
 
-stdSpeed = 10
-fasterSpeed = 15
-slowerSpeed = 5
+stdSpeed = 100
+fasterSpeed = 150
+slowerSpeed = 50
 
 function Boy.new()
 	local self = {}
@@ -33,7 +33,7 @@ end
 
 function Boy:jump()
 	if self.state ~= "jumping" then
-		self.pc.body:applyLinearImpulse(0, -14)
+		self.pc.body:applyLinearImpulse(0, -140)
 		self.state = "jumping"
 	end
 end

@@ -29,11 +29,11 @@ function love.load()
 	
 	--let's create the ground
 	objects.ground = {}
-	local shape1W = 150
+	local shape1W = 1500
 	local shape1H = 50
 	
 	local shape2H = 50
-	local shape2W = 100
+	local shape2W = 10000
 	
 	-- 
 	
@@ -47,20 +47,20 @@ function love.load()
 	objects.ground.shape = love.physics.newRectangleShape(shape1W, shape1H) --make a rectangle with a width of 650 and a height of 50
 	objects.ground.fixture = love.physics.newFixture(objects.ground.body, objects.ground.shape); --attach shape to body
 	
-	objects.ground.body2 = love.physics.newBody(world, shape2X+shape2W/2, shape2Y-shape2H/2) --remember, the shape (the rectangle we create next) anchors to the body from its center, so we have to move it to (650/2, 650-50/2)
-	objects.ground.shape2 = love.physics.newRectangleShape(shape2W, shape2H) --make a rectangle with a width of 650 and a height of 50
-	objects.ground.fixture2 = love.physics.newFixture(objects.ground.body2, objects.ground.shape2); --attach shape to body
+	-- objects.ground.body2 = love.physics.newBody(world, shape2X+shape2W/2, shape2Y-shape2H/2) --remember, the shape (the rectangle we create next) anchors to the body from its center, so we have to move it to (650/2, 650-50/2)
+	-- objects.ground.shape2 = love.physics.newRectangleShape(shape2W, shape2H) --make a rectangle with a width of 650 and a height of 50
+	-- objects.ground.fixture2 = love.physics.newFixture(objects.ground.body2, objects.ground.shape2); --attach shape to body
 	
 	--let's create a couple blocks to play around with
-	objects.block1 = {}
-	objects.block1.body = love.physics.newBody(world, 200, 550, "dynamic")
-	objects.block1.shape = love.physics.newRectangleShape(0, 0, 50, 100)
-	objects.block1.fixture = love.physics.newFixture(objects.block1.body, objects.block1.shape, 5) -- A higher density gives it more mass.
+	-- objects.block1 = {}
+	-- objects.block1.body = love.physics.newBody(world, 200, 550, "dynamic")
+	-- objects.block1.shape = love.physics.newRectangleShape(0, 0, 50, 100)
+	-- objects.block1.fixture = love.physics.newFixture(objects.block1.body, objects.block1.shape, 5) -- A higher density gives it more mass.
 
-	objects.block2 = {}
-	objects.block2.body = love.physics.newBody(world, 200, 400, "dynamic")
-	objects.block2.shape = love.physics.newRectangleShape(0, 0, 100, 50)
-	objects.block2.fixture = love.physics.newFixture(objects.block2.body, objects.block2.shape, 2)
+	-- objects.block2 = {}
+	-- objects.block2.body = love.physics.newBody(world, 200, 400, "dynamic")
+	-- objects.block2.shape = love.physics.newRectangleShape(0, 0, 100, 50)
+	-- objects.block2.fixture = love.physics.newFixture(objects.block2.body, objects.block2.shape, 2)
 
 	--initial graphics setup
 	love.graphics.setBackgroundColor(104, 136, 248) --set the background color to a nice blue
@@ -69,8 +69,8 @@ function love.load()
 end
 
 function love.update(dt)
-  world:update(dt) --this puts the world into motion
   p:update(dt)
+  world:update(dt) --this puts the world into motion
 
   --here we are going to create some keyboard events
   if love.keyboard.isDown("right") then --press the right arrow key to push the ball to the right
@@ -91,8 +91,8 @@ function love.draw()
 	-- love.graphics.rectangle("fill", a, b, )
 	p:draw()
 
-	love.graphics.setColor(255, 0, 0) -- set the drawing color to green for the ground
-	love.graphics.polygon("fill", objects.ground.body2:getWorldPoints(objects.ground.shape2:getPoints())) -- draw a "filled in" polygon using the ground's coordinates
+	-- love.graphics.setColor(255, 0, 0) -- set the drawing color to green for the ground
+	-- love.graphics.polygon("fill", objects.ground.body2:getWorldPoints(objects.ground.shape2:getPoints())) -- draw a "filled in" polygon using the ground's coordinates
 
 	love.graphics.setColor(193, 47, 14) --set the drawing color to red for the ball
 	-- love.graphics.circle("fill", p.body:getX(), p.body:getY(), p.shape:getRadius())
