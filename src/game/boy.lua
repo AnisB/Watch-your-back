@@ -8,9 +8,9 @@ Boy.JUMP_COEFF = 1
 Boy.INIT_X = 100
 Boy.INIT_Y = 300
 
-stdSpeed = 100
-fasterSpeed = 150
-slowerSpeed = 50
+stdSpeed = 50
+fasterSpeed = 100
+slowerSpeed = -70
 
 function Boy.new()
 	local self = {}
@@ -26,7 +26,8 @@ function Boy.new()
 	-- Physics Component (pc)
 	self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.R, self.pos.x, self.pos.y, false, {width=self.w, height=self.h})
 	self.pc.body:setLinearDamping(0.9)
-	self.pc.fixture:setRestitution(0.3) --let the PhysicsComponent bounce
+	self.pc.fixture:setFriction(0.0)
+	self.pc.fixture:setRestitution(0.0) --let the PhysicsComponent bounce
 	self.pc.fixture:setUserData(self)
 	-- >>>>> Initialisation end
 	return self
@@ -48,6 +49,10 @@ end
 
 function Boy:unCollideWith( object, collision )
 	-- body
+end
+
+function Boy:still(  )
+	self.speed.x = stdSpeed
 end
 
 function Boy:left( )

@@ -81,9 +81,10 @@ function Gameplay:update(dt)
 	--here we are going to create some keyboard events
 	if love.keyboard.isDown("right") then --press the right arrow key to push the ball to the right
 		p:right()
-	end
-	if love.keyboard.isDown("left") then --press the left arrow key to push the ball to the left
+	elseif love.keyboard.isDown("left") then --press the left arrow key to push the ball to the left
 		p:left()
+	else 
+		p:still()
 	end
 	if love.keyboard.isDown(" ") then --press the left arrow key to push the ball to the left
 		p:jump()

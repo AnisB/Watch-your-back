@@ -34,7 +34,7 @@ function love.load()
 	local shape1W = 1500
 	local shape1H = 50
 	local shape1X = 0
-	local shape1Y = 600
+	local shape1Y = 550
 	
 	objects.ground.body = love.physics.newBody(world, shape1X+shape1W/2, shape1Y-shape1H/2) --remember, the shape (the rectangle we create next) anchors to the body from its center, so we have to move it to (650/2, 650-50/2)
 	objects.ground.shape = love.physics.newRectangleShape(shape1W, shape1H) --make a rectangle with a width of 650 and a height of 50
@@ -61,9 +61,9 @@ end
 
 function preSolve(a, b, coll)
     if persisting == 0 then    -- only say when they first start touching
-        print ("\n"..tostring(a:getUserData()).." touching "..tostring(b:getUserData()))
+        -- print ("\n"..tostring(a:getUserData()).." touching "..tostring(b:getUserData()))
     elseif persisting < 20 then    -- then just start counting
-        print (" "..persisting)
+        -- print (" "..persisting)
     end
     persisting = persisting + 1    -- keep track of how many updates they've been touching for
 end
