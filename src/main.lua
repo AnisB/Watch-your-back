@@ -2,6 +2,7 @@
 Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 ]]
 
+require('strict') -- JS strict mode emulation!
 require("game.gamestate")
 
 SourceDirectory="./"
