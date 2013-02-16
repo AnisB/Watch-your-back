@@ -43,6 +43,7 @@ function GameState:keyReleased(key, unicode)
 end
 
 function GameState:update(dt)
+    print('GS:update')
     self.state[self.currentState]:update(dt)
 end
 
