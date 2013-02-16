@@ -5,7 +5,7 @@ Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 Platform = {}
 Platform.__index = Platform
 
-function Platform:new(minx, miny, tileSize, sprite)
+function Platform.new(minx, miny, tileSize, sprite)
 	local self = {}
 	setmetatable(self, Platform)
 

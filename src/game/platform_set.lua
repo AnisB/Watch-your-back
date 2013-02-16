@@ -4,6 +4,45 @@ Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 
 require("game.platform")
 
+sets = {
+	{
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+		{1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+		{1,0,0,0,0,1,0,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0},
+		{1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0},
+		{1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+		{1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0},
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0}
+	},
+	{
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0},
+		{1,0,1,1,1,0,0,1,1,0,1,1,0,1,1,0,1,1,0,0,0}
+	}
+}
+ImgDirectory = 'img/'
+ImageSet = {
+	love.graphics.newImage( ImgDirectory .. "block1.png")
+}
+
+
+
 PlatformSet = {}
 PlatformSet.__index = PlatformSet
 
@@ -11,29 +50,32 @@ tileSize = 50
 tileOffsetX = 20
 tileOffsetY = 40
 
-function PlatformSet:new(platforms, imageSet, scrollOffset)
+function PlatformSet.new(setnb, scrollOffset)
 	local self = {}
 	setmetatable(self, PlatformSet)
 
 	self.scrollOffset = scrollOffset
-	self.imageSet = imageSet
-	self.width = tileSize * #platforms[1]
+	self.width = tileSize * #sets[setnb][1]
 	self.platforms = {}
 
-	for y,platformLine in ipairs(platforms) do
+	for y,platformLine in ipairs(sets[setnb]) do
 		for x,platform in ipairs(platformLine) do
 			if platform ~= 0 then
-				table.insert(self.platforms, Platform:new(
+				table.insert(self.platforms, Platform.new(
 					scrollOffset + (x-1)*tileSize - tileOffsetX, --minx
 					(y-1)*tileSize - tileOffsetY, -- miny
 					tileSize,
-					imageSet[platform]
+					ImageSet[platform]
 				))
 			end
 		end
 	end
 
 	return self
+end
+
+function PlatformSet.getNbSets()
+	return #sets
 end
 
 function PlatformSet:mousePressed(x, y, button)
