@@ -9,6 +9,9 @@ require("game.proxbackground")
 require("game.hud")
 require("game.pedobear")
 require("game.sound")
+require("game.backgroundinter1")
+require("game.backgroundinter2")
+
 Gameplay = {}
 Gameplay.__index = Gameplay
 
@@ -42,6 +45,8 @@ function Gameplay:new()
 	self.timeelapsed=0
 	self.background = Background:new(self)
 	self.proxbackground = ProxBackground:new(self)
+	self.backgroundinter1 = BackgroundInter1:new(self)
+	self.backgroundinter2 = BackgroundInter2:new(self)
 	self.environment = Environment:new(self)
 
 	-- Character -- 
@@ -55,11 +60,17 @@ function Gameplay:new()
 	self.pedobear = Pedobear:new()
 
 	self.firstRun=true
+	
+	-- counter teleport --
+	self.timerT = 0
+	self.teleportActive=false
 	return self
 end
 
 function Gameplay:mousePressed(x, y, button)
-
+if self.teleportActive then
+		p:teleport(x+self.scrolledDistance,y)
+	end	
 end
 
 function Gameplay:mouseReleased(x, y, button)
@@ -67,15 +78,32 @@ function Gameplay:mouseReleased(x, y, button)
 end
 
 function Gameplay:keyPressed(key, unicode)
-
+	print("hi")
+	if key == "t" then
+		self:enableTeleport()
+	end
 end
 
 function Gameplay:keyReleased(key, unicode)
 
 end
 
+
+function Gameplay:enableTeleport()
+	print("Enable")
+	self.teleportActive=true
+	self.timerT=10
+	p:enableTeleport(true)
+end
 function Gameplay:update(dt)
-	
+	if self.teleportActive then
+		print("active")
+		self.timerT = self.timerT-dt
+		if  self.timerT<=0 then
+			p:enableTeleport(false)
+			self.teleportActive=false
+		end
+	end 
 	if self.firstRun then
 	Sound.playMusic("themeprincipal")
 	self.firstRun =false
@@ -99,6 +127,8 @@ function Gameplay:update(dt)
 	self.environment:update(dt)
 	self.scrolledDistance=math.floor(self.scrolledDistance+dt*200+self.timeelapsed/100)
 	self.background:update(dt)
+	self.backgroundinter1:update(dt)
+	self.backgroundinter2:update(dt)
 	self.proxbackground:update(dt)
 
 end
@@ -107,7 +137,8 @@ function Gameplay:draw()
 	self.background:draw()
 	self.proxbackground:draw()
 	self.environment:draw()
-
+	self.backgroundinter1:draw()
+	self.backgroundinter2:draw()
 	-- Draw the HUD (obviously at the end)
 	self.hud:draw()
 	p:draw()

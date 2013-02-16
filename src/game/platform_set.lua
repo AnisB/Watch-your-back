@@ -100,10 +100,6 @@ function PlatformSet:getWidth()
 end
 
 function PlatformSet:update(dt)
-	if dt > 0.1 then
-		dt = 0.1
-	end
-
 	for i,platform in ipairs(self.platforms) do
 		platform:update(dt)
 	end
@@ -117,7 +113,7 @@ function PlatformSet:draw(refIndex)
 end
 
 function PlatformSet:destroy()
-	for x,platform in ipairs(platforms) do
+	for x,platform in ipairs(self.platforms) do
 		platform:destroy()
 	end
 end

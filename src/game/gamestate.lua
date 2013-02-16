@@ -35,7 +35,7 @@ function GameState:mouseReleased(x, y, button)
 end
 
 function GameState:keyPressed(key, unicode)
-	self.state[self.currentState]:draw(key, unicode)
+	self.state[self.currentState]:keyPressed(key, unicode)
 end
 
 function GameState:keyReleased(key, unicode)
