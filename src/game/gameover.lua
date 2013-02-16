@@ -2,9 +2,12 @@
 Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 ]]
 
-
+GameOver = {}
+GameOver.__index = GameOver
 function GameOver:new()
-
+    local self = {}
+    setmetatable(self, GameOver)
+    return self
 end
 
 function GameOver:mousePressed(x, y, button)

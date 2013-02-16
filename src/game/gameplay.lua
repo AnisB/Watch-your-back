@@ -2,9 +2,12 @@
 Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 ]]
 
-
+Gameplay = {}
+Gameplay.__index = Gameplay
 function Gameplay:new()
-
+    local self = {}
+    setmetatable(self, Gameplay)
+    return self
 end
 
 function Gameplay:mousePressed(x, y, button)

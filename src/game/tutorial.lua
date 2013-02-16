@@ -2,9 +2,12 @@
 Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 ]]
 
-
+Tutorial = {}
+Tutorial.__index =  Tutorial
 function Tutorial:new()
-
+    local self = {}
+    setmetatable(self,Tutorial)
+    return self
 end
 
 function Tutorial:mousePressed(x, y, button)
