@@ -42,7 +42,7 @@ Sound.playMusic = function (name,isLoop)
 		return
 	else
 		if Sound.currentMusic then
-			Sound.currentMusic:stop()
+			Sound.currentMusic:pause()
 		end
 		Sound.currentMusic = src
 		Sound.currentMusic:play()

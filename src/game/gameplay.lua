@@ -9,6 +9,7 @@ require("game.proxbackground")
 require("game.hud")
 require("game.pedobear")
 require("game.sound")
+require("game.playerstate")
 Gameplay = {}
 Gameplay.__index = Gameplay
 
@@ -47,6 +48,8 @@ function Gameplay:new()
 	-- Character -- 
 	-- self.boy = Boy
 	
+	-- Player state --
+	self.playerState = PlayerState:new(self)
 	
 	-- HUD --
 	self.hud = Hud:new(self)
@@ -100,16 +103,17 @@ function Gameplay:update(dt)
 	self.scrolledDistance=math.floor(self.scrolledDistance+dt*200+self.timeelapsed/100)
 	self.background:update(dt)
 	self.proxbackground:update(dt)
-
+	self.playerState:update()
 end
 
 function Gameplay:draw()
 	self.background:draw()
 	self.proxbackground:draw()
 	self.environment:draw()
+	p:draw()
+	self.pedobear:draw()
 
 	-- Draw the HUD (obviously at the end)
 	self.hud:draw()
-	p:draw()
-	self.pedobear:draw()
+	-- Are you trying to write something after this line? Did you read the previous comment? Hmm.
 end
