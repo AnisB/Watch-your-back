@@ -69,7 +69,13 @@ function Boy:applyForce(x, y)
 end
 
 function Boy:getPos()
-	return self.pc.body:getPosition()
+	local x, y = self.pc.body:getPosition()
+	x = x - self.w/2
+	y = y - self.h/2
+
+	print(x,y)
+
+	return x,y
 end
 
 function Boy:loadAnimation(anim, force)
@@ -89,4 +95,8 @@ function Boy:draw()
 	-- print ("scroll=", self.gp.scrolledDistance)
 	-- print ("Boy is currently at x, y = ", x, y)
 	love.graphics.draw(self.anim:getSprite(), x, y-70,0, 0.1,0.1)
+	love.graphics.print("I", x, y-70,0, 0.1,0.1)
+
+	love.graphics.setColor(72, 160, 14) -- set the drawing color to green for the ground
+  love.graphics.polygon("fill", self.pc.body:getWorldPoints(self.pc.shape:getPoints())) 
 end
