@@ -40,7 +40,12 @@ function Platform:update(dt)
 end
 
 function Platform:draw(refIndex)
-	love.graphics.draw(self.sprite, self.minx - refIndex, self.miny)
+	local x,y = self:getPosition()
+	love.graphics.draw(self.sprite, x - refIndex, y)
+end
+
+function Platform:getPosition()
+	return self.minx,self.miny
 end
 
 function Platform:destroy()
