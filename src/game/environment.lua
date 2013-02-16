@@ -44,7 +44,8 @@ ImageSet = {}
 Environment = {}
 Environment.__index = Environment
 
-function Environment:new()
+function Environment:new(gameplay)
+	self.gp = gameplay
 	local self = {}
 	setmetatable(self, Environment)
 
@@ -83,12 +84,10 @@ function Environment:update(dt)
 end
 
 function Environment:draw()
-
+	-- Platforms
 	for i,v in ipairs(self.platformBuffer) do
 		v:draw()
 	end
-
-	-- any foreground objects go here
 end
 
 

@@ -33,9 +33,11 @@ function Gameplay:new()
 	self.objects[5] = {400,530}
 	
 	-- Background --
-	self.background = Background:new()
-	self.environment = Environment:new()
-
+	self.background = Background:new(self)
+	self.environment = Environment:new(self)
+	self.scrolledDistance=0
+	self.speed=100
+	self.timeelapsed=0
 	return self
 end
 
@@ -59,13 +61,14 @@ function Gameplay:update(dt)
 	if dt > 0.1 then
 		dt = 0.1
 	end
+	self.timeelapsed=self.timeelapsed +dt
 	self.environment:update(dt)
+	self.scrolledDistance=self.scrolledDistance+dt*200+self.timeelapsed/100
+	self.background:update(dt)
+
 end
 
 function Gameplay:draw()
-
+	self.background:draw()
 	self.environment:draw()
-end
-
-function Gameplay.test()
 end
