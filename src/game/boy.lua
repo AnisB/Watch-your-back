@@ -41,6 +41,10 @@ function Boy:jump()
 	end
 end
 
+function Boy:getSpeed(  )
+	return self.pc.body:getLinearVelocity()
+end
+
 function Boy:collideWith( object, collision )
 	if object.name == "paltform" then
 		self.state = "running"
