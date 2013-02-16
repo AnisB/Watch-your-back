@@ -3,43 +3,8 @@ Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 ]]
 
 require('strict') -- JS strict mode emulation!
-require("game.platform")
+require("game.platform_set")
 
-
-PlatformSets = {
-	{
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
-		{1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
-		{1,0,0,0,0,1,0,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0},
-		{1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0},
-		{1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
-		{1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0},
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0}
-	},
-	{
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0},
-		{1,0,1,1,1,0,0,1,1,0,1,1,0,1,1,0,1,1,0,0,0}
-	}
-}
-
-ImageSet = {}
 
 Environment = {}
 Environment.__index = Environment
@@ -49,14 +14,8 @@ function Environment:new(gameplay)
 	local self = {}
 	setmetatable(self, Environment)
 
-	ImageSet = {
-		love.graphics.newImage(ImgDirectory .. "block1.png")
-	}
-
-
-
-	self.platformBufferC = PlatformSet:new(PlatformSets[1], ImageSet, self.gp.scrolledDistance)
-	self.platformBufferN = PlatformSet:new(PlatformSets[2], ImageSet, self.gp.scrolledDistance)
+	self.platformBufferC = PlatformSet.new(1, self.gp.scrolledDistance)
+	self.platformBufferN = PlatformSet.new(2, self.gp.scrolledDistance)
 
 	self.myScrooled =0
 	self.cx= 0
@@ -94,8 +53,8 @@ function Environment:update(dt)
 	if math.floor((self.myScrolled+1024)%1100)>0 and math.floor((self.myScrolled+1024)%1100)<5  then
 		self.drawNext=true
 		self.nx=self.cx+1100
-		self.nextPL=math.random(1,#PlatformSets)
-		self.platformBufferN =PlatformSet:new(PlatformSets[self.nextPL], ImageSet, self.gp.scrolledDistance+1100)
+		self.nextPL=math.random(1, PlatformSet.getNbSets())
+		self.platformBufferN =PlatformSet.new(self.nextPL, self.gp.scrolledDistance+1100)
 		
 	end
 	if math.abs((math.floor(self.nx)-math.floor(self.myScrolled)))<5  then

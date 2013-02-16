@@ -2,57 +2,53 @@
 Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 ]]
 
-require('strict') -- JS strict mode emulation!
+Platform = {}
+Platform.__index = Platform
 
-PlatformSet = {}
-PlatformSet.__index = PlatformSet
-
-tileSize = 50
-tileOffsetX = 20
-tileOffsetY = 40
-
-function PlatformSet:new(platforms, imageSet, scrollOffset)
+function Platform.new(minx, miny, tileSize, sprite)
 	local self = {}
-	setmetatable(self, PlatformSet)
-	print(scrollOffset)
-	self.platforms = platforms
-	self.scrollOffset = scrollOffset
-	print(self.platforms[1])
-	self.imageSet = imageSet
+	setmetatable(self, Platform)
+
+	self.sprite = sprite
+	self.tileSize = tileSize
+	self.minx = minx
+	self.miny = miny
 
 	return self
 end
 
-function PlatformSet:mousePressed(x, y, button)
+function Platform:mousePressed(x, y, button)
 
 end
 
-function PlatformSet:mouseReleased(x, y, button)
+function Platform:mouseReleased(x, y, button)
 
 end
 
-function PlatformSet:keyPressed(key, unicode)
+function Platform:keyPressed(key, unicode)
 	
 end
 
-function PlatformSet:keyReleased(key, unicode)
+function Platform:keyReleased(key, unicode)
 
 end
 
-function PlatformSet:update(dt)
+function Platform:update(dt)
 	if dt > 0.1 then
 		dt = 0.1
 	end
 end
 
-function PlatformSet:draw(refIndex)
-	for y,platformLine in ipairs(self.platforms) do
-		for x,platform in ipairs(platformLine) do
-			if platform ~= 0 then
-				love.graphics.draw(self.imageSet[platform], self.scrollOffset - refIndex + (x-1)*tileSize - tileOffsetX, (y-1)*tileSize - tileOffsetY)
-			end
-		end
-	end
+function Platform:draw(refIndex)
+	local x,y = self:getPosition()
+	love.graphics.draw(self.sprite, x - refIndex, y)
+end
 
+function Platform:getPosition()
+	return self.minx,self.miny
+end
+
+function Platform:destroy()
+	-- TODO Theo
 end
 
