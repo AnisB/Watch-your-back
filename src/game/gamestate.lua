@@ -15,11 +15,6 @@ GameState.__index = GameState
 function GameState:new()
     local self = {}
     setmetatable(self, GameState)
-	-- self.menu= Menu.new{}
-	-- self.gameover= GameOver.new{}
-	-- self.gameplay = Gameplay.new{}
-	-- self.tutorial= Tutorial.new{}
-	-- self.Highscore = HighScore.new{}
 	self.state = {
         Menu      = Menu.new{},
         Tutorial  = Tutorial.new{},
@@ -48,7 +43,6 @@ function GameState:keyReleased(key, unicode)
 end
 
 function GameState:update(dt)
-    print('GS:update')
     self.state[self.currentState]:update(dt)
 end
 
