@@ -2,6 +2,9 @@ Boy = {}
 Boy.__index = Boy
 
 Boy.RUN_COEFF = 1
+Boy.JUMP_COEFF = 1
+Boy.X_COEFF = 1  -- position to pixel (x)
+Boy.Y_COEFF = 1 -- position to pixel (y)
 
 function Boy.new()
 	local self = {}
@@ -17,15 +20,28 @@ end
 
 function Boy:update(dt)
 	self.pos.x += self.vit.x * Boy.RUN_COEFF
-end
-
-function Boy:press(key)
+	self.pos.y += self.vit.y * Boy.JUMP_COEFF
 end
 
 function Boy:jump(val)
 	self.pos.y = self.pos.y - val
 end
 
+function Boy:applyForce(x, y)
+	-- theo work here
+end
+
+function Boy:getPos()
+	-- theo work here
+	-- return x, y
+end
+
+function Boy:loadAnimation(anim)
+
+end
+
 function Boy:draw()
-	love.graphics.draw(self.img, self.pos.x, self.pos.y)
+	x_calc = self.pos.x * Boy.X_COEFF
+	y_calc = self.pos.y * Boy.Y_COEFF
+	love.graphics.draw(self.img, x_calc, y_calc)
 end
