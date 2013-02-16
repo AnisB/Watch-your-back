@@ -12,8 +12,14 @@ function Boy.new()
 	-- >>>>> Initialisation des attributs :
 	self.img = love.graphics.newImage("me.png")
 	self.pos = {x = 100, y = 300}
+	self.w = 20
+	self.h = 50
 	self.vit = {x = 0, y = 0}
 	self.state = "normal"  -- can be "normal", "jumping", "dead", ...
+	self.physics = PhysicsComponent:new(PhysicsComponent.R, false, {width=self.w, height=self.h})
+	-- 
+	self.physics.body:setLinearDamping(0.9)
+	self.physics.fixture:setRestitution(0.8) --let the PhysicsComponent bounce
 	-- >>>>> Initialisation end
 	return self
 end
@@ -32,8 +38,7 @@ function Boy:applyForce(x, y)
 end
 
 function Boy:getPos()
-	-- theo work here
-	-- return x, y
+	body:getWorldPoints(objects.ground.shape:getPoints())
 end
 
 function Boy:loadAnimation(anim)

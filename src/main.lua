@@ -3,38 +3,33 @@ Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 ]]
 
 require('strict') -- JS strict mode emulation!
+require('debug')
 -- require("game.gamestate")
-Player = {}
+PhysicsComponent = {}
+PhysicsComponent.ShapeType = {
+	"C" = 1,
+	"P" = 2,
+	"R" = 3
+}
 
 PLAYER_W = 10
 PLAYER_H = 10
 
 p = nil
 
-world = nil
+objects = {}
 
-Player.__index = Player
+PHY_METER_RATIO = 64
+GRAVITY = 9.81
 
-function Player.create(x, y)
-	local p = {}						 -- our new object
-	setmetatable(p, Player)	-- make Player handle lookup
-	p.body = love.physics.newBody(world, x, y, "dynamic")
-	p.shape = love.physics.newCircleShape(20)
-	p.body:setLinearDamping(0.9)
-	p.fixture = love.physics.newFixture(p.body, p.shape, 1) -- Attach fixture to body and give it a density of 1 (rigid body)
-	p.fixture:setRestitution(0.8) --let the player bounce
-	return p
+function initPhysics(  )
+	world = love.physics.newWorld(0, GRAVITY*PHY_METER_RATIO, true) --create a world for the bodies to exist in with horizontal gravity of 0 and vertical gravity of 9.81
+	love.physics.setMeter(PHY_METER_RATIO) --the height of a meter our worlds will be 64px
 end
 
--- create and use an Player
-
-objects = {}
-PHY_METER_RATIO = 64
-
 function love.load()
-	world = love.physics.newWorld(0, 9.81*PHY_METER_RATIO, true) --create a world for the bodies to exist in with horizontal gravity of 0 and vertical gravity of 9.81
-	love.physics.setMeter(PHY_METER_RATIO) --the height of a meter our worlds will be 64px
-	p = Player.create(650/2, 650/2)
+	initPhysics()
+	p = PhysicsComponent:new(650/2, 650/2)
 	
 	--let's create the ground
 	objects.ground = {}
@@ -97,8 +92,13 @@ end
 
 function love.draw()
 	love.graphics.setColor(72, 160, 14) -- set the drawing color to green for the ground
-	love.graphics.polygon("fill", objects.ground.body:getWorldPoints(objects.ground.shape:getPoints())) -- draw a "filled in" polygon using the ground's coordinates
-	
+	local a, b = objects.ground.body:getPosition()
+	print(objects.ground.body:getWidth())
+	print (a, b)
+	-- print (tostring(objects.ground.body:getPosition().getX()))
+	-- love.graphics.polygon("fill", objects.ground.body:getWorldPoints(objects.ground.shape:getPoints())) -- draw a "filled in" polygon using the ground's coordinates
+	-- love.graphics.rectangle("fill", a, b, )
+
 	love.graphics.setColor(255, 0, 0) -- set the drawing color to green for the ground
 	love.graphics.polygon("fill", objects.ground.body2:getWorldPoints(objects.ground.shape2:getPoints())) -- draw a "filled in" polygon using the ground's coordinates
 
