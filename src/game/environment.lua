@@ -3,7 +3,7 @@ Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 ]]
 
 require('strict') -- JS strict mode emulation!
-require("game.platform")
+require("game.platform_set")
 
 
 PlatformSets = {
@@ -54,8 +54,6 @@ function Environment:new(gameplay)
 	}
 
 	self.platformBuffer = {}
-	print(PlatformSets[1])
-	print(self.gp.scrolledDistance)
 	self.platformBuffer[1] = PlatformSet:new(PlatformSets[1], ImageSet, self.gp.scrolledDistance)
 	self.platformBuffer[2] = PlatformSet:new(PlatformSets[2], ImageSet, self.gp.scrolledDistance)
 

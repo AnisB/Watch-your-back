@@ -34,11 +34,11 @@ function Gameplay:new()
 	
 	-- Background --
 	self.scrolledDistance=0
+	self.speed=100
+	self.timeelapsed=0
 	self.background = Background:new(self)
 	self.proxbackground = ProxBackground:new(self)
 	self.environment = Environment:new(self)
-	self.speed=100
-	self.timeelapsed=0
 	
 	
 	--
