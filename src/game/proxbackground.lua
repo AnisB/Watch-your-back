@@ -34,12 +34,12 @@ function ProxBackground:update(dt)
 	 	self.done =true
 	 	print("new detected")
 	end
-	if math.abs(self.nx-self.myScrolled)<5  then
+	if math.abs(self.nx-self.myScrolled)<5 and self.done  then
 		self.drawNext=false
 		self.cx=self.nx
 		self.currentbgnum=((self.currentbgnum+1)% self.nbBG)
 		self.currentBg=self.nextBg
-		self.done=true
+		self.done=false
 		self.nbBlocs= self.nbBlocs+1
 		print("new replaced")
 

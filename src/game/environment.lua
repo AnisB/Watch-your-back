@@ -53,16 +53,19 @@ function Environment:update(dt)
 		self.nextPL=math.random(1, PlatformSet.getNbSets())
 		self.platformBufferN =PlatformSet.new(self.nextPL, self.gp.scrolledDistance+1100)
 		self.done = true
-		
+		print("newB detected")
+
 	end
-	if math.abs((math.floor(self.nx)-math.floor(self.myScrolled)))<0 and self.done  then
+	if self.nx-self.myScrolled<0 and self.done  then
 		self.drawNext=false
 		self.cx=self.nx
 		self.currentBg=self.nextBg
-		--self.platformBufferC:destroy()--
+		self.platformBufferC:destroy()
 		self.platformBufferC =self.platformBufferN
 		self.done = false
 		self.nbBlocs =self.nbBlocs+1
+		print("newB replaced")
+
 	end
 end
 
