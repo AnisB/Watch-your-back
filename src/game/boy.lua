@@ -35,7 +35,7 @@ end
 
 function Boy:jump()
 	if self.state ~= "jumping" then
-		self.pc.body:applyLinearImpulse(0, -140)
+		self.pc.body:applyLinearImpulse(0, -200)
 		self.state = "jumping"
 	end
 end
@@ -84,5 +84,5 @@ end
 function Boy:draw()
 	local x, y = self:getPos()
 	-- print ("Boy is currently at x, y = ", x, y)
-	love.graphics.draw(self.anim:getSprite(), x, y)
+	love.graphics.draw(self.anim:getSprite(), x, y-130,0, 0.1,0.1)
 end
