@@ -20,37 +20,37 @@ function GameState:new()
 	-- self.gameplay = Gameplay.new{}
 	-- self.tutorial= Tutorial.new{}
 	-- self.Highscore = HighScore.new{}
-	state = {
+	self.state = {
         Menu      = Menu.new{},
         Tutorial  = Tutorial.new{},
         Gameplay  = Gameplay.new{},
         GameOver  = GameOver.new{},
         HighScore = HighScore.new{}
     }
-	currentState='Gameplay'
+	self.currentState='Gameplay'
 	return self
 end
 
 function GameState:mousePressed(x, y, button)
-    state[currentState]:mousePressed(x,y,button)
+    self.state[self.currentState]:mousePressed(x,y,button)
 end
 
 function GameState:mouseReleased(x, y, button)
-	state[currentState]:mouseReleased(x,y,button)
+	self.state[self.currentState]:mouseReleased(x,y,button)
 end
 
 function GameState:keyPressed(key, unicode)
-	state[currentState]:draw(key, unicode)
+	self.state[self.currentState]:draw(key, unicode)
 end
 
 function GameState:keyReleased(key, unicode)
-	state[currentState]:keyReleased(key, unicode)
+	self.state[self.currentState]:keyReleased(key, unicode)
 end
 
 function GameState:update(dt)
-    state[currentState]:update(dt)
+    self.state[self.currentState]:update(dt)
 end
 
 function GameState:draw()	
-    state[currentState]:draw()
+    self.state[self.currentState]:draw()
 end

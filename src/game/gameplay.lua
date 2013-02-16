@@ -9,7 +9,7 @@ function Gameplay:new()
 	local self = {}
 	setmetatable(self, Gameplay)
 
-	-- -- the background for our scene
+	-- the background for our scene
 	-- scene = love.graphics.newImage("room.png")
 	-- -- the character we will be moving around
 	-- person = love.graphics.newImage("guy.png")
