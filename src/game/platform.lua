@@ -13,6 +13,7 @@ function Platform.new(minx, miny, tileSize, sprite)
 	self.tileSize = tileSize
 	self.minx = minx
 	self.miny = miny
+	self.name = "paltform"
 
 	-- Physics Component (pc)
 	self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.R, minx, miny, true, {width=tileSize, height=tileSize})

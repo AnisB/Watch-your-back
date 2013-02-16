@@ -42,7 +42,7 @@ function Boy:jump()
 end
 
 function Boy:collideWith( object, collision )
-	if object == "GROUND" then
+	if object.name == "paltform" then
 		self.state = "running"
 	end
 	print ("Colliding with", tostring(object))
