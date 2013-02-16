@@ -26,7 +26,7 @@ function Boy.new()
 	-- Physics Component (pc)
 	self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.R, self.pos.x, self.pos.y, false, {width=self.w, height=self.h})
 	self.pc.body:setLinearDamping(0.9)
-	self.pc.fixture:setRestitution(0.8) --let the PhysicsComponent bounce
+	self.pc.fixture:setRestitution(0.3) --let the PhysicsComponent bounce
 	self.pc.fixture:setUserData(self)
 	-- >>>>> Initialisation end
 	return self

@@ -15,11 +15,6 @@ GameState.__index = GameState
 function GameState:new()
     local self = {}
     setmetatable(self, GameState)
-	-- self.menu= Menu.new{}
-	-- self.gameover= GameOver.new{}
-	-- self.gameplay = Gameplay.new{}
-	-- self.tutorial= Tutorial.new{}
-	-- self.Highscore = HighScore.new{}
 	self.state = {
         Menu      = Menu.new{},
         Tutorial  = Tutorial.new{},
@@ -27,7 +22,7 @@ function GameState:new()
         GameOver  = GameOver.new{},
         HighScore = HighScore.new{}
     }
-	self.currentState='Gameplay'
+	self.currentState='Menu'
 	return self
 end
 
@@ -53,4 +48,8 @@ end
 
 function GameState:draw()	
     self.state[self.currentState]:draw()
+end
+
+function GameState:changeState(newState)
+	self.currentState= newState
 end
