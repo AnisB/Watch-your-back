@@ -18,15 +18,15 @@ function Boy.new(gameplay)
 	-- >>>>> Initialisation des attributs :
 	self.gp = gameplay
 	self.pos = {x = 700, y = 300}
-	self.w = 20
-	self.h = 50
+	self.w = 50
+	self.h = 100
 	self.speed = {x = stdSpeed, y = 0}
 	self.state = "running"
 	self.anim = Anim.new('boy')
 
 	-- Physics Component (pc)
 	self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.R, self.pos.x, self.pos.y, false, {width=self.w, height=self.h})
-	self.pc.body:setLinearDamping(0.9)
+	self.pc.body:setLinearDamping(0.5)
 	self.pc.fixture:setFriction(0.0)
 	self.pc.fixture:setRestitution(0.0) --let the PhysicsComponent bounce
 	self.pc.fixture:setUserData(self)
@@ -88,5 +88,5 @@ function Boy:draw()
 	-- print ("boyX=", x)
 	-- print ("scroll=", self.gp.scrolledDistance)
 	-- print ("Boy is currently at x, y = ", x, y)
-	love.graphics.draw(self.anim:getSprite(), x, y-130,0, 0.1,0.1)
+	love.graphics.draw(self.anim:getSprite(), x, y-70,0, 0.1,0.1)
 end

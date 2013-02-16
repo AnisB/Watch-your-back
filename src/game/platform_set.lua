@@ -117,7 +117,7 @@ function PlatformSet:draw(refIndex)
 end
 
 function PlatformSet:destroy()
-	for x,platform in ipairs(platforms) do
+	for x,platform in ipairs(self.platforms) do
 		platform:destroy()
 	end
 end

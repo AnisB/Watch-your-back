@@ -11,6 +11,7 @@ function Platform.new(minx, miny, tileSize, sprite)
 
 	self.sprite = sprite
 	self.tileSize = tileSize
+	print ("Creating a new platform bloc at x=", minx)
 	self.minx = minx
 	self.miny = miny
 	self.name = "paltform"
