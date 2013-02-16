@@ -8,14 +8,15 @@ Boy.JUMP_COEFF = 1
 Boy.INIT_X = 100
 Boy.INIT_Y = 300
 
-stdSpeed = 50
+stdSpeed = 200
 fasterSpeed = 100
 slowerSpeed = -70
 
-function Boy.new()
+function Boy.new(gameplay)
 	local self = {}
 	setmetatable(self, Boy)
 	-- >>>>> Initialisation des attributs :
+	self.gp = gameplay
 	self.pos = {x = 100, y = 300}
 	self.w = 20
 	self.h = 50
@@ -83,6 +84,9 @@ end
 
 function Boy:draw()
 	local x, y = self:getPos()
+	x = x - self.gp.scrolledDistance
+	print ("boyX=", x)
+	print ("scroll=", self.gp.scrolledDistance)
 	-- print ("Boy is currently at x, y = ", x, y)
-	love.graphics.draw(self.anim:getSprite(), x, y)
+	love.graphics.draw(self.anim:getSprite(), x, y, 0, 0.2, 0.2)
 end
