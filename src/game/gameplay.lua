@@ -27,6 +27,9 @@ function Gameplay:new()
 	self.objects[3] = {600,410}
 	self.objects[4] = {300,450}
 	self.objects[5] = {400,530}
+	
+	-- Background --
+	self.background = Background:new()
 
 	return self
 end
@@ -54,6 +57,8 @@ function Gameplay:update(dt)
 end
 
 function Gameplay:draw()
+
+	
 	love.graphics.draw(self.scene, love.graphics:getWidth() / 2 - self.scene:getWidth()/2,
 				love.graphics:getHeight() / 2 - self.scene:getHeight() / 2) -- draw at the center of the screen
 
