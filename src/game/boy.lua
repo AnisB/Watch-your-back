@@ -8,6 +8,10 @@ Boy.JUMP_COEFF = 1
 Boy.INIT_X = 100
 Boy.INIT_Y = 300
 
+stdSpeed = 10
+fasterSpeed = 15
+slowerSpeed = 5
+
 function Boy.new()
 	local self = {}
 	setmetatable(self, Boy)
@@ -15,7 +19,7 @@ function Boy.new()
 	self.pos = {x = 100, y = 300}
 	self.w = 20
 	self.h = 50
-	self.vit = {x = 0, y = 0}
+	self.speed = {x = stdSpeed, y = 0}
 	self.state = "running"
 	self.anim = Anim.new('boy')
 
@@ -29,9 +33,17 @@ end
 
 function Boy:jump()
 	if self.state ~= "jumping" then
-		self.pc.body.applyLinearImpulse(0, -14)
+		self.pc.body:applyLinearImpulse(0, -14)
 		self.state = "jumping"
 	end
+end
+
+function Boy:left( )
+	self.speed.x = slowerSpeed
+end
+
+function Boy:right(  )
+	self.speed.x = fasterSpeed
 end
 
 function Boy:applyForce(x, y)
@@ -47,6 +59,7 @@ function Boy:loadAnimation(anim, force)
 end
 
 function Boy:update(seconds)
+	self.pc.body:applyForce(self.speed.x, 0)
 	self.anim:update(seconds)
 end
 
