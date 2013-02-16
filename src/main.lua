@@ -70,7 +70,8 @@ end
 
 function love.update(dt)
   world:update(dt) --this puts the world into motion
-  
+  p:update(dt)
+
   --here we are going to create some keyboard events
   if love.keyboard.isDown("right") then --press the right arrow key to push the ball to the right
   	p.body:applyForce(400, 0)
@@ -79,7 +80,7 @@ function love.update(dt)
   	p.body:applyForce(-400, 0)
   end
   if love.keyboard.isDown(" ") then --press the left arrow key to push the ball to the left
-  	p.body:applyLinearImpulse(0, -14)
+  	p:jump()
   end
   if love.keyboard.isDown("lctrl") then --press the up arrow key to set the ball in the air
   	p.body:setPosition(650/2, 650/2)

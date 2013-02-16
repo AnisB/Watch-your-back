@@ -27,12 +27,19 @@ function Boy.new()
 	return self
 end
 
+function Boy:jump()
+	if self.state ~= "jumping" then
+		self.pc.body.applyLinearImpulse(0, -14)
+		self.state = "jumping"
+	end
+end
+
 function Boy:applyForce(x, y)
 	-- theo work here
 end
 
 function Boy:getPos()
-	self.pc.body:getWorldPoints(objects.ground.shape:getPoints())
+	return self.pc.body:getPosition()
 end
 
 function Boy:loadAnimation(anim, force)
@@ -45,5 +52,6 @@ end
 
 function Boy:draw()
 	local x, y = self:getPos()
+	-- print ("Boy is currently at x, y = ", x, y)
 	love.graphics.draw(self.anim:getSprite(), x, y)
 end
