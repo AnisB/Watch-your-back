@@ -1,7 +1,7 @@
 Sound = {}
 Sound.__index = Sound
 
-Sound.SOUND_ROOT = 'sound/'
+Sound.SOUND_ROOT = "sound/"
 Sound.sources = {}
 Sound.currentMusic = nil
 
@@ -33,9 +33,9 @@ Sound.stop = function ()
 	if Sound.currentMusic then Sound.currentMusic:stop() end
 end
 
-Sound.playMusic = function (name)
+Sound.playMusic = function (name,isLoop)
 	if Sound.sources[name] == nil then
-		Sound.preload(name)
+		Sound.preload(name,isLoop)
 	end
 	local src = Sound.sources[name]
 	if src == Sound.currentMusic then
@@ -56,11 +56,12 @@ Sound.playSound = function (name)
 end
 
 -- PRIVATE
-Sound.preload = function (name)
+Sound.preload = function (name,isLoop)
 	if Sound.sources[name] ~= nil then
 		return
 	end
 	local path = Sound.SOUND_ROOT..name..'.ogg'
 	local src = love.audio.newSource(path)
+	src:setLooping(isLoop)
 	Sound.sources[name] = src
 end

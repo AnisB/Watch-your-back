@@ -8,6 +8,7 @@ require("game.background")
 require("game.proxbackground")
 require("game.hud")
 require("game.pedobear")
+require("game.sound")
 Gameplay = {}
 Gameplay.__index = Gameplay
 
@@ -52,6 +53,7 @@ function Gameplay:new()
 	-- PEDO
 	self.pedobear = Pedobear:new()
 
+	self.firstRun=true
 	return self
 end
 
@@ -72,6 +74,11 @@ function Gameplay:keyReleased(key, unicode)
 end
 
 function Gameplay:update(dt)
+	
+	if self.firstRun then
+	Sound.playMusic("ds1")
+	self.firstRun =false
+	end
 	if dt > 0.1 then
 		dt = 0.1
 	end
