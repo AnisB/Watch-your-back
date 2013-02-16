@@ -15,6 +15,7 @@ Gameplay.__index = Gameplay
 function Gameplay:new()
 	local self = {}
 	setmetatable(self, Gameplay)
+	p = Boy.new(self)
 
 	--the background for our scene
 	self.scene = love.graphics.newImage("bg.png")
@@ -79,9 +80,9 @@ function Gameplay:update(dt)
 	Sound.playMusic("ds1")
 	self.firstRun =false
 	end
-	if dt > 0.1 then
-		dt = 0.1
-	end
+	-- if dt > 0.1 then
+	-- 	dt = 0.1
+	-- end
 	p:update(dt)
 	world:update(dt) --this puts the world into motion
 

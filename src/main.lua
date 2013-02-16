@@ -27,7 +27,6 @@ gameState = nil
 
 function love.load()
 	initPhysics()
-	p = Boy:new()
 	
 	--let's create the ground
 	objects.ground = {}
@@ -49,7 +48,8 @@ function beginContact(a, b, coll)
     -- print ("p=", tostring(p))
     -- p:collideWith(b:getUserData(), coll)
     -- print ("\n"..tostring(a:getUserData()).." colliding with "..tostring(b:getUserData()).." with a vector normal of: "..x..", "..y)
-    a:getUserData():collideWith(b:getUserData(), coll)
+    -- print (a, b)
+    -- a:getUserData():collideWith(b:getUserData(), coll)
 end
 
 persisting = 0

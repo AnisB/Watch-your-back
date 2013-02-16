@@ -14,6 +14,10 @@ function Platform.new(minx, miny, tileSize, sprite)
 	self.minx = minx
 	self.miny = miny
 
+	-- Physics Component (pc)
+	self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.R, minx, miny, false, {width=tileSize, height=tileSize})
+	self.pc.fixture:setUserData(self)
+
 	return self
 end
 
@@ -34,9 +38,7 @@ function Platform:keyReleased(key, unicode)
 end
 
 function Platform:update(dt)
-	if dt > 0.1 then
-		dt = 0.1
-	end
+	
 end
 
 function Platform:draw(refIndex)
