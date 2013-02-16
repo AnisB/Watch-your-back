@@ -2,11 +2,11 @@
 Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 ]]
 
-require("gameover")
-require("menu")
-require("gameplay")
-require("tutorial")
-require("highscore")
+require("Game.gameover")
+require("Game.menu")
+require("Game.gameplay")
+require("Game.tutorial")
+require("Game.highscore")
 
 function GameState:new()
 	menu= Menu.new{}

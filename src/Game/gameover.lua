@@ -27,7 +27,6 @@ function GameOver:update(dt)
 	if dt > 0.1 then
 		dt = 0.1
 	end
-
 end
 
 function GameOver.draw()

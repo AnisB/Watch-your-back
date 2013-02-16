@@ -19,8 +19,8 @@ end
 function love.keypressed(key, unicode)
 	if key == "escape" then
 		love.event.push("quit")
-    else then
-	
+    else
+		gameS:keyPressed(key, unicode)
 	end
 end
 
@@ -31,8 +31,9 @@ function love.update(dt)
 	if dt > 0.1 then
 		dt = 0.1
 	end
-	
-	gameS:update(dt)
+end	
+function gameS:update(dt)
+		gameS:update(dt)
 end
 
 function love.draw()
