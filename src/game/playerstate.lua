@@ -63,7 +63,7 @@ function PlayerState:enablePowerUp(powerUp)
 	elseif powerUp == 'flying' then
 		self:enableFlying()
 	elseif powerUp == 'invincible' then
-		self.enableInvincible()
+		self:enableInvincible()
 	end
 end
 
