@@ -72,6 +72,13 @@ function Gameplay:new()
 	self.cron.after(math.random(12, 15), popBonus)
 
 	self.firstRun=true
+	self.coeff_value = 1
+	self.cron.every(0.6, function() 
+		self.coeff_value = self.coeff_value * 0.96
+		if self.coeff_value < 0.1 then
+			self.coeff_value = 0.1
+		end
+	end)
 
 	return self
 end
@@ -154,7 +161,8 @@ function Gameplay:update(dt)
 	if StopScroll then 
 		self.scrolledDistance = 0
 	else
-		self.scrolledDistance = self.scrolledDistance+dt*100+self.timeelapsed/5
+		print("COEFF VALUE == ", self.coeff_value)
+		self.scrolledDistance = self.scrolledDistance + dt*100 + self.timeelapsed*self.coeff_value
 	end
 
 	self.background:update(dt)

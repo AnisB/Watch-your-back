@@ -53,7 +53,7 @@ function Boy.new(gameplay)
 
 		self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.R, self.pos.x, self.pos.y, false, {width=self.w, height=self.h})
 	end
-	self.pc.body:setLinearDamping(0.3)
+	self.pc.body:setLinearDamping(0.6)
 	self.pc.body:setMass(0.15)
 	self.pc.fixture:setFriction(0.7)
 	self.pc.fixture:setRestitution(0.0) --let the PhysicsComponent bounce
