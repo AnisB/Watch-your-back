@@ -7,7 +7,8 @@ Anim.ANIMS = {  -- set of animations available :
 	jumping = {},
 	falling = {},
 	dying = {},
-	landing ={}
+	landing ={},
+	teleport={}
 }
 
 Anim.DELAY = 0.100  -- toutes les 200ms, on fait anim.next()
@@ -19,6 +20,7 @@ Anim.ANIMS.jumping.name = "jumping"
 Anim.ANIMS.falling.name = "falling"
 Anim.ANIMS.dying.name = "dying"
 Anim.ANIMS.landing.name = "landing"
+Anim.ANIMS.teleport.name = "teleport"
 
 -- number of sprites :
 Anim.ANIMS.running.number = 8
@@ -27,6 +29,7 @@ Anim.ANIMS.jumping.number = 4
 Anim.ANIMS.falling.number = 8
 Anim.ANIMS.dying.number = 8
 Anim.ANIMS.landing.number = 3
+Anim.ANIMS.teleport.number = 2
 
 -- priority :
 Anim.ANIMS.running.priority = 10
@@ -35,6 +38,7 @@ Anim.ANIMS.jumping.priority = 20
 Anim.ANIMS.falling.priority = 20
 Anim.ANIMS.dying.priority = 30
 Anim.ANIMS.landing.priority = 30
+Anim.ANIMS.teleport.priority = 30
 
 -- automatic loopings or automatic switch :
 Anim.ANIMS.running.loop = true
@@ -43,6 +47,8 @@ Anim.ANIMS.jumping.loop = true
 Anim.ANIMS.falling.loop = true
 Anim.ANIMS.dying.endCallback = function() print("GAME OVER") end
 Anim.ANIMS.landing.switch = Anim.ANIMS.running
+Anim.ANIMS.teleport.loop = true
+
 
 -- next anim available :
 Anim.ANIMS.running.nexts = {

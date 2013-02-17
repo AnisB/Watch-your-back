@@ -21,13 +21,6 @@ function Gameplay:new()
 	setmetatable(self, Gameplay)
 	p = Boy.new(self)
 
-	--the background for our scene
-	self.scene = love.graphics.newImage("bg.png")
-	-- the character we will be moving around
-	self.person = love.graphics.newImage("dude.jpg")
-	-- an object to move around
-	self.object = love.graphics.newImage("ball.jpg")
-
 
 	-- the character position
 	self.character = {400,400} -- x,y
@@ -71,12 +64,17 @@ function Gameplay:new()
 	self.timerT = 0
 	self.timerI = 0
 	self.teleportActive=false
+	
+	-- counter flying --
+	self.timerFlying = 0
+	self.flyingActive=false
+	
 	self.invincibleActive=false
 	return self
 end
 
 function Gameplay:mousePressed(x, y, button)
-if self.teleportActive then
+	if self.teleportActive then
 		p:teleport(x+self.scrolledDistance,y)
 	end	
 end
@@ -92,6 +90,10 @@ function Gameplay:keyPressed(key, unicode)
 	elseif key == "i" then
 		self:enableInvincible()
 	end
+	if key == "f" then
+		self:enableFlying()
+	end
+	
 end
 
 function Gameplay:keyReleased(key, unicode)
@@ -100,12 +102,17 @@ end
 
 
 function Gameplay:enableTeleport()
-	print("Enable")
 	self.teleportActive=true
 	self.timerT=10
 	p:enableTeleport(true)
 end
 
+function Gameplay:enableFlying()
+	self.flyingActive=true
+	self.timerFlying=10
+	p:enableFlying(true)
+	
+	end
 function Gameplay:enableInvincible()
 	print("Enable Invincible")
 	self.invincibleActive=true
@@ -113,9 +120,9 @@ function Gameplay:enableInvincible()
 	p:enableInvincible(true)
 end
 
+
 function Gameplay:update(dt)
 	if self.teleportActive then
-		print("active")
 		self.timerT = self.timerT-dt
 		if  self.timerT<=0 then
 			p:enableTeleport(false)
@@ -130,18 +137,25 @@ function Gameplay:update(dt)
 			self.invincibleActive=false
 		end
 	end 
+	
+	if self.flyingActive then
+		self.timerFlying = self.timerFlying-dt
+		if  self.timerFlying<=0 then
+			p:enableFlying(false)
+			self.flyingActive=false
+		end
+	end 
+	
+	
 	if self.firstRun then
 	Sound.playMusic("themeprincipal")
 	self.firstRun =false
 	end
-	
-	p:update(dt)
-	world:update(dt) --this puts the world into motion
 
 	--here we are going to create some keyboard events
 	if love.keyboard.isDown("d") then --press the right arrow key to push the ball to the right
 		p:right()
-	elseif love.keyboard.isDown("q") or  love.keyboard.isDown("a") then --press the left arrow key to push the ball to the left
+	elseif love.keyboard.isDown("q") or love.keyboard.isDown("a") then --press the left arrow key to push the ball to the left
 		p:left()
 	else 
 		p:still()
@@ -149,9 +163,14 @@ function Gameplay:update(dt)
 	if love.keyboard.isDown("z") or love.keyboard.isDown("w") or love.keyboard.isDown(" ") then --press the left arrow key to push the ball to the left
 		p:jump()
 	end
+
+	p:update(dt)
+	world:update(dt) --this puts the world into motion
+	
 	self.timeelapsed=self.timeelapsed+dt
 	self.environment:update(dt)
-	self.scrolledDistance=self.scrolledDistance+dt*200+self.timeelapsed/100
+	self.scrolledDistance=0 --self.scrolledDistance+dt*200+self.timeelapsed/100
+
 	self.background:update(dt)
 	self.backgroundinter1:update(dt)
 	self.backgroundinter2:update(dt)

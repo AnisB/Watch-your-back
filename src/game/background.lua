@@ -6,7 +6,7 @@ Background = {}
 Background.__index =  Background
 function Background:new(gameplay)
     local self = {}
-    self.bgsize = 4000
+    self.bgsize = 2000
     setmetatable(self,Background)
     self.gp = gameplay
     self.backs ={ImgDirectory.."firstbg.png", ImgDirectory.."secondbg.png"}

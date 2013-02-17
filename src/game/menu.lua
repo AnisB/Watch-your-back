@@ -19,7 +19,7 @@ function Menu:new()
 end
 
 function Menu:mousePressed(x, y, button)
-	print(x,y)
+	-- print(x,y)
 	self.buttonTut:mousePressed(x, y)
 	self.buttonGP:mousePressed(x, y)
 end

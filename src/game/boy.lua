@@ -9,8 +9,13 @@ Boy.INIT_X = 100
 Boy.INIT_Y = 300
 
 stdSpeed = 0
-fasterSpeed = 100
-slowerSpeed = -70
+fasterSpeed = 120
+slowerSpeed = -100
+
+-- Those are used to calibrate the actual sprite display with respect 
+drawingOffsetX = -45
+drawingOffsetY = -52
+JUMP_IMPULSE = -130
 
 function Boy.new(gameplay)
 	local self = {}
@@ -18,21 +23,23 @@ function Boy.new(gameplay)
 	-- >>>>> Initialisation des attributs :
 	self.gp = gameplay
 	self.pos = {x = 700, y = 300}
-	self.w = 20
-	self.h = 50
+	-- self.w = 50
+	-- self.h = 220
+	self.r = 90
 	self.speed = {x = stdSpeed, y = 0}
 	self.state = "running"
 	self.anim = Anim.new('boy')
 
 	-- Physics Component (pc)
-	self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.R, self.pos.x, self.pos.y, false, {width=self.w, height=self.h})
-	self.pc.body:setLinearDamping(0.5)
+	self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.C, self.pos.x, self.pos.y, false, {r=self.r})
+	self.pc.body:setLinearDamping(0.1)
+	self.pc.body:setMass(0.15)
 	self.pc.fixture:setFriction(0.0)
 	self.pc.fixture:setRestitution(0.0) --let the PhysicsComponent bounce
 	self.pc.fixture:setUserData(self)
 	-- >>>>> Initialisation end
 	
-	
+	self.flyingEnabled = false
 	self.teleportEnabled=false
 	self.loopJump=false
 	self.isTeleporing=false
@@ -45,10 +52,14 @@ function Boy.new(gameplay)
 end
 
 function Boy:jump()
+
 	if self.state ~= "jumping" then
-		self.pc.body:applyLinearImpulse(0, -200)
+		self.pc.body:applyLinearImpulse(0, JUMP_IMPULSE)
 		self.state = "jumping"
+		if self.teleportEnabled or self.flyingEnabled then
+		else
 		self:loadAnimation("startjumping",true)
+		end
 		self.loopJump=true
 	end
 end
@@ -59,22 +70,30 @@ end
 
 function Boy:collideWith( object, collision )
 	if object.name == "paltform" then
-		self.state = "running"
+		print "Colliding with a paltform"
+		local x, y = self:getPosition()
+		local x2, y2 = object:getPosition()
+		if y <= y2 then
+			self.state = "running"
+		end
+	end
+	if self.loopJump then
+		self:loadAnimation("landing",true)
+		self.loopJump=false
 	end
 	-- print ("Colliding with", tostring(object))
-		if self.loopJump then
-			self:loadAnimation("landing",true)
-			self.loopJump=false
-		end
+	if self.loopJump and not self.teleportEnabled and not self.flyingEnabled then
+		self:loadAnimation("landing",true)
+		self.loopJump=false
+	end
 
 end
 
 function Boy:unCollideWith( object, collision )
-		if self.loopJump then
-			self:loadAnimation("landing",true)
-			self.loopJump=false
-
-		end
+	if self.loopJump and not self.teleportEnabled and not self.flyingEnabled then
+		self:loadAnimation("landing",true)
+		self.loopJump=false
+	end
 end
 
 function Boy:still(  )
@@ -89,21 +108,35 @@ end
 
 function Boy:enableTeleport(value)
 	if value then
+		self:loadAnimation('teleport',true)
 		Sound.playMusic('themetele')
 	else
+		self:loadAnimation('running',true)
 		Sound.playMusic('themeprincipal')
 
 	end
 	self.teleportEnabled= value
 end
 
-function Boy:enableInvincible(value)
+function Boy:enableFlying(value)
 	if value then
-		Sound.playMusic('themetele')
+		Sound.playMusic('themevol')
 	else
 		Sound.playMusic('themeprincipal')
+
 	end
-	self.invincibleEnabled= value
+	self.flyingEnabled= value
+end
+
+function Boy:enableInvincible(enabled)
+	if enabled then
+		Sound.playMusic('themeinv')
+		self.pc.fixture:setDensity(0.0)
+	else
+		self.pc.fixture:setDensity(1.0)
+		Sound.playMusic('themeprincipal')
+	end
+	self.invincibleEnabled = enabled
 end
 
 function Boy:left( )
@@ -114,11 +147,12 @@ function Boy:right(  )
 	self.speed.x = fasterSpeed
 end
 
-function Boy:applyForce(x, y)
-	-- theo work here
+-- Just an alias for getPosition()
+function Boy:getPos()
+	return self:getPosition()
 end
 
-function Boy:getPos()
+function Boy:getPosition(  )
 	return self.pc.body:getPosition()
 end
 
@@ -130,8 +164,8 @@ function Boy:update(seconds)
 	self.pc.body:applyForce(self.speed.x, 0)
 	self.anim:update(seconds)
 	self.timeT= self.timeT-seconds
-	if self.timeT<=0 then
-		self.isTeleporing=false
+	if self.timeT <= 0 then
+		self.isTeleporing = false
 	end
 
 end
@@ -139,21 +173,28 @@ end
 function Boy:draw()
 	local x, y = self:getPos()
 	x = x - self.gp.scrolledDistance
-	-- print ("boyX=", x)
-	-- print ("scroll=", self.gp.scrolledDistance)
-	-- print ("Boy is currently at x, y = ", x, y)
+	x = x - self.r/2 + drawingOffsetX
+	y = y - self.r/2 + drawingOffsetY
+
+    if ShowHitBoxes then
+	    love.graphics.circle("fill", self.pc.body:getX(), self.pc.body:getY(), self.pc.shape:getRadius())
+	end
 	if self.invincibleEnabled then
-		love.graphics.draw(self.anim:getSprite(), x, y-260,0, 0.2,0.2)
-	else
-		love.graphics.draw(self.anim:getSprite(), x, y-130,0, 0.1,0.1)
+		love.graphics.draw(self.anim:getSprite(), x, y-140,0, 0.5,0.5)
+		return
 	end
 	
 	if self.teleportEnabled and self.isTeleporing then
 		if 	self.animState then
 			self.animState= not self.animState
-			love.graphics.draw(self.teleport1, x, y-130,0, 0.1,0.1)
-		else
-			love.graphics.draw(self.teleport1, x, y-130,0, 0.1,0.1)
+			love.graphics.draw(self.teleport1, x, y,0, 0.25,0.25)
+			return 
+		else 
+			love.graphics.draw(self.teleport1, x, y,0, 0.25,0.25)
+			return
 		end
 	end
+	
+	love.graphics.draw(self.anim:getSprite(), x, y,0, 0.25,0.25)
+
 end
