@@ -8,11 +8,10 @@ require('game.hud')
 
 GameOver = {}
 GameOver.__index = GameOver
-
-function GameOver:new()
+function GameOver:new(gameplay)
     local self = {}
     setmetatable(self, GameOver)
-
+    self.gp = gameplay
     self.background = love.graphics.newImage(ImgDirectory.."gameover.png")
 
     return self
@@ -20,8 +19,7 @@ end
 
 
 function GameOver:mousePressed(x, y, button)
-	gameState:changeState('Menu')
-	Sound.playMusic("berceuse")
+	-- love.event.push("quit")
 end
 
 function GameOver:mouseReleased(x, y, button)

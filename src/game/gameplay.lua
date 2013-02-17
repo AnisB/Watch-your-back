@@ -37,6 +37,7 @@ function Gameplay:new()
 	-- Background --
 	self.scrolledDistance=0
 	self.speed=100
+	self.ceil = 0
 	self.timeelapsed=0
 	self.background = Background:new(self)
 	self.cron = require('game.cron')
@@ -66,9 +67,9 @@ function Gameplay:new()
 		local choice = math.random(1, #Bonus.NUMANIMS)
 		choice = Bonus.NUMANIMS[choice]
 		Bonus.new(self, self.bonuses, choice.name)
-		self.cron.after(math.random(5, 15), popBonus)
+		self.cron.after(math.random(12, 15), popBonus)
 	end
-	self.cron.after(math.random(5, 15), popBonus)
+	self.cron.after(math.random(12, 15), popBonus)
 
 	self.firstRun=true
 
@@ -167,18 +168,18 @@ function Gameplay:update(dt)
 	local x,y = p:getPos()
 	if (x- self.scrolledDistance)> 1024 then
 		x=	1023 + self.scrolledDistance
+		p.pc.body:setPosition(x,y)
 	end
-	if (x- self.scrolledDistance)< 0 then
+	if (x - self.scrolledDistance)< 0 then
 		gameState:changeState('GameOver')
 		Sound.playMusic("berceuse")
 	end
 
-	if y<-400 then
-		y=-399
+	if y < self.ceil then
+		y = self.ceil+1
+		p.pc.body:setPosition(x, y)
 	end
 
-
-	p.pc.body:setPosition(x,y)
 	self.pedobear:update(dt)
 end
 
