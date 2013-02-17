@@ -13,7 +13,7 @@ function Tutorial:new()
     setmetatable(self, Tutorial)
 
     self.background = love.graphics.newImage(ImgDirectory.."tutobackground.png")
-    local options = {x=675, y=330, sizex=240, sizey=80, unclickedb='unclickedb_menu.png', clickedb='clickedb_menu.png'}
+    local options = {x=675, y=120, sizex=240, sizey=80, unclickedb='unclickedb_menu.png', clickedb='clickedb_menu.png'}
     self.buttonMenu = Button:new(options)
 
     return self

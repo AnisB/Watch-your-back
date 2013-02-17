@@ -174,7 +174,7 @@ function Gameplay:update(dt)
 		x=	1023 + self.scrolledDistance
 		p.pc.body:setPosition(x,y)
 	end
-	if (x - self.scrolledDistance)< 0 then
+	if (x - self.scrolledDistance)< 0 or y > love.graphics:getHeight()+20 then
 		gameState:changeState('GameOver')
 		Sound.playMusic("berceuse")
 	end
