@@ -25,7 +25,7 @@ end
 
 
 function Foreground:setAlphaFromDangerLevel(dangerLevel)
-	self.a = math.min(192, math.floor(192 * math.exp((dangerLevel/10 - 8) * LN2) / 1.5)) -- Augment in an exp way the red level when the player get to close to the pedobear
+	self.a = math.min(168, math.floor(168 * math.exp((dangerLevel/10 - 8) * LN2) / 1.5)) -- Augment in an exp way the red level when the player get to close to the pedobear
 end
 
 
