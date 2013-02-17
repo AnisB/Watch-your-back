@@ -193,7 +193,7 @@ function Gameplay:update(dt)
 	if StopScroll then 
 		self.scrolledDistance = 0
 	else
-		self.scrolledDistance = self.scrolledDistance+dt*200+self.timeelapsed/100
+		self.scrolledDistance = self.scrolledDistance+dt*200+self.timeelapsed/5
 	end
 
 	self.background:update(dt)
@@ -218,7 +218,7 @@ function Gameplay:update(dt)
 	 
 	 	 
 	 	p.pc.body:setPosition(x,y)
-	 
+	 self.pedobear:update(dt)
 end
 
 function Gameplay:draw()
