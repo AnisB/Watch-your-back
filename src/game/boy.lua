@@ -1,4 +1,5 @@
 require 'game/anim'
+require 'game/sound'
 
 Boy = {}
 Boy.__index = Boy
@@ -62,6 +63,13 @@ function Boy:getSpeed(  )
 end
 
 function Boy:collideWith( object, collision )
+	if object.bonus then
+		print("WWAAAAAAAH A BONUS !!! =>", object.name)
+		self.gp.playerState:enablePowerUp(object.name)
+		object:delete()
+		Sound.playSound("jet")
+		return
+	end
 	if object.name == "paltform" then
 		self.state = "running"
 	end

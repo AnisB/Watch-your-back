@@ -13,6 +13,7 @@ require("game.sound")
 require("game.backgroundinter1")
 require("game.backgroundinter2")
 require("game.playerstate")
+require("game.bonus")
 Gameplay = {}
 Gameplay.__index = Gameplay
 
@@ -38,6 +39,7 @@ function Gameplay:new()
 	self.speed=100
 	self.timeelapsed=0
 	self.background = Background:new(self)
+	self.cron = require('game.cron')
 	self.proxbackground = ProxBackground:new(self)
 	self.backgroundinter1 = BackgroundInter1:new(self)
 	self.backgroundinter2 = BackgroundInter2:new(self)
@@ -58,6 +60,16 @@ function Gameplay:new()
 	-- Foreground (red filter)
 	self.foreground = Foreground:new(255, 0, 0)
 
+	-- Bonuses
+	self.bonuses = {}
+	local function popBonus()
+		local choice = math.random(1, #Bonus.NUMANIMS)
+		choice = Bonus.NUMANIMS[choice]
+		Bonus.new(self, self.bonuses, choice.name)
+		self.cron.after(math.random(1, 3), popBonus)
+	end
+	self.cron.after(math.random(1, 3), popBonus)
+
 	self.firstRun=true
 	
 	-- counter teleport --
@@ -70,6 +82,7 @@ function Gameplay:new()
 	self.flyingActive=false
 	
 	self.invincibleActive=false
+
 	return self
 end
 
@@ -170,6 +183,7 @@ function Gameplay:update(dt)
 	self.environment:update(dt)
 	self.scrolledDistance=self.scrolledDistance+dt*200+self.timeelapsed/100
 	self.background:update(dt)
+	self.cron.update(dt)
 	self.backgroundinter1:update(dt)
 	self.backgroundinter2:update(dt)
 	self.proxbackground:update(dt)
@@ -184,6 +198,9 @@ function Gameplay:draw()
 	self.backgroundinter1:draw()
 	self.backgroundinter2:draw()
 	p:draw()
+	for i=1, #self.bonuses do
+		self.bonuses[i]:draw()
+	end
 	self.pedobear:draw()
 	self.foreground:draw()
 	-- Draw the HUD (obviously at the end)
