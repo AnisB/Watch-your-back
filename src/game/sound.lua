@@ -73,7 +73,11 @@ Sound.preload = function (name,isLoop)
 	end
 	local path = Sound.SOUND_ROOT..name..'.ogg'
 	local src = love.audio.newSource(path)
-	src:setVolume(MUSIC_VOLUME)
 	src:setLooping(isLoop)
+	if name == "themeprincipal" then
+		src:setLooping(true)
+		src:seek(math.random(0, 100), "seconds")
+	end
+	src:setVolume(MUSIC_VOLUME)
 	Sound.sources[name] = src
 end
