@@ -22,13 +22,20 @@ UTILISATION :
 --]]--
 
 MUSIC_VOLUME = 0.5
+Sound.isPaused = false
 
 Sound.play = function ()
-	if Sound.currentMusic then Sound.currentMusic:play() end
+	if Sound.currentMusic then 
+		Sound.currentMusic:play()
+		Sound.isPaused = false
+	end
 end
 
 Sound.pause = function ()
-	if Sound.currentMusic then Sound.currentMusic:pause() end
+	if Sound.currentMusic then 
+		Sound.currentMusic:pause() 
+		Sound.isPaused = true
+	end
 end
 
 Sound.stop = function ()

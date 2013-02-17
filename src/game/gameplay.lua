@@ -148,8 +148,8 @@ function Gameplay:update(dt)
 	
 	
 	if self.firstRun then
-	Sound.playMusic("themeprincipal")
-	self.firstRun =false
+		Sound.playMusic("themeprincipal")
+		self.firstRun =false
 	end
 
 	--here we are going to create some keyboard events
@@ -162,6 +162,14 @@ function Gameplay:update(dt)
 	end
 	if love.keyboard.isDown("z") or love.keyboard.isDown("w") or love.keyboard.isDown(" ") then --press the left arrow key to push the ball to the left
 		p:jump()
+	end
+
+	if love.keyboard.isDown("m") then
+		if Sound.isPaused then
+			Sound.play()
+		else
+			Sound.pause()
+		end
 	end
 
 	p:update(dt)
