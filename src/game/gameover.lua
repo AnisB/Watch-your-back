@@ -4,9 +4,10 @@ Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 
 GameOver = {}
 GameOver.__index = GameOver
-function GameOver:new()
+function GameOver:new(gameplay)
     local self = {}
     setmetatable(self, GameOver)
+    self.gp = gameplay
     self.background = love.graphics.newImage(ImgDirectory.."gameover.png")
     return self
 end
