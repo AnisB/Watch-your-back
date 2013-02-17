@@ -129,12 +129,14 @@ function Gameplay:update(dt)
 	if self.playerState.currentPowerUp ~= 'bombe' and (love.keyboard.isDown("z") or love.keyboard.isDown("w") or love.keyboard.isDown(" ")) then --press the left arrow key to push the ball to the left
 		p:jump()
 	end
-	if self.playerState.currentPowerUp == 'bombe' or love.keyboard.isDown("s") then
-		p:down()
+	if self.playerState.currentPowerUp == 'bombe' then
+		p:still()
 	elseif love.keyboard.isDown("d") then --press the right arrow key to push the ball to the right
 		p:right()
 	elseif love.keyboard.isDown("q") or love.keyboard.isDown("a") then --press the left arrow key to push the ball to the left
 		p:left()
+	elseif love.keyboard.isDown("s") then
+		p:down()
 	else 
 		p:still()
 	end
@@ -171,7 +173,7 @@ function Gameplay:update(dt)
 		x=	1023 + self.scrolledDistance
 		p.pc.body:setPosition(x,y)
 	end
-	if (x - self.scrolledDistance)< 0 then
+	if (x - self.scrolledDistance)< 0 or y > love.graphics:getHeight()+20 then
 		gameState:changeState('GameOver')
 		Sound.playMusic("berceuse")
 	end
