@@ -2,7 +2,7 @@
 Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 ]]
 
-
+require('game.sound')
 
 Pedobear = {}
 Pedobear.__index = Pedobear
@@ -16,7 +16,11 @@ function Pedobear:new(platforms, imageSet, scrollOffset)
 end
 
 function Pedobear:update(dt)
-
+	local b =math.random(1,1500)
+	
+	if(b ==2) then
+		Sound.playSound('pedo')
+	end
 end
 
 function Pedobear:draw()

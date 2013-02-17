@@ -118,6 +118,9 @@ function Gameplay:update(dt)
 		p:right()
 	elseif love.keyboard.isDown("q") or love.keyboard.isDown("a") then --press the left arrow key to push the ball to the left
 		p:left()
+	elseif love.keyboard.isDown("s") then
+		p:down()
+		print "DOWN"
 	else 
 		p:still()
 	end
@@ -141,7 +144,7 @@ function Gameplay:update(dt)
 	if StopScroll then 
 		self.scrolledDistance = 0
 	else
-		self.scrolledDistance = self.scrolledDistance+dt*200+self.timeelapsed/100
+		self.scrolledDistance = self.scrolledDistance+dt*200+self.timeelapsed/5
 	end
 
 	self.background:update(dt)
@@ -152,21 +155,21 @@ function Gameplay:update(dt)
 	self.playerState:update()
 	self.foreground:setAlphaFromDangerLevel(self.playerState.dangerLevel)
 	
-		 local x,y = p:getPos()
-	 if (x- self.scrolledDistance)> 1024 then
-	 	x=	1023 + self.scrolledDistance
-	 end
-	 if (x- self.scrolledDistance)< 0 then
-	 	gameState:changeState('GameOver')
-	 end
-	 
-	 if y<-400 then
-	 	y=-399
-	 end
-	 
-	 	 
-	 	p.pc.body:setPosition(x,y)
-	 
+	local x,y = p:getPos()
+	if (x- self.scrolledDistance)> 1024 then
+		x=	1023 + self.scrolledDistance
+	end
+	if (x- self.scrolledDistance)< 0 then
+		gameState:changeState('GameOver')
+	end
+
+	if y<-400 then
+		y=-399
+	end
+
+
+	p.pc.body:setPosition(x,y)
+	self.pedobear:update(dt)
 end
 
 function Gameplay:draw()
