@@ -12,8 +12,7 @@ function GameOver:new()
 end
 
 function GameOver:mousePressed(x, y, button)
-	gameState:changeState('Menu')
-	Sound.playMusic("berceuse")
+	-- love.event.push("quit")
 end
 
 function GameOver:mouseReleased(x, y, button)

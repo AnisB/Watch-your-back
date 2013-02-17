@@ -235,6 +235,8 @@ end
 
 function Boy:draw()
 	local x, y = self:getPos()
+	local coeff_size = 1
+	coeff_size = coeff_size / 4
 	x = x - self.gp.scrolledDistance
 
 	if self.mode == "c" then
@@ -253,21 +255,21 @@ function Boy:draw()
 		end
 	end
 	if self.invincibleEnabled then
-		love.graphics.draw(self.anim:getSprite(), x, y-140,0, 0.5,0.5)
-		return
+		coeff_size = coeff_size * 2
+		y = y - 130
 	end
 	
 	if self.teleportEnabled and self.isTeleporing then
 		if 	self.animState then
 			self.animState= not self.animState
-			love.graphics.draw(self.teleport1, x, y,0, 0.25,0.25)
+			love.graphics.draw(self.teleport1, x, y,0, coeff_size,coeff_size)
 			return 
 		else 
-			love.graphics.draw(self.teleport1, x, y,0, 0.25,0.25)
+			love.graphics.draw(self.teleport1, x, y,0, coeff_size,coeff_size)
 			return
 		end
 	end
 	
-	love.graphics.draw(self.anim:getSprite(), x, y,0, 0.25,0.25)
+	love.graphics.draw(self.anim:getSprite(), x, y,0, coeff_size,coeff_size)
 
 end

@@ -66,9 +66,9 @@ function Gameplay:new()
 		local choice = math.random(1, #Bonus.NUMANIMS)
 		choice = Bonus.NUMANIMS[choice]
 		Bonus.new(self, self.bonuses, choice.name)
-		self.cron.after(math.random(5, 15), popBonus)
+		self.cron.after(math.random(12, 15), popBonus)
 	end
-	self.cron.after(math.random(5, 15), popBonus)
+	self.cron.after(math.random(12, 15), popBonus)
 
 	self.firstRun=true
 
