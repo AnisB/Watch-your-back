@@ -9,7 +9,7 @@ function Background:new(gameplay)
     self.bgsize = 2000
     setmetatable(self,Background)
     self.gp = gameplay
-    self.backs ={ImgDirectory.."firstbg.png", ImgDirectory.."secondbg.png"}
+    self.backs ={ImgDirectory.."firstbg.png", ImgDirectory.."firstbg.png"}
     self.nbBG=2
     self.back1 = love.graphics.newImage(self.backs[1])
     self.back2 = love.graphics.newImage(self.backs[2])
