@@ -58,6 +58,7 @@ function PlayerState:enableInvincible()
 end
 
 function PlayerState:enablePowerUp(powerUp)
+	self:disablePowerUp()
 	if powerUp == 'teleport' then
 		self:enableTeleport()
 	elseif powerUp == 'flying' then
