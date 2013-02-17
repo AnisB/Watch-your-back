@@ -105,13 +105,14 @@ function Gameplay:enableTeleport()
 	self.teleportActive=true
 	self.timerT=10
 	p:enableTeleport(true)
+	self:disableGravity()
 end
 
 function Gameplay:enableFlying()
 	self.flyingActive=true
 	self.timerFlying=10
 	p:enableFlying(true)
-	world:setGravity(0.0, 0.0)
+	self:disableGravity()
 	end
 function Gameplay:enableInvincible()
 	print("Enable Invincible")
@@ -120,6 +121,13 @@ function Gameplay:enableInvincible()
 	p:enableInvincible(true)
 end
 
+function Gameplay:disableGravity(  )
+	world:setGravity(0.0, 0.0)
+end
+
+function Gameplay:enableGravity(  )
+	world:setGravity(0.0, GRAVITY*PHY_METER_RATIO)	
+end
 
 function Gameplay:update(dt)
 	if self.teleportActive then
@@ -127,6 +135,7 @@ function Gameplay:update(dt)
 		if  self.timerT<=0 then
 			p:enableTeleport(false)
 			self.teleportActive=false
+			self:enableGravity()
 		end
 	end
 	if self.invincibleActive then
@@ -143,7 +152,7 @@ function Gameplay:update(dt)
 		if self.timerFlying<=0 then
 			p:enableFlying(false)
 			self.flyingActive=false
-			world:setGravity(0.0, GRAVITY*PHY_METER_RATIO)
+			self:enableGravity()
 		end
 	end 
 	
