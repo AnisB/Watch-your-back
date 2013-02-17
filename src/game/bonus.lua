@@ -4,9 +4,10 @@ Bonus = {}
 Bonus.__index = Bonus
 
 Bonus.ANIMS = {
-	flying = {number = 2, interval = 0.3, live = 10, name = "flying"},
-	invincible = {number = 1, interval = 0.3, live = 10, name = "invincible"},
-	teleport = {number = 2, interval = 0.3, live = 10, name = "teleport"}
+	flying = {number = 2, interval = 0.3, live = 4, name = "flying"},
+	invincible = {number = 1, interval = 99, live = 4, name = "invincible"},
+	teleport = {number = 2, interval = 0.3, live = 4, name = "teleport"},
+	bombe = {number = 1, interval = 99, live = 10, name = "bombe", malus = true}
 }
 
 Bonus.NUMANIMS = {}
@@ -20,13 +21,14 @@ function Bonus.new(gameplay, bonuses, name)
 	-- >>>>> Initialisation des attributs :
 	self.gp = gameplay
 	self.bonuses = bonuses
-
-	self.pos = {x = 800 + self.gp.scrolledDistance, y = 100}
+	local x_calc = math.random(600 + self.gp.scrolledDistance, 1200 + self.gp.scrolledDistance)
+	self.pos = {x = x_calc, y = 0}
 	self.w = 36
 	self.h = 36
 	self.bonus = true
 	self.name = name
-	self.anim = AnimStupid.new(name, Bonus.ANIMS[name].number)
+	self.details = Bonus.ANIMS[name]
+	self.anim = AnimStupid.new(name, self.details.number)
 
 	-- Physics Component (pc)
 	self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.R, self.pos.x, self.pos.y, false, {width=self.w, height=self.h})
@@ -36,11 +38,11 @@ function Bonus.new(gameplay, bonuses, name)
 	self.pc.fixture:setUserData(self)
 	-- >>>>> Initialisation end
 
-	self.update_cronid = self.gp.cron.every(Bonus.ANIMS[name].interval, function()
+	self.update_cronid = self.gp.cron.every(self.details.interval, function()
 		self.anim:next()
 	end)
 
-	self.delete_cronid = self.gp.cron.after(Bonus.ANIMS[name].live, function()
+	self.delete_cronid = self.gp.cron.after(self.details.live, function()
 		self:delete()
 	end)
 

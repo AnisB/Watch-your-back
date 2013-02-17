@@ -89,7 +89,11 @@ function Boy:collideWith( object, collision )
 		print("WWAAAAAAAH A BONUS !!! =>", object.name)
 		-- self.gp.playerState:enablePowerUp(object.name)
 		object:delete()
-		Sound.playSound("jet")
+		if not object.details.malus then
+			Sound.playSound("buff")
+		else
+			Sound.playSound("malus")
+		end
 		return
 	end
 	if object.name == "paltform" then
@@ -121,6 +125,7 @@ end
 
 function Boy:teleport( x,y )
 	self.isTeleporing=true
+	Sound.playSound("teleportation")
 	self.timeT=0.15
 	self.pc.body:setPosition(x,y)
 end
