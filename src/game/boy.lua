@@ -15,6 +15,8 @@ goLeftSpeed = -100
 stdUpPulse = -4 -- beyond other, this is used to avoid rectangle hitbox-related bugs
 goDownSpeed = 100
 flyingUpSpeed = -100
+jumpingGoLeftSpeed = goLeftSpeed * 0.5
+jumpingGoRightSpeed = goRightSpeed * 0.5
 
 -- Those are used to calibrate the actual sprite display with respect 
 JUMP_IMPULSE = -110
@@ -192,11 +194,19 @@ function Boy:enableInvincible(enabled)
 end
 
 function Boy:left( )
-	self.speed.x = goLeftSpeed
+	if self.state == "jumping" then
+		self.speed.x = jumpingGoLeftSpeed
+	else
+		self.speed.x = goLeftSpeed
+	end
 end
 
 function Boy:right(  )
-	self.speed.x = goRightSpeed
+	if self.state == "jumping" then
+		self.speed.x = jumpingGoRightSpeed
+	else
+		self.speed.x = goRightSpeed
+	end
 end
 
 function Boy:down(  )
