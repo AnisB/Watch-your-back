@@ -119,6 +119,14 @@ function Boy:teleport( x,y )
 	self.pc.body:setPosition(x,y)
 end
 
+function Boy:disableUpPulse(  )
+	self.upPulse = 0.0
+end
+
+function Boy:enableUpPulse(  )
+	self.upPulse = stdUpPulse
+end
+
 function Boy:enableTeleport(value)
 	if value then
 		self:loadAnimation('teleport',true)
