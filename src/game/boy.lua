@@ -11,7 +11,9 @@ Boy.INIT_Y = 300
 stdSpeed = 0
 goRightSpeed = 140
 goLeftSpeed = -100
-stdUpForce = -2 -- beyond other, this is used to avoid rectangle hitbox-related bugs
+stdUpPulse = -2 -- beyond other, this is used to avoid rectangle hitbox-related bugs
+goDownSpeed = 100
+flyingUpSpeed = -100
 
 -- Those are used to calibrate the actual sprite display with respect 
 JUMP_IMPULSE = -130
@@ -28,7 +30,8 @@ function Boy.new(gameplay)
 	self.w = 110
 	self.h = 155
 	-- self.r = 90
-	self.speed = {x = stdSpeed, y = stdUpForce}
+	self.speed = {x = stdSpeed, y = 0.0}
+	self.upPulse = stdUpPulse
 	self.state = "running"
 	self.anim = Anim.new('boy')
 	self.mode = "r"
@@ -66,16 +69,14 @@ function Boy.new(gameplay)
 end
 
 function Boy:jump()
-
-	if self.state ~= "jumping" and self.jumpTimer >= JUMP_SAFE_DELAY then
+	if self.state == "running" and self.jumpTimer >= JUMP_SAFE_DELAY then
 		self.jumpTimer = 0
 		self.pc.body:applyLinearImpulse(0, JUMP_IMPULSE)
 		self.state = "jumping"
-		if self.teleportEnabled or self.flyingEnabled then
-		else
 		self:loadAnimation("startjumping",true)
-		end
 		self.loopJump=true
+	elseif self.state == "flying" then
+		self.speed.x = flyingUpSpeed
 	end
 end
 
@@ -109,6 +110,7 @@ end
 
 function Boy:still(  )
 	self.speed.x = stdSpeed
+	self.speed.y = 0.0
 end
 
 function Boy:teleport( x,y )
@@ -121,25 +123,28 @@ function Boy:enableTeleport(value)
 	if value then
 		self:loadAnimation('teleport',true)
 		Sound.playMusic('themetele')
+		self.state = "teleporting"
 	else
 		self:loadAnimation('running',true)
 		Sound.playMusic('themeprincipal')
-
+		self.state = "running"
 	end
 	self.teleportEnabled= value
 end
 
-function Boy:enableFlying(value)
-	if value then
+function Boy:enableFlying(enabled)
+	if enabled then
 		Sound.playMusic('themevol')
 		self:loadAnimation('invincible',true)
-
+		self.upPulse = 0
+		self.state = "flying"
 	else
 		self:loadAnimation('running',true)
 		Sound.playMusic('themeprincipal')
-
+		self.upPulse = stdUpPulse
+		self.state = "running"
 	end
-	self.flyingEnabled= value
+	self.flyingEnabled= enabled
 end
 
 function Boy:enableInvincible(enabled)
@@ -161,6 +166,10 @@ function Boy:right(  )
 	self.speed.x = goRightSpeed
 end
 
+function Boy:down(  )
+	self.speed.y = goDownSpeed
+end
+
 -- Just an alias for getPosition()
 function Boy:getPos()
 	return self:getPosition()
@@ -176,8 +185,8 @@ end
 
 function Boy:update(seconds)
 	self.jumpTimer = self.jumpTimer + seconds
-	self.pc.body:applyForce(self.speed.x, 0)
-	self.pc.body:applyLinearImpulse(0.0, stdUpForce)
+	self.pc.body:applyForce(self.speed.x, self.speed.y)
+	self.pc.body:applyLinearImpulse(0.0, self.upPulse)
 	self.anim:update(seconds)
 	self.timeT = self.timeT-seconds
 	if self.timeT <= 0 then
