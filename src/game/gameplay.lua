@@ -144,7 +144,7 @@ function Gameplay:update(dt)
 	if StopScroll then 
 		self.scrolledDistance = 0
 	else
-		self.scrolledDistance = self.scrolledDistance+dt*200+self.timeelapsed/5
+		self.scrolledDistance = self.scrolledDistance+dt*100+self.timeelapsed/5
 	end
 
 	self.background:update(dt)
