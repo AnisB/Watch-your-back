@@ -5,9 +5,9 @@ Bonus.__index = Bonus
 
 Bonus.ANIMS = {
 	flying = {number = 2, interval = 0.3, live = 4, name = "flying"},
-	invincible = {number = 1, interval = 99, live = 4, name = "invincible"},
+	invincible = {number = 2, interval = 0.3, live = 4, name = "invincible"},
 	teleport = {number = 2, interval = 0.3, live = 4, name = "teleport"},
-	bombe = {number = 1, interval = 99, live = 10, name = "bombe", malus = true}
+	bombe = {number = 2, interval = 0.3, live = 10, name = "bombe", malus = true}
 }
 
 Bonus.NUMANIMS = {}
@@ -23,8 +23,8 @@ function Bonus.new(gameplay, bonuses, name)
 	self.bonuses = bonuses
 	local x_calc = math.random(600 + self.gp.scrolledDistance, 1200 + self.gp.scrolledDistance)
 	self.pos = {x = x_calc, y = 0}
-	self.w = 36
-	self.h = 36
+	self.w = 50
+	self.h = 50
 	self.bonus = true
 	self.name = name
 	self.details = Bonus.ANIMS[name]
@@ -66,7 +66,7 @@ function Bonus:draw()
 	local spr = self.anim:getSprite()
 	local x, y = self.pc.body:getPosition()
 	x = x - self.gp.scrolledDistance
-	love.graphics.draw(spr, x, y)
+	love.graphics.draw(spr, x, y, 0, 0.5, 0.5)
 end
 
 function Bonus:getSpeed()

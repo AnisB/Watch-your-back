@@ -8,6 +8,7 @@ require("game.gameplay")
 require("game.gameover")
 require("game.tutorial")
 require("game.highscore")
+require("game.sound")
 
 GameState = {}
 GameState.__index = GameState
@@ -23,6 +24,7 @@ function GameState:new()
         HighScore = HighScore.new{}
     }
 	self.currentState='Menu'
+    Sound.playMusic("berceuse")
 	return self
 end
 
