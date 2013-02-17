@@ -35,7 +35,7 @@ function ProxBackground:update(dt)
 	 	self.done =true
 	 	print("new detected")
 	end
-	if math.abs(self.nx-self.myScrolled)<5 and self.done  then
+	if self.nx-self.myScrolled<0 and self.done  then
 		self.drawNext=false
 		self.cx=self.nx
 		self.currentbgnum=((self.currentbgnum+1)% self.nbBG)

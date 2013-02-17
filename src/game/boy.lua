@@ -115,7 +115,10 @@ end
 function Boy:enableFlying(value)
 	if value then
 		Sound.playMusic('themevol')
+		self:loadAnimation('invincible',true)
+
 	else
+		self:loadAnimation('running',true)
 		Sound.playMusic('themeprincipal')
 
 	end
