@@ -160,7 +160,6 @@ function Gameplay:update(dt)
 	if StopScroll then 
 		self.scrolledDistance = 0
 	else
-		print("COEFF VALUE == ", self.coeff_value)
 		self.scrolledDistance = self.scrolledDistance + dt*100 + self.timeelapsed*self.coeff_value
 	end
 
