@@ -106,7 +106,6 @@ function Boy:collideWith( object, collision )
 		return
 	end
 	if object.name == "paltform" then
-		print "Colliding with a paltform"
 		if self.state == "jumping" then -- Are we able to reset the jumping state back to the running state ?
 			local x, y = self:getPosition()
 			local x2, y2 = object:getPosition()
@@ -181,8 +180,6 @@ function Boy:enableFlying(enabled)
 end
 
 function Boy:enableInvincible(enabled)
-	print "EN_INV"
-
 	if enabled then
 		Sound.playMusic('themeinv')
 		self.pc.fixture:setDensity(0.0)
