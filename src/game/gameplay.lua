@@ -170,6 +170,7 @@ function Gameplay:update(dt)
 	end
 	if (x- self.scrolledDistance)< 0 then
 		gameState:changeState('GameOver')
+		Sound.playMusic("berceuse")
 	end
 
 	if y<-400 then

@@ -7,11 +7,13 @@ GameOver.__index = GameOver
 function GameOver:new()
     local self = {}
     setmetatable(self, GameOver)
+    self.background = love.graphics.newImage(ImgDirectory.."gameover.png")
     return self
 end
 
 function GameOver:mousePressed(x, y, button)
-
+	gameState:changeState('Menu')
+	Sound.playMusic("berceuse")
 end
 
 function GameOver:mouseReleased(x, y, button)
@@ -32,6 +34,6 @@ function GameOver:update(dt)
 	end
 end
 
-function GameOver.draw()
-
+function GameOver:draw()
+	love.graphics.draw(self.background, 0, 0)
 end
