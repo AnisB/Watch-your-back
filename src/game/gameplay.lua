@@ -66,9 +66,9 @@ function Gameplay:new()
 		local choice = math.random(1, #Bonus.NUMANIMS)
 		choice = Bonus.NUMANIMS[choice]
 		Bonus.new(self, self.bonuses, choice.name)
-		self.cron.after(math.random(1, 3), popBonus)
+		self.cron.after(math.random(5, 15), popBonus)
 	end
-	self.cron.after(math.random(1, 3), popBonus)
+	self.cron.after(math.random(5, 15), popBonus)
 
 	self.firstRun=true
 
@@ -99,6 +99,15 @@ end
 function Gameplay:keyReleased(key, unicode)
 end
 
+function Gameplay:disableGravity(  )
+	world:setGravity(0.0, 0.0)
+	p:disableUpPulse()
+end
+
+function Gameplay:enableGravity(  )
+	world:setGravity(0.0, GRAVITY*PHY_METER_RATIO)
+	p:enableUpPulse()
+end
 
 function Gameplay:update(dt)
 	if self.playerState.currentPowerUp ~= nil then
@@ -161,6 +170,7 @@ function Gameplay:update(dt)
 	end
 	if (x- self.scrolledDistance)< 0 then
 		gameState:changeState('GameOver')
+		Sound.playMusic("berceuse")
 	end
 
 	if y<-400 then

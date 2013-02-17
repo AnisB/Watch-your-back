@@ -12,12 +12,12 @@ Boy.INIT_Y = 300
 stdSpeed = 0
 goRightSpeed = 140
 goLeftSpeed = -100
-stdUpPulse = -2 -- beyond other, this is used to avoid rectangle hitbox-related bugs
+stdUpPulse = -4 -- beyond other, this is used to avoid rectangle hitbox-related bugs
 goDownSpeed = 100
 flyingUpSpeed = -100
 
 -- Those are used to calibrate the actual sprite display with respect 
-JUMP_IMPULSE = -130
+JUMP_IMPULSE = -110
 drawingOffsetX = 0
 drawingOffsetY = 0
 JUMP_SAFE_DELAY = 0.09
@@ -33,10 +33,11 @@ function Boy.new(gameplay)
 	-- self.r = 90
 	self.speed = {x = stdSpeed, y = 0.0}
 	self.upPulse = stdUpPulse
-	self.state = "running"
+	self:setState("running")
 	self.anim = Anim.new('boy')
 	self.mode = "r"
 	self.jumpTimer = 0
+	self.dtUpPulse = 0.0
 
 	-- Physics Component (pc)
 	if self.mode == "c" then
@@ -73,22 +74,27 @@ function Boy:jump()
 	if self.state == "running" and self.jumpTimer >= JUMP_SAFE_DELAY then
 		self.jumpTimer = 0
 		self.pc.body:applyLinearImpulse(0, JUMP_IMPULSE)
-		self.state = "jumping"
+		self:setState("jumping")
 		self:loadAnimation("startjumping",true)
 		self.loopJump=true
 	elseif self.state == "flying" then
-		self.speed.x = flyingUpSpeed
+		self.speed.y = flyingUpSpeed
 	end
 end
 
+function Boy:setState( state )
+	-- print ("Changing state to " .. state)
+	self.state = state
+end
 function Boy:getSpeed(  )
 	return self.pc.body:getLinearVelocity()
 end
 
 function Boy:collideWith( object, collision )
 	if object.bonus then
-		print("WWAAAAAAAH A BONUS !!! =>", object.name)
+		-- print("WWAAAAAAAH A BONUS !!! =>", object.name)
 		-- self.gp.playerState:enablePowerUp(object.name)
+		self.gp.playerState:enablePowerUp(object.name)
 		object:delete()
 		if not object.details.malus then
 			Sound.playSound("buff")
@@ -99,10 +105,12 @@ function Boy:collideWith( object, collision )
 	end
 	if object.name == "paltform" then
 		print "Colliding with a paltform"
-		local x, y = self:getPosition()
-		local x2, y2 = object:getPosition()
-		if y <= y2 then
-			self.state = "running"
+		if self.state == "jumping" then -- Are we able to reset the jumping state back to the running state ?
+			local x, y = self:getPosition()
+			local x2, y2 = object:getPosition()
+			if y <= y2 then
+				self:setState("running")
+			end
 		end
 	end
 	-- print ("Colliding with", tostring(object))
@@ -141,34 +149,38 @@ function Boy:enableUpPulse(  )
 end
 
 function Boy:enableTeleport(value)
+	print "EN_TP"
 	if value then
 		self:loadAnimation('teleport',true)
 		Sound.playMusic('themetele')
-		self.state = "teleporting"
+		self:setState("teleporting")
 	else
 		self:loadAnimation('running',true)
 		Sound.playMusic('themeprincipal')
-		self.state = "running"
+		self:setState("running")
 	end
 	self.teleportEnabled= value
 end
 
 function Boy:enableFlying(enabled)
+	print "EN_FLY"
 	if enabled then
 		Sound.playMusic('themevol')
 		self:loadAnimation('invincible',true)
 		self.upPulse = 0
-		self.state = "flying"
+		self:setState("flying")
 	else
 		self:loadAnimation('running',true)
 		Sound.playMusic('themeprincipal')
 		self.upPulse = stdUpPulse
-		self.state = "running"
+		self:setState("running")
 	end
 	self.flyingEnabled= enabled
 end
 
 function Boy:enableInvincible(enabled)
+	print "EN_INV"
+
 	if enabled then
 		Sound.playMusic('themeinv')
 		self.pc.fixture:setDensity(0.0)
@@ -206,8 +218,13 @@ end
 
 function Boy:update(seconds)
 	self.jumpTimer = self.jumpTimer + seconds
+	self.dtUpPulse = self.dtUpPulse + seconds
 	self.pc.body:applyForce(self.speed.x, self.speed.y)
-	self.pc.body:applyLinearImpulse(0.0, self.upPulse)
+	self.pc.body:applyLinearImpulse(0.0, 0.0)
+	if self.dtUpPulse > 0.1 then
+		self.dtUpPulse = 0.0
+		self.pc.body:applyLinearImpulse(0.0, self.upPulse)
+	end
 	self.anim:update(seconds)
 	self.timeT = self.timeT-seconds
 	if self.timeT <= 0 then
