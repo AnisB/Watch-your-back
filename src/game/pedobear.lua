@@ -29,7 +29,6 @@ end
 function Pedobear:draw()
 	--bg = love.graphics.newImage.createEmpty(480,272 )
 	--black = Color.new(0,0,0,120)
-	print (self.counter)
 	if self.counter<=30  and self.increase then
 		self.counter = self.counter+1
 	elseif self.counter>0  and self.decrease then 

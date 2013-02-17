@@ -22,7 +22,7 @@ jumpingGoRightSpeed = goRightSpeed * 0.5
 JUMP_IMPULSE = -110
 drawingOffsetX = 0
 drawingOffsetY = 0
-JUMP_SAFE_DELAY = 0.09
+JUMP_SAFE_DELAY = 0.3
 
 function Boy.new(gameplay)
 	local self = {}
