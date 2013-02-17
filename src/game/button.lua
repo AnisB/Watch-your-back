@@ -14,8 +14,6 @@ function Button:new(options)
     self.posy = options.y
     self.sizex = options.sizex
     self.sizey = options.sizey
-    self.cx = 0
-    self.cy = 0
     self.unclicked = love.graphics.newImage(ImgDirectory..options.unclickedb)
     self.clicked = love.graphics.newImage(ImgDirectory..options.clickedb)
     self.isclicked = false
@@ -26,8 +24,6 @@ end
 
 function Button:mousePressed(x, y)
 	if x > self.posx and y > self.posy and x < self.posx+self.sizex and y < self.posy+self.sizey then
-		self.cx = x
-		self.cy = y
 		self.isclicked = true
 	end
 end
@@ -37,18 +33,11 @@ function Button:askReleased(x, y)
 	-- print(self.cx)
 	-- print(self.cy)
 	self.isclicked = false
-	if self.cx == x and self.cy == y then 
-		return true
-	else
-		return false
-	end
+	return x > self.posx and y > self.posy and x < self.posx+self.sizex and y < self.posy+self.sizey
 end
 
 
 function Button:update(dt)
-	if dt > 0.1 then
-		dt = 0.1
-	end
 end
 
 

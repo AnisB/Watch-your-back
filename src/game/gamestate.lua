@@ -17,11 +17,11 @@ function GameState:new()
     local self = {}
     setmetatable(self, GameState)
 	self.state = {}
-    self.state['Menu']      = Menu.new()
-    self.state['Tutorial']  = Tutorial.new()
-    self.state['Gameplay']  = Gameplay.new()
-    self.state['GameOver']  = GameOver.new(self.state.Gameplay)
-    self.state['HighScore'] = HighScore.new()
+    self.state['Menu']      = Menu:new()
+    self.state['Tutorial']  = Tutorial:new()
+    self.state['Gameplay']  = Gameplay:new()
+    self.state['GameOver']  = GameOver:new(self.state.Gameplay)
+    self.state['HighScore'] = HighScore:new()
     self.currentState='Menu'
     Sound.playMusic("berceuse")
 	return self
