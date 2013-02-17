@@ -40,12 +40,14 @@ function PlayerState:enableTeleport()
 	self.currentPowerUp = 'teleport'
 	self.powerUpRemTime = 10
 	p:enableTeleport(true)
+	self.gp:disableGravity()
 end
 
 function PlayerState:enableFlying()
 	self.currentPowerUp = 'flying'
 	self.powerUpRemTime = 10
 	p:enableFlying(true)
+	self.gp:disableGravity()
 end
 
 function PlayerState:enableInvincible()
@@ -68,8 +70,10 @@ end
 function PlayerState:disablePowerUp()
 	if self.currentPowerUp == 'teleport' then
 		p:enableTeleport(false)
+		self.gp.enableGravity()
 	elseif self.currentPowerUp == 'flying' then
 		p:enableFlying(false)
+		self.gp.enableGravity()
 	elseif self.currentPowerUp == 'invicible' then
 		p:enableInvincible(false)
 	end

@@ -99,6 +99,15 @@ end
 function Gameplay:keyReleased(key, unicode)
 end
 
+function Gameplay:disableGravity(  )
+	world:setGravity(0.0, 0.0)
+	p:disableUpPulse()
+end
+
+function Gameplay:enableGravity(  )
+	world:setGravity(0.0, GRAVITY*PHY_METER_RATIO)
+	p:enableUpPulse()
+end
 
 function Gameplay:update(dt)
 	if self.playerState.currentPowerUp ~= nil then
