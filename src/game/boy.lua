@@ -93,6 +93,7 @@ function Boy:collideWith( object, collision )
 	if object.bonus then
 		-- print("WWAAAAAAAH A BONUS !!! =>", object.name)
 		-- self.gp.playerState:enablePowerUp(object.name)
+		self.gp.playerState:enablePowerUp(object.name)
 		object:delete()
 		if not object.details.malus then
 			Sound.playSound("buff")
