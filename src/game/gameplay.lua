@@ -59,23 +59,13 @@ function Gameplay:new()
 	self.foreground = Foreground:new(255, 0, 0)
 
 	self.firstRun=true
-	
-	-- counter teleport --
-	self.timerT = 0
-	self.timerI = 0
-	self.teleportActive=false
-	
-	-- counter flying --
-	self.timerFlying = 0
-	self.flyingActive=false
-	
-	self.invincibleActive=false
+
 	return self
 end
 
 function Gameplay:mousePressed(x, y, button)
-	if self.teleportActive then
-		p:teleport(x+self.scrolledDistance,y)
+	if self.playerState.currentPowerUp == 'teleport' then
+		p:teleport(x+self.scrolledDistance, y)
 	end	
 end
 
@@ -84,72 +74,31 @@ function Gameplay:mouseReleased(x, y, button)
 end
 
 function Gameplay:keyPressed(key, unicode)
-	print("hi")
+	-- print("hi")
 	if key == "t" then
-		self:enableTeleport()
+		self.playerState:enableTeleport()
 	elseif key == "i" then
-		self:enableInvincible()
+		self.playerState:enableInvincible()
+	elseif key == "f" then
+		self.playerState:enableFlying()
 	end
-	if key == "f" then
-		self:enableFlying()
-	end
-	
 end
 
 function Gameplay:keyReleased(key, unicode)
-
-end
-
-
-function Gameplay:enableTeleport()
-	self.teleportActive=true
-	self.timerT=10
-	p:enableTeleport(true)
-end
-
-function Gameplay:enableFlying()
-	self.flyingActive=true
-	self.timerFlying=10
-	p:enableFlying(true)
-	
-	end
-function Gameplay:enableInvincible()
-	print("Enable Invincible")
-	self.invincibleActive=true
-	self.timerI=10
-	p:enableInvincible(true)
 end
 
 
 function Gameplay:update(dt)
-	if self.teleportActive then
-		self.timerT = self.timerT-dt
-		if  self.timerT<=0 then
-			p:enableTeleport(false)
-			self.teleportActive=false
+	if self.playerState.currentPowerUp ~= nil then
+		self.playerState.powerUpRemTime = self.playerState.powerUpRemTime-dt
+		if  self.playerState.powerUpRemTime <= 0 then
+			self.playerState:disablePowerUp()
 		end
 	end
-	if self.invincibleActive then
-		print("invincible active")
-		self.timerI = self.timerI-dt
-		if  self.timerI<=0 then
-			p:enableInvincible(false)
-			self.invincibleActive=false
-		end
-	end 
-	
-	if self.flyingActive then
-		self.timerFlying = self.timerFlying-dt
-		if  self.timerFlying<=0 then
-			p:enableFlying(false)
-			self.flyingActive=false
-		end
-	end 
-	
-	
+
 	if self.firstRun then
-	Sound.playMusic("themeprincipal")
-	self.firstRun =false
+		Sound.playMusic("themeprincipal")
+		self.firstRun = false
 	end
 
 	--here we are going to create some keyboard events

@@ -23,6 +23,7 @@ function PlayerState:new(gameplay)
 	self.dangerLevel = nil
 	self.hp = PLAYERSTATE_LIFES
 	self.lifes = PLAYERSTATE_MAX_HP
+	self.powerUpRemTime = nil
 	self.score = 0
 	self.lastScrolledDist = 0
 
@@ -32,6 +33,48 @@ end
 
 function PlayerState:getScore()
 	return math.floor(self.score)
+end
+
+
+function PlayerState:enableTeleport()
+	self.currentPowerUp = 'teleport'
+	self.powerUpRemTime = 10
+	p:enableTeleport(true)
+end
+
+function PlayerState:enableFlying()
+	self.currentPowerUp = 'flying'
+	self.powerUpRemTime = 10
+	p:enableFlying(true)
+end
+
+function PlayerState:enableInvincible()
+	-- print("Enable Invincible")
+	self.currentPowerUp = 'invicible'
+	self.powerUpRemTime = 10
+	p:enableInvincible(true)
+end
+
+function PlayerState:enablePowerUp(powerUp)
+	if powerUp == 'teleport' then
+		self:enableTeleport()
+	elseif powerUp == 'flying' then
+		self:enableFlying()
+	elseif powerUp == 'invicible' then
+		self.enableInvincible()
+	end
+end
+
+function PlayerState:disablePowerUp()
+	if self.currentPowerUp == 'teleport' then
+		p:enableTeleport(false)
+	elseif self.currentPowerUp == 'flying' then
+		p:enableFlying(false)
+	elseif self.currentPowerUp == 'invicible' then
+		p:enableInvincible(false)
+	end
+	self.currentPowerUp = nil
+	self.powerUpRemTime = nil
 end
 
 

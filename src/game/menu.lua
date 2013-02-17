@@ -1,36 +1,41 @@
 --[[ 
-Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
+Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis et Nechepso
 ]]
 
 require("game.button")
+
+
 Menu = {}
 Menu.__index = Menu
 
 function Menu:new()
     local self = {}
-    setmetatable(self,Menu)
-    self.font = love.graphics.newImage(ImgDirectory.."menubackground.jpg")
-    local options = {x =200,y = 200,sizex=100,sizey=100}
-    self.buttonTut = Button:new(options)
-    local options = {x =200,y = 200,sizex=100,sizey=100}
-	local options2 = {x =400,y = 200,sizex=100,sizey=100}
-    self.buttonGP = Button:new(options2)
+    setmetatable(self, Menu)
+
+    self.background = love.graphics.newImage(ImgDirectory.."menubackground.png")
+    local options = {x=675, y=250, sizex=240, sizey=80, unclickedb='unclickedb_tut.png', clickedb='clickedb_tut.png'}
+    self.buttonTuto = Button:new(options)
+    options = {x=675, y=330, sizex=240, sizey=80, unclickedb='unclickedb_gp.png', clickedb='clickedb_gp.png'}
+    self.buttonGame = Button:new(options)
+
     return self
 end
 
+
 function Menu:mousePressed(x, y, button)
 	-- print(x,y)
-	self.buttonTut:mousePressed(x, y)
-	self.buttonGP:mousePressed(x, y)
+	self.buttonTuto:mousePressed(x, y)
+	self.buttonGame:mousePressed(x, y)
 end
 
 function Menu:mouseReleased(x, y, button)
-	if self.buttonTut:askReleased(x, y) then
+	if self.buttonTuto:askReleased(x, y) then
 		gameState:changeState('Tutorial')
-	elseif self.buttonGP:askReleased(x, y) then
+	elseif self.buttonGame:askReleased(x, y) then
 		gameState:changeState('Gameplay')
 	end
 end
+
 
 function Menu:keyPressed(key, unicode)
 end
@@ -38,15 +43,16 @@ end
 function Menu:keyReleased(key, unicode)
 end
 
+
 function Menu:update(dt)
 	if dt > 0.1 then
 		dt = 0.1
 	end
-
 end
 
+
 function Menu:draw()
-	love.graphics.draw(self.font,0,0)
-	self.buttonTut:draw()
-	self.buttonGP:draw()
+	love.graphics.draw(self.background, 0, 0)
+	self.buttonTuto:draw()
+	self.buttonGame:draw()
 end
