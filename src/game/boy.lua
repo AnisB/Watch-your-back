@@ -96,6 +96,16 @@ function Boy:enableTeleport(value)
 	end
 	self.teleportEnabled= value
 end
+
+function Boy:enableInvincible(value)
+	if value then
+		Sound.playMusic('themetele')
+	else
+		Sound.playMusic('themeprincipal')
+	end
+	self.invincibleEnabled= value
+end
+
 function Boy:left( )
 	self.speed.x = slowerSpeed
 end
@@ -132,7 +142,11 @@ function Boy:draw()
 	-- print ("boyX=", x)
 	-- print ("scroll=", self.gp.scrolledDistance)
 	-- print ("Boy is currently at x, y = ", x, y)
-	love.graphics.draw(self.anim:getSprite(), x, y-130,0, 0.1,0.1)
+	if self.invincibleEnabled then
+		love.graphics.draw(self.anim:getSprite(), x, y-260,0, 0.2,0.2)
+	else
+		love.graphics.draw(self.anim:getSprite(), x, y-130,0, 0.1,0.1)
+	end
 	
 	if self.teleportEnabled and self.isTeleporing then
 		if 	self.animState then

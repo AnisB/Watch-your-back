@@ -69,7 +69,9 @@ function Gameplay:new()
 	
 	-- counter teleport --
 	self.timerT = 0
+	self.timerI = 0
 	self.teleportActive=false
+	self.invincibleActive=false
 	return self
 end
 
@@ -87,6 +89,8 @@ function Gameplay:keyPressed(key, unicode)
 	print("hi")
 	if key == "t" then
 		self:enableTeleport()
+	elseif key == "i" then
+		self:enableInvincible()
 	end
 end
 
@@ -101,6 +105,14 @@ function Gameplay:enableTeleport()
 	self.timerT=10
 	p:enableTeleport(true)
 end
+
+function Gameplay:enableInvincible()
+	print("Enable Invincible")
+	self.invincibleActive=true
+	self.timerI=10
+	p:enableInvincible(true)
+end
+
 function Gameplay:update(dt)
 	if self.teleportActive then
 		print("active")
@@ -108,6 +120,14 @@ function Gameplay:update(dt)
 		if  self.timerT<=0 then
 			p:enableTeleport(false)
 			self.teleportActive=false
+		end
+	end
+	if self.invincibleActive then
+		print("invincible active")
+		self.timerI = self.timerI-dt
+		if  self.timerI<=0 then
+			p:enableInvincible(false)
+			self.invincibleActive=false
 		end
 	end 
 	if self.firstRun then
