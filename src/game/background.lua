@@ -43,6 +43,7 @@ function Background:update(dt)
 		self.currentbgnum=((self.currentbgnum+1)% self.nbBG)
 		self.currentBg=self.nextBg
 	end
+
 end
 
 function Background:draw()

@@ -1,4 +1,5 @@
 require 'game/anim'
+require 'game/sound'
 
 Boy = {}
 Boy.__index = Boy
@@ -9,13 +10,15 @@ Boy.INIT_X = 100
 Boy.INIT_Y = 300
 
 stdSpeed = 0
-fasterSpeed = 120
-slowerSpeed = -100
+goRightSpeed = 140
+goLeftSpeed = -100
+stdUpForce = -2 -- beyond other, this is used to avoid rectangle hitbox-related bugs
 
 -- Those are used to calibrate the actual sprite display with respect 
-drawingOffsetX = -45
-drawingOffsetY = -52
 JUMP_IMPULSE = -130
+drawingOffsetX = 0
+drawingOffsetY = 0
+JUMP_SAFE_DELAY = 0.09
 
 function Boy.new(gameplay)
 	local self = {}
@@ -23,18 +26,30 @@ function Boy.new(gameplay)
 	-- >>>>> Initialisation des attributs :
 	self.gp = gameplay
 	self.pos = {x = 700, y = 300}
-	-- self.w = 50
-	-- self.h = 220
-	self.r = 90
-	self.speed = {x = stdSpeed, y = 0}
+	self.w = 110
+	self.h = 155
+	-- self.r = 90
+	self.speed = {x = stdSpeed, y = stdUpForce}
 	self.state = "running"
 	self.anim = Anim.new('boy')
+	self.mode = "r"
+	self.jumpTimer = 0
 
 	-- Physics Component (pc)
-	self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.C, self.pos.x, self.pos.y, false, {r=self.r})
-	self.pc.body:setLinearDamping(0.1)
+	if self.mode == "c" then
+		drawingOffsetX = -45
+		drawingOffsetY = -52
+
+		self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.C, self.pos.x, self.pos.y, false, {r=self.r})
+	else
+		drawingOffsetX = -115
+		drawingOffsetY = -105
+
+		self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.R, self.pos.x, self.pos.y, false, {width=self.w, height=self.h})
+	end
+	self.pc.body:setLinearDamping(0.3)
 	self.pc.body:setMass(0.15)
-	self.pc.fixture:setFriction(0.0)
+	self.pc.fixture:setFriction(0.7)
 	self.pc.fixture:setRestitution(0.0) --let the PhysicsComponent bounce
 	self.pc.fixture:setUserData(self)
 	-- >>>>> Initialisation end
@@ -53,7 +68,8 @@ end
 
 function Boy:jump()
 
-	if self.state ~= "jumping" then
+	if self.state ~= "jumping" and self.jumpTimer >= JUMP_SAFE_DELAY then
+		self.jumpTimer = 0
 		self.pc.body:applyLinearImpulse(0, JUMP_IMPULSE)
 		self.state = "jumping"
 		if self.teleportEnabled or self.flyingEnabled then
@@ -69,6 +85,17 @@ function Boy:getSpeed(  )
 end
 
 function Boy:collideWith( object, collision )
+	if object.bonus then
+		print("WWAAAAAAAH A BONUS !!! =>", object.name)
+		-- self.gp.playerState:enablePowerUp(object.name)
+		object:delete()
+		if not object.details.malus then
+			Sound.playSound("buff")
+		else
+			Sound.playSound("malus")
+		end
+		return
+	end
 	if object.name == "paltform" then
 		print "Colliding with a paltform"
 		local x, y = self:getPosition()
@@ -76,10 +103,6 @@ function Boy:collideWith( object, collision )
 		if y <= y2 then
 			self.state = "running"
 		end
-	end
-	if self.loopJump then
-		self:loadAnimation("landing",true)
-		self.loopJump=false
 	end
 	-- print ("Colliding with", tostring(object))
 	if self.loopJump and not self.teleportEnabled and not self.flyingEnabled then
@@ -102,6 +125,7 @@ end
 
 function Boy:teleport( x,y )
 	self.isTeleporing=true
+	Sound.playSound("teleportation")
 	self.timeT=0.15
 	self.pc.body:setPosition(x,y)
 end
@@ -121,7 +145,10 @@ end
 function Boy:enableFlying(value)
 	if value then
 		Sound.playMusic('themevol')
+		self:loadAnimation('invincible',true)
+
 	else
+		self:loadAnimation('running',true)
 		Sound.playMusic('themeprincipal')
 
 	end
@@ -140,11 +167,11 @@ function Boy:enableInvincible(enabled)
 end
 
 function Boy:left( )
-	self.speed.x = slowerSpeed
+	self.speed.x = goLeftSpeed
 end
 
 function Boy:right(  )
-	self.speed.x = fasterSpeed
+	self.speed.x = goRightSpeed
 end
 
 -- Just an alias for getPosition()
@@ -161,9 +188,11 @@ function Boy:loadAnimation(anim, force)
 end
 
 function Boy:update(seconds)
+	self.jumpTimer = self.jumpTimer + seconds
 	self.pc.body:applyForce(self.speed.x, 0)
+	self.pc.body:applyLinearImpulse(0.0, stdUpForce)
 	self.anim:update(seconds)
-	self.timeT= self.timeT-seconds
+	self.timeT = self.timeT-seconds
 	if self.timeT <= 0 then
 		self.isTeleporing = false
 	end
@@ -173,11 +202,21 @@ end
 function Boy:draw()
 	local x, y = self:getPos()
 	x = x - self.gp.scrolledDistance
-	x = x - self.r/2 + drawingOffsetX
-	y = y - self.r/2 + drawingOffsetY
+
+	if self.mode == "c" then
+		x = x - self.r/2 + drawingOffsetX
+		y = y - self.r/2 + drawingOffsetY
+	else
+		x = x + drawingOffsetX
+		y = y + drawingOffsetY
+	end
 
     if ShowHitBoxes then
-	    love.graphics.circle("fill", self.pc.body:getX(), self.pc.body:getY(), self.pc.shape:getRadius())
+    	if self.mode == "c" then
+	    	love.graphics.circle("fill", self.pc.body:getX(), self.pc.body:getY(), self.pc.shape:getRadius())
+	    else
+			love.graphics.rectangle("fill", self.pc.body:getX()-self.w/2, self.pc.body:getY()-self.h/2, self.w, self.h)
+		end
 	end
 	if self.invincibleEnabled then
 		love.graphics.draw(self.anim:getSprite(), x, y-140,0, 0.5,0.5)
