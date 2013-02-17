@@ -63,6 +63,7 @@ PlatformSet.__index = PlatformSet
 tileSize = 50
 tileOffsetX = 0
 tileOffsetY = 0
+tilesMapHeight = 12
 
 function PlatformSet.new(setnb, scrollOffset)
 	local self = {}
@@ -72,15 +73,22 @@ function PlatformSet.new(setnb, scrollOffset)
 	self.width = tileSize * #sets[setnb][1]
 	self.platforms = {}
 
+	
 	for y,platformLine in ipairs(sets[setnb]) do
 		for x,platform in ipairs(platformLine) do
 			if platform ~= N then
-				table.insert(self.platforms, Platform.new(
+				local p = Platform.new(
 					self.scrollOffset + (x-1) * tileSize, --minx
 					(y-1) * tileSize, -- miny
 					tileSize,
 					ImageSet[platform]
-				))
+				)
+				if y == tilesMapHeight then 
+					p.isGround = true
+				else 
+					p.isGround = false
+				end
+				table.insert(self.platforms, p)
 			end
 		end
 	end

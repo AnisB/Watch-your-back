@@ -243,6 +243,14 @@ function Boy:update(seconds)
 
 end
 
+function Boy:preSolve( other, contact )
+	if self.invincibleEnabled then -- when invicible
+		if other.name and other.name == "paltform" and other.isGround == false then -- and not a collision about the ground
+			contact:setEnabled(false) -- then pass through it
+		end
+	end
+end
+
 function Boy:draw()
 	local x, y = self:getPos()
 	local coeff_size = 1

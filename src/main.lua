@@ -66,12 +66,16 @@ function endContact(a, b, coll)
 end
 
 function preSolve(a, b, coll)
-    if persisting == 0 then    -- only say when they first start touching
-        -- print ("\n"..tostring(a:getUserData()).." touching "..tostring(b:getUserData()))
-    elseif persisting < 20 then    -- then just start counting
-        -- print (" "..persisting)
+    local o1 = a:getUserData()
+    local o2 = b:getUserData()
+
+    if o1.preSolve then
+    	o1:preSolve(o2, coll)
     end
-    persisting = persisting + 1    -- keep track of how many updates they've been touching for
+
+    if o2.preSolve then
+    	o2:preSolve(o1, coll)
+    end
 end
 
 function postSolve(a, b, coll)
@@ -91,7 +95,6 @@ function love.mousereleased(x, y, button)
 end
 
 function love.keypressed(key, unicode)
-	print("trolo")
 	if key == "escape" then
 		love.event.push("quit")
 	end
