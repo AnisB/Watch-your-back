@@ -20,7 +20,7 @@ function GameState:new()
     self.state['Menu']      = Menu.new()
     self.state['Tutorial']  = Tutorial.new()
     self.state['Gameplay']  = Gameplay.new()
-    self.state['GameOver']  = GameOver.new(self.Gameplay)
+    self.state['GameOver']  = GameOver.new(self.state.Gameplay)
     self.state['HighScore'] = HighScore.new()
     self.currentState='Menu'
     Sound.playMusic("berceuse")
