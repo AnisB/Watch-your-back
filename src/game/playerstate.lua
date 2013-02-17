@@ -61,9 +61,9 @@ function PlayerState:updateScore()
 	local xSpeed, _ = p:getSpeed()
 	local speedBonus = 0
 	if xSpeed > 0 and xSpeed < 1/0 then -- Check if player speed is not infinite (you can't be sure with floats...)
-		speedBonus = xSpeed / 100
+		speedBonus = xSpeed / 100 -- speed / divisor of speed => speedBonus
 	end
-	self.score = self.score + (1+speedBonus) * (self.gp.scrolledDistance-self.lastScrolledDist) / 100
+	self.score = self.score + (1+speedBonus) * (self.gp.scrolledDistance-self.lastScrolledDist) / 100 -- Formula that takes into account player speed to increase faster the score
 	self.lastScrolledDist = self.gp.scrolledDistance
 end
 

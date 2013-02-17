@@ -5,6 +5,9 @@ Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis et Nechepso
 require('strict')
 
 
+LN2 = math.log(2)
+
+
 Foreground = {}
 Foreground.__index = Foreground
 
@@ -22,7 +25,7 @@ end
 
 
 function Foreground:setAlphaFromDangerLevel(dangerLevel)
-	self.a = math.floor(190 * dangerLevel / 100)
+	self.a = math.min(192, math.floor(192 * math.exp((dangerLevel/10 - 8) * LN2) / 1.5)) -- Augment in an exp way the red level when the player get to close to the pedobear
 end
 
 
