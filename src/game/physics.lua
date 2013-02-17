@@ -3,19 +3,26 @@ world = nil
 
 PhysicsComponent = {}
 
-PhysicsComponent['ShapeType'] = { C=1, P=2, R=3 }
+PhysicsComponent['ShapeType'] = { C=1, R=3 }
 
 PhysicsComponent.__index = PhysicsComponent
 
 function PhysicsComponent.new(shape_type, x, y, isStatic, options)
 	local pc = {}						 -- our new object
 	setmetatable(pc, PhysicsComponent)	-- make PhysicsComponent handle lookup
+	local width, height
 	if shape_type == PhysicsComponent.ShapeType.C then
 		pc.shape = love.physics.newCircleShape(options.r)
+		height = options.r
+		width = options.r
+		x = x + options.r
+		y = y - options.r
 	elseif shape_type == PhysicsComponent.ShapeType.R then
 		pc.shape = love.physics.newRectangleShape(options.width, options.height)
-	elseif shape_type == PhysicsComponent.ShapeType.P then
-		pc.shape = love.physics.newPolygonShape(options.points)
+		height = options.height
+		width = options.width
+		x = (width+x*2)/2
+		y = y+height/2
 	else -- If not in the constants. return nil together with an error
 		print "ERROR, wrong shape_type passed to PhysicsComponent"
 		print ("Value passed: " .. shape_type)

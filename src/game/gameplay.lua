@@ -161,17 +161,14 @@ function Gameplay:update(dt)
 	
 	
 	if self.firstRun then
-	Sound.playMusic("themeprincipal")
-	self.firstRun =false
+		Sound.playMusic("themeprincipal")
+		self.firstRun =false
 	end
-	
-	p:update(dt)
-	world:update(dt) --this puts the world into motion
 
 	--here we are going to create some keyboard events
 	if love.keyboard.isDown("d") then --press the right arrow key to push the ball to the right
 		p:right()
-	elseif love.keyboard.isDown("q") or  love.keyboard.isDown("a") then --press the left arrow key to push the ball to the left
+	elseif love.keyboard.isDown("q") or love.keyboard.isDown("a") then --press the left arrow key to push the ball to the left
 		p:left()
 	else 
 		p:still()
@@ -179,9 +176,26 @@ function Gameplay:update(dt)
 	if love.keyboard.isDown("z") or love.keyboard.isDown("w") or love.keyboard.isDown(" ") then --press the left arrow key to push the ball to the left
 		p:jump()
 	end
+
+	if love.keyboard.isDown("m") then
+		if Sound.isPaused then
+			Sound.play()
+		else
+			Sound.pause()
+		end
+	end
+
+	p:update(dt)
+	world:update(dt) --this puts the world into motion
+	
 	self.timeelapsed=self.timeelapsed+dt
 	self.environment:update(dt)
-	self.scrolledDistance=self.scrolledDistance+dt*200+self.timeelapsed/100
+	if StopScroll then 
+		self.scrolledDistance = 0
+	else
+		self.scrolledDistance = self.scrolledDistance+dt*200+self.timeelapsed/100
+	end
+
 	self.background:update(dt)
 	self.cron.update(dt)
 	self.backgroundinter1:update(dt)
@@ -189,6 +203,22 @@ function Gameplay:update(dt)
 	self.proxbackground:update(dt)
 	self.playerState:update()
 	self.foreground:setAlphaFromDangerLevel(self.playerState.dangerLevel)
+	
+		 local x,y = p:getPos()
+	 if (x- self.scrolledDistance)> 1024 then
+	 	x=	1023 + self.scrolledDistance
+	 end
+	 if (x- self.scrolledDistance)< 0 then
+	 	gameState:changeState('GameOver')
+	 end
+	 
+	 if y<-400 then
+	 	y=-399
+	 end
+	 
+	 	 
+	 	p.pc.body:setPosition(x,y)
+	 
 end
 
 function Gameplay:draw()

@@ -13,12 +13,12 @@ sets = {
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
 		{N,N,N,Y,Y,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
 		{N,N,N,N,N,Y,N,Y,N,N,N,Y,N,N,N,N,N,N,N,N,N,N},
-		{N,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,N,N,N,N,N,N,N},
-		{N,N,N,N,N,N,N,N,Y,N,N,N,N,N,N,N,N,N,N,N,N,N},
+		{N,N,N,N,N,N,N,Y,Y,N,Y,N,N,N,N,N,N,N,N,N,N,N},
+		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
+		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,Y,N,N,N},
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
-		{Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y},
 		{Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y}
 	},
 	{
@@ -27,18 +27,18 @@ sets = {
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
-		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
-		{Y,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
-		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
+		{Y,N,N,N,N,N,N,N,Y,N,N,N,N,N,N,N,N,N,N,N,N,N},
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
 		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
-		{Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y},
+		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
+		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
+		{N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N},
 		{Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y}
 	}
 }
 ImgDirectory = 'img/'
 ImageSet = {
-	love.graphics.newImage( ImgDirectory .. "block1.png")
+	love.graphics.newImage(ImgDirectory.."plateforme.png")
 }
 
 
@@ -62,8 +62,8 @@ function PlatformSet.new(setnb, scrollOffset)
 		for x,platform in ipairs(platformLine) do
 			if platform ~= N then
 				table.insert(self.platforms, Platform.new(
-					scrollOffset + (x-1)*tileSize - tileOffsetX, --minx
-					(y-1)*tileSize - tileOffsetY, -- miny
+					self.scrollOffset + (x-1) * tileSize, --minx
+					(y-1) * tileSize, -- miny
 					tileSize,
 					ImageSet[platform]
 				))

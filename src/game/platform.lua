@@ -11,7 +11,7 @@ function Platform.new(minx, miny, tileSize, sprite)
 
 	self.sprite = sprite
 	self.tileSize = tileSize
-	print ("Creating a new platform bloc at x=", minx)
+	-- print ("Creating a new platform bloc at x=", minx)
 	self.minx = minx
 	self.miny = miny
 	self.name = "paltform"
@@ -53,12 +53,22 @@ function Platform:update(dt)
 end
 
 function Platform:draw(scrolledDistance)
+	-- print(scrolledDistance)
 	local x,y = self:getPosition()
-	love.graphics.draw(self.sprite, x - scrolledDistance, y)
+	-- print(x, y)
+	
+	love.graphics.draw(self.sprite, x - scrolledDistance - 33, y-45, 0, 0.7, 0.7)
+	if ShowHitBoxes then
+		love.graphics.rectangle("fill", self.pc.body:getX()-tileSize/2, self.pc.body:getY()-tileSize/2, tileSize, tileSize)
+	end
+
 end
 
 function Platform:getPosition()
-	return self.pc.body:getPosition()
+	local x, y = self.pc.body:getPosition()
+	x = x - self.tileSize/2
+	y = y - self.tileSize/2
+	return x,y
 end
 
 function Platform:destroy()
