@@ -15,6 +15,7 @@ slowerSpeed = -100
 -- Those are used to calibrate the actual sprite display with respect 
 drawingOffsetX = -45
 drawingOffsetY = -52
+JUMP_IMPULSE = -130
 
 function Boy.new(gameplay)
 	local self = {}
@@ -53,7 +54,7 @@ end
 function Boy:jump()
 
 	if self.state ~= "jumping" then
-		self.pc.body:applyLinearImpulse(0, -100)
+		self.pc.body:applyLinearImpulse(0, JUMP_IMPULSE)
 		self.state = "jumping"
 		if self.teleportEnabled or self.flyingEnabled then
 		else
@@ -69,7 +70,12 @@ end
 
 function Boy:collideWith( object, collision )
 	if object.name == "paltform" then
-		self.state = "running"
+		print "Colliding with a paltform"
+		local x, y = self:getPosition()
+		local x2, y2 = object:getPosition()
+		if y <= y2 then
+			self.state = "running"
+		end
 	end
 	if self.loopJump then
 		self:loadAnimation("landing",true)
@@ -144,7 +150,12 @@ function Boy:right(  )
 	self.speed.x = fasterSpeed
 end
 
+-- Just an alias for getPosition()
 function Boy:getPos()
+	return self:getPosition()
+end
+
+function Boy:getPosition(  )
 	return self.pc.body:getPosition()
 end
 
@@ -156,8 +167,8 @@ function Boy:update(seconds)
 	self.pc.body:applyForce(self.speed.x, 0)
 	self.anim:update(seconds)
 	self.timeT= self.timeT-seconds
-	if self.timeT<=0 then
-		self.isTeleporing=false
+	if self.timeT <= 0 then
+		self.isTeleporing = false
 	end
 
 end
@@ -168,8 +179,9 @@ function Boy:draw()
 	x = x - self.r/2 + drawingOffsetX
 	y = y - self.r/2 + drawingOffsetY
 
-	-- love.graphics.setColor(72, 160, 14) -- set the drawing color to green for the ground
- --  love.graphics.circle("fill", self.pc.body:getX(), self.pc.body:getY(), self.pc.shape:getRadius())
+    if ShowHitBoxes then
+	    love.graphics.circle("fill", self.pc.body:getX(), self.pc.body:getY(), self.pc.shape:getRadius())
+	end
 	if self.invincibleEnabled then
 		love.graphics.draw(self.anim:getSprite(), x, y-140,0, 0.5,0.5)
 		return
