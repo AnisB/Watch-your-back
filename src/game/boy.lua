@@ -100,13 +100,15 @@ function Boy:enableTeleport(value)
 	self.teleportEnabled= value
 end
 
-function Boy:enableInvincible(value)
-	if value then
+function Boy:enableInvincible(enabled)
+	if enabled then
 		Sound.playMusic('themetele')
+		this.pc.body.setDensity(0.0)
 	else
+		this.pc.body.setDensity(1.0)
 		Sound.playMusic('themeprincipal')
 	end
-	self.invincibleEnabled= value
+	self.invincibleEnabled = enabled
 end
 
 function Boy:left( )
