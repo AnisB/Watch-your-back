@@ -11,7 +11,7 @@ Boy.INIT_Y = 300
 stdSpeed = 0
 goRightSpeed = 140
 goLeftSpeed = -100
-stdUpForce = -20
+stdUpForce = -2 -- beyond other, this is used to avoid rectangle hitbox-related bugs
 
 -- Those are used to calibrate the actual sprite display with respect 
 JUMP_IMPULSE = -130
@@ -176,7 +176,8 @@ end
 
 function Boy:update(seconds)
 	self.jumpTimer = self.jumpTimer + seconds
-	self.pc.body:applyForce(self.speed.x, self.speed.y)
+	self.pc.body:applyForce(self.speed.x, 0)
+	self.pc.body:applyLinearImpulse(0.0, stdUpForce)
 	self.anim:update(seconds)
 	self.timeT = self.timeT-seconds
 	if self.timeT <= 0 then
