@@ -28,8 +28,8 @@ function Button:mousePressed(x, y)
 end
 
 function Button:askReleased(x, y)
-	print(self.cx)
-	print(self.cy)
+	-- print(self.cx)
+	-- print(self.cy)
 	self.isclicked=false
 	if self.cx==x and self.cy==y then 
 		return true

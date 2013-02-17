@@ -9,6 +9,8 @@ require("game.platform_set")
 Environment = {}
 Environment.__index = Environment
 
+WEIRD_CONSTANT = 1100 -- if someone is able to document that... !
+
 function Environment:new(gameplay)
 	self.gp = gameplay
 	local self = {}
@@ -18,7 +20,7 @@ function Environment:new(gameplay)
 
 	self.myScrooled =0
 	self.cx= 0 -- cx = Current X
-	self.nx=1050 -- nx = Next X
+	self.nx=WEIRD_CONSTANT -- nx = Next X
 	self.nextPL = 2
 	self.currentPL = 1
 	
@@ -47,25 +49,26 @@ end
 function Environment:update(dt)
 
 	self.myScrolled=self.gp.scrolledDistance
-	if (self.myScrolled+1024 -self.nbBlocs*1050)>1050 and not self.done then		
+	if (self.myScrolled+1024 -self.nbBlocs*WEIRD_CONSTANT)>WEIRD_CONSTANT and not self.done then		
 		self.drawNext=true
-		self.nx=self.cx+1050
-		self.nextPL=math.random(1, PlatformSet.getNbSets())
-		self.nextPlatformSet =PlatformSet.new(self.nextPL, self.gp.scrolledDistance+1050)
+		self.nx=self.cx+WEIRD_CONSTANT
+		self.nextPL = math.random(1, PlatformSet.getNbSets())
+		-- print (math.random(1, PlatformSet.getNbSets()))
+		-- print("nbsets", PlatformSet.getNbSets())
+		-- print ("npl", self.nextPL)
+		self.nextPlatformSet = PlatformSet.new(self.nextPL, self.gp.scrolledDistance+WEIRD_CONSTANT)
 		self.done = true
-		print("newB detected")
-
+		-- print "a"
 	end
 	if self.nx-self.myScrolled<0 and self.done  then
 		self.drawNext=false
 		self.cx=self.nx
 		self.currentBg=self.nextBg
 		self.currentPlatformSet:destroy()
-		self.currentPlatformSet =self.nextPlatformSet
+		self.currentPlatformSet = self.nextPlatformSet
 		self.done = false
 		self.nbBlocs =self.nbBlocs+1
-		print("newB replaced")
-
+		-- print "b"
 	end
 end
 
@@ -73,6 +76,7 @@ function Environment:draw()
 	-- Platforms
 		self.currentPlatformSet:draw(self.gp.scrolledDistance)
 		if self.drawNext then
+			-- print "pouet"
 			self.nextPlatformSet:draw(self.gp.scrolledDistance)
 		end
 end

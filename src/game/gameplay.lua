@@ -99,9 +99,9 @@ function Gameplay:update(dt)
 	p:update(dt)
 	world:update(dt) --this puts the world into motion
 	
-	self.timeelapsed=self.timeelapsed +dt
+	self.timeelapsed=self.timeelapsed + dt
 	self.environment:update(dt)
-	self.scrolledDistance=0 -- math.floor(self.scrolledDistance+dt*200+self.timeelapsed/100)
+	self.scrolledDistance = math.floor(self.scrolledDistance+dt*200+self.timeelapsed/100)
 	self.background:update(dt)
 	self.proxbackground:update(dt)
 	self.playerState:update()

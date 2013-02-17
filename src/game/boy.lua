@@ -9,8 +9,12 @@ Boy.INIT_X = 100
 Boy.INIT_Y = 300
 
 stdSpeed = 0
-fasterSpeed = 100
-slowerSpeed = -70
+fasterSpeed = 120
+slowerSpeed = -100
+
+-- Those are used to calibrate the actual sprite display with respect 
+drawingOffsetX = -45
+drawingOffsetY = -52
 
 function Boy.new(gameplay)
 	local self = {}
@@ -18,16 +22,17 @@ function Boy.new(gameplay)
 	-- >>>>> Initialisation des attributs :
 	self.gp = gameplay
 	self.pos = {x = 700, y = 300}
-	-- self.w = 20
-	-- self.h = 50
-	self.r = 60
+	-- self.w = 50
+	-- self.h = 220
+	self.r = 90
 	self.speed = {x = stdSpeed, y = 0}
 	self.state = "running"
 	self.anim = Anim.new('boy')
 
 	-- Physics Component (pc)
 	self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.C, self.pos.x, self.pos.y, false, {r=self.r})
-	self.pc.body:setLinearDamping(0.5)
+	self.pc.body:setLinearDamping(0.1)
+	self.pc.body:setMass(0.15)
 	self.pc.fixture:setFriction(0.0)
 	self.pc.fixture:setRestitution(0.0) --let the PhysicsComponent bounce
 	self.pc.fixture:setUserData(self)
@@ -37,7 +42,7 @@ end
 
 function Boy:jump()
 	if self.state ~= "jumping" then
-		self.pc.body:applyLinearImpulse(0, -200)
+		self.pc.body:applyLinearImpulse(0, -100)
 		self.state = "jumping"
 	end
 end
@@ -50,8 +55,8 @@ function Boy:collideWith( object, collision )
 	if object.name == "paltform" then
 		self.state = "running"
 	end
-	local x, y = object:getPosition()
-	print ("Colliding with ", tostring(object.name), x, y)
+	-- local x, y = object:getPosition()
+	-- print ("Colliding with ", tostring(object.name), x, y)
 end
 
 function Boy:unCollideWith( object, collision )
@@ -87,8 +92,8 @@ end
 function Boy:draw()
 	local x, y = self:getPos()
 	x = x - self.gp.scrolledDistance
-	-- print ("boyX=", x)
-	-- print ("scroll=", self.gp.scrolledDistance)
-	-- print ("Boy is currently at x, y = ", x, y)
-	love.graphics.draw(self.anim:getSprite(), x, y-70,0, 0.1,0.1)
+	love.graphics.draw(self.anim:getSprite(), x - self.r/2 + drawingOffsetX, y - self.r/2 + drawingOffsetY, 0, 0.1,0.1)
+
+	-- love.graphics.setColor(72, 160, 14) -- set the drawing color to green for the ground
+ --  love.graphics.circle("fill", self.pc.body:getX(), self.pc.body:getY(), self.pc.shape:getRadius())
 end
