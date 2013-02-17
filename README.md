@@ -4,7 +4,8 @@ Watch your back !
 *I, I, I, I, I, I, I love little girls, they make me feel so good !*
 
 Liens directs vers les exécutables (Google Drive):
-  - [Windows 64bits](https://docs.google.com/file/d/0Bxjt3WwQHQ9SWDVtSi14V0QyVVE/edit?usp=sharing)
+  - [Windows 64bits](https://docs.google.com/file/d/0Bxjt3WwQHQ9SWDVtSi14V0QyVVE/edit?usp=sharing) (version n-1)
+  - [Windows 32bits](https://docs.google.com/file/d/0B1FCwfjQ36ZuYnRTbS0teWFoTWs/edit?usp=sharing) (dernière version)
   - [GNU/Linux](https://docs.google.com/file/d/0BxYClymxAQoadl9XcEtTSE1pRVk/edit?usp=sharing)
   - [Fichier .love (multiplateforme)](https://docs.google.com/file/d/0BxYClymxAQoaRUlFTjEtS3M2SHc/edit?usp=sharing)
 
