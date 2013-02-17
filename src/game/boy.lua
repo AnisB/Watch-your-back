@@ -92,10 +92,6 @@ function Boy:collideWith( object, collision )
 			self.state = "running"
 		end
 	end
-	if self.loopJump then
-		self:loadAnimation("landing",true)
-		self.loopJump=false
-	end
 	-- print ("Colliding with", tostring(object))
 	if self.loopJump and not self.teleportEnabled and not self.flyingEnabled then
 		self:loadAnimation("landing",true)
@@ -136,7 +132,10 @@ end
 function Boy:enableFlying(value)
 	if value then
 		Sound.playMusic('themevol')
+		self:loadAnimation('invincible',true)
+
 	else
+		self:loadAnimation('running',true)
 		Sound.playMusic('themeprincipal')
 
 	end
