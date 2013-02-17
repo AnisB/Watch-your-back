@@ -181,6 +181,22 @@ function Gameplay:update(dt)
 	self.proxbackground:update(dt)
 	self.playerState:update()
 	self.foreground:setAlphaFromDangerLevel(self.playerState.dangerLevel)
+	
+		 local x,y = p:getPos()
+	 if (x- self.scrolledDistance)> 1024 then
+	 	x=	1023 + self.scrolledDistance
+	 end
+	 if (x- self.scrolledDistance)< 0 then
+	 	gameState:changeState('GameOver')
+	 end
+	 
+	 if y<-400 then
+	 	y=-399
+	 end
+	 
+	 	 
+	 	p.pc.body:setPosition(x,y)
+	 
 end
 
 function Gameplay:draw()

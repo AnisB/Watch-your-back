@@ -21,7 +21,7 @@ UTILISATION :
 
 --]]--
 
-MUSIC_VOLUME = 0.05
+MUSIC_VOLUME = 0.5
 
 Sound.play = function ()
 	if Sound.currentMusic then Sound.currentMusic:play() end
