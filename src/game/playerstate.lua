@@ -20,11 +20,17 @@ function PlayerState:new(gameplay)
 
 	self.gp = gameplay
 	self.currentPowerUp = nil
-	self.hp = 100 -- TODO: Use the conf variable `t.gameplay.max_hp' instead
-	self.lifes = 3 -- TODO: Use the conf variable `t.gameplay.lifes' instead
+	self.hp = PLAYERSTATE_LIFES
+	self.lifes = PLAYERSTATE_MAX_HP
 	self.score = 0
+	self.lastScrolledDist = 0
 
 	return self
+end
+
+
+function PlayerState:getScore()
+	return math.floor(self.score)
 end
 
 
@@ -33,14 +39,23 @@ function PlayerState:killPlayer()
 	self.hp = 0
 end
 
+
 function PlayerState:useNextLife()
 	self.lifes = self.lifes - 1
 	self.hp = 100 -- TODO: Use the conf variable `t.gameplay.max_hp' instead
 end
 
+
 function PlayerState:updateScore()
-	self.score = self.gp.scrolledDistance
+	local xSpeed, _ = p:getSpeed()
+	local speedBonus = 0
+	if xSpeed > 0 and xSpeed < 1/0 then -- Check if player speed is not infinite (you can't be sure with floats...)
+		speedBonus = xSpeed / 100
+	end
+	self.score = self.score + (1+speedBonus) * (self.gp.scrolledDistance-self.lastScrolledDist) / 100
+	self.lastScrolledDist = self.gp.scrolledDistance
 end
+
 
 function PlayerState:update()
 	self:updateScore()
