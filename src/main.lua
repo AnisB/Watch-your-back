@@ -88,20 +88,17 @@ function love.mousereleased(x, y, button)
 end
 
 function love.keypressed(key, unicode)
+	print("trolo")
 	if key == "escape" then
 		love.event.push("quit")
-    else
-		gameState:keyPressed(key, unicode)
 	end
+	gameState:keyPressed(key, unicode)
 end
 
 function love.keyreleased(key, unicode)
 end
 
 function love.update(dt)
-	if dt > 0.1 then
-		dt = 0.1
-	end
 	gameState:update(dt)
 end	
 

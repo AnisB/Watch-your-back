@@ -37,6 +37,16 @@ function Boy.new(gameplay)
 	self.pc.fixture:setRestitution(0.0) --let the PhysicsComponent bounce
 	self.pc.fixture:setUserData(self)
 	-- >>>>> Initialisation end
+	
+	
+	self.teleportEnabled=false
+	self.loopJump=false
+	self.isTeleporing=false
+	self.timeT=0
+	self.animState=true
+	
+	self.teleport1 = love.graphics.newImage(ImgDirectory.."teleport/teleport1.png")
+	self.teleport2 = love.graphics.newImage(ImgDirectory.."teleport/teleport2.png")
 	return self
 end
 
@@ -44,6 +54,8 @@ function Boy:jump()
 	if self.state ~= "jumping" then
 		self.pc.body:applyLinearImpulse(0, -100)
 		self.state = "jumping"
+		self:loadAnimation("startjumping",true)
+		self.loopJump=true
 	end
 end
 
@@ -55,16 +67,46 @@ function Boy:collideWith( object, collision )
 	if object.name == "paltform" then
 		self.state = "running"
 	end
-	-- local x, y = object:getPosition()
-	-- print ("Colliding with ", tostring(object.name), x, y)
+	if self.loopJump then
+		self:loadAnimation("landing",true)
+		self.loopJump=false
+	end
 end
 
 function Boy:unCollideWith( object, collision )
-	-- body
+		if self.loopJump then
+			self:loadAnimation("landing",true)
+			self.loopJump=false
+		end
 end
 
 function Boy:still(  )
 	self.speed.x = stdSpeed
+end
+
+function Boy:teleport( x,y )
+	self.isTeleporing=true
+	self.timeT=0.15
+	self.pc.body:setPosition(x,y)
+end
+
+function Boy:enableTeleport(value)
+	if value then
+		Sound.playMusic('themetele')
+	else
+		Sound.playMusic('themeprincipal')
+
+	end
+	self.teleportEnabled= value
+end
+
+function Boy:enableInvincible(value)
+	if value then
+		Sound.playMusic('themetele')
+	else
+		Sound.playMusic('themeprincipal')
+	end
+	self.invincibleEnabled= value
 end
 
 function Boy:left( )
@@ -86,14 +128,33 @@ end
 function Boy:update(seconds)
 	self.pc.body:applyForce(self.speed.x, 0)
 	self.anim:update(seconds)
+	self.timeT= self.timeT-seconds
+	if self.timeT<=0 then
+		self.isTeleporing=false
+	end
 
 end
 
 function Boy:draw()
 	local x, y = self:getPos()
 	x = x - self.gp.scrolledDistance
-	love.graphics.draw(self.anim:getSprite(), x - self.r/2 + drawingOffsetX, y - self.r/2 + drawingOffsetY, 0, 0.1,0.1)
+	x = x - self.r/2 + drawingOffsetX
+	y = y - self.r/2 + drawingOffsetY
 
 	-- love.graphics.setColor(72, 160, 14) -- set the drawing color to green for the ground
  --  love.graphics.circle("fill", self.pc.body:getX(), self.pc.body:getY(), self.pc.shape:getRadius())
+	if self.invincibleEnabled then
+		love.graphics.draw(self.anim:getSprite(), x, y-260,0, 0.2,0.2)
+	else
+		love.graphics.draw(self.anim:getSprite(), x, y-130,0, 0.1,0.1)
+	end
+	
+	if self.teleportEnabled and self.isTeleporing then
+		if 	self.animState then
+			self.animState= not self.animState
+			love.graphics.draw(self.teleport1, x, y-130,0, 0.1,0.1)
+		else
+			love.graphics.draw(self.teleport1, x, y-130,0, 0.1,0.1)
+		end
+	end
 end
