@@ -11,6 +11,7 @@ GameOver.__index = GameOver
 function GameOver:new(gameplay)
     local self = {}
     setmetatable(self, GameOver)
+    print(gameplay)
     self.gp = gameplay
     self.background = love.graphics.newImage(ImgDirectory.."gameover.png")
 
@@ -38,5 +39,6 @@ end
 
 function GameOver:draw()
 	love.graphics.draw(self.background, 0, 0)
-	Hud.drawScore(self.gp.playerState:getScore(), 60, 60)
+	print(self.gp)
+	Hud.drawScore(self.gp.playerState:getScore(), 575, 510)
 end
