@@ -21,6 +21,8 @@ end
 function Hud:draw()
 	local r, g, b, a = love.graphics.getColor()
 	love.graphics.setColor(0, 255, 0, 255)
-	love.graphics.print(self.gp.playerState.score, 10, 10)
+
+	love.graphics.print(self.gp.playerState:getScore(), 10, 10)
+
 	love.graphics.setColor(r, g, b, a)
 end

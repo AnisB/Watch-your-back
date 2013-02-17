@@ -114,6 +114,15 @@ function Boy:enableFlying(value)
 end
 
 
+function Boy:enableInvincible(value)
+	if value then
+		Sound.playMusic('themeinv')
+	else
+		Sound.playMusic('themeprincipal')
+	end
+	self.invincibleEnabled= value
+end
+
 function Boy:left( )
 	self.speed.x = slowerSpeed
 end
@@ -150,18 +159,22 @@ function Boy:draw()
 	-- print ("boyX=", x)
 	-- print ("scroll=", self.gp.scrolledDistance)
 	-- print ("Boy is currently at x, y = ", x, y)
+	if self.invincibleEnabled then
+		love.graphics.draw(self.anim:getSprite(), x, y-270,0, 0.5,0.5)
+		return
+	end
 	
 	if self.teleportEnabled and self.isTeleporing then
 		if 	self.animState then
 			self.animState= not self.animState
-			love.graphics.draw(self.teleport1, x, y-130,0, 0.1,0.1)
+			love.graphics.draw(self.teleport1, x, y-130,0, 0.25,0.25)
 			return 
 		else 
-			love.graphics.draw(self.teleport1, x, y-130,0, 0.1,0.1)
+			love.graphics.draw(self.teleport1, x, y-130,0, 0.25,0.25)
 			return
 		end
 	end
 	
-	love.graphics.draw(self.anim:getSprite(), x, y-130,0, 0.1,0.1)
+	love.graphics.draw(self.anim:getSprite(), x, y-130,0, 0.25,0.25)
 
 end

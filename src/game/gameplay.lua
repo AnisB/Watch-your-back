@@ -20,13 +20,6 @@ function Gameplay:new()
 	setmetatable(self, Gameplay)
 	p = Boy.new(self)
 
-	--the background for our scene
-	self.scene = love.graphics.newImage("bg.png")
-	-- the character we will be moving around
-	self.person = love.graphics.newImage("dude.jpg")
-	-- an object to move around
-	self.object = love.graphics.newImage("ball.jpg")
-
 
 	-- the character position
 	self.character = {400,400} -- x,y
@@ -65,16 +58,19 @@ function Gameplay:new()
 	
 	-- counter teleport --
 	self.timerT = 0
+	self.timerI = 0
 	self.teleportActive=false
 	
 	-- counter flying --
 	self.timerFlying = 0
 	self.flyingActive=false
+	
+	self.invincibleActive=false
 	return self
 end
 
 function Gameplay:mousePressed(x, y, button)
-if self.teleportActive then
+	if self.teleportActive then
 		p:teleport(x+self.scrolledDistance,y)
 	end	
 end
@@ -87,11 +83,13 @@ function Gameplay:keyPressed(key, unicode)
 	print("hi")
 	if key == "t" then
 		self:enableTeleport()
+	elseif key == "i" then
+		self:enableInvincible()
 	end
-	
 	if key == "f" then
 		self:enableFlying()
 	end
+	
 end
 
 function Gameplay:keyReleased(key, unicode)
@@ -109,7 +107,15 @@ function Gameplay:enableFlying()
 	self.flyingActive=true
 	self.timerFlying=10
 	p:enableFlying(true)
+	
+	end
+function Gameplay:enableInvincible()
+	print("Enable Invincible")
+	self.invincibleActive=true
+	self.timerI=10
+	p:enableInvincible(true)
 end
+
 
 function Gameplay:update(dt)
 	if self.teleportActive then
@@ -117,6 +123,14 @@ function Gameplay:update(dt)
 		if  self.timerT<=0 then
 			p:enableTeleport(false)
 			self.teleportActive=false
+		end
+	end
+	if self.invincibleActive then
+		print("invincible active")
+		self.timerI = self.timerI-dt
+		if  self.timerI<=0 then
+			p:enableInvincible(false)
+			self.invincibleActive=false
 		end
 	end 
 	
