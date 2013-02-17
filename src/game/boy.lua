@@ -125,9 +125,9 @@ end
 function Boy:enableInvincible(enabled)
 	if enabled then
 		Sound.playMusic('themeinv')
-		this.pc.body.setDensity(0.0)
+		self.pc.fixture:setDensity(0.0)
 	else
-		this.pc.body.setDensity(1.0)
+		self.pc.fixture:setDensity(1.0)
 		Sound.playMusic('themeprincipal')
 	end
 	self.invincibleEnabled = enabled
