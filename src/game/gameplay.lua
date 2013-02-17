@@ -94,6 +94,8 @@ function Gameplay:keyPressed(key, unicode)
 		self.playerState:enableInvincible()
 	elseif key == "f" then
 		self.playerState:enableFlying()
+	elseif key == "b" then
+		self.playerState:enableBomb()
 	end
 end
 
@@ -124,18 +126,17 @@ function Gameplay:update(dt)
 	end
 
 	--here we are going to create some keyboard events
-	if love.keyboard.isDown("d") then --press the right arrow key to push the ball to the right
+	if self.playerState.currentPowerUp ~= 'bombe' and (love.keyboard.isDown("z") or love.keyboard.isDown("w") or love.keyboard.isDown(" ")) then --press the left arrow key to push the ball to the left
+		p:jump()
+	end
+	if self.playerState.currentPowerUp == 'bombe' or love.keyboard.isDown("s") then
+		p:down()
+	elseif love.keyboard.isDown("d") then --press the right arrow key to push the ball to the right
 		p:right()
 	elseif love.keyboard.isDown("q") or love.keyboard.isDown("a") then --press the left arrow key to push the ball to the left
 		p:left()
-	elseif love.keyboard.isDown("s") then
-		p:down()
-		print "DOWN"
 	else 
 		p:still()
-	end
-	if love.keyboard.isDown("z") or love.keyboard.isDown("w") or love.keyboard.isDown(" ") then --press the left arrow key to push the ball to the left
-		p:jump()
 	end
 
 	if love.keyboard.isDown("m") then

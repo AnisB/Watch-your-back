@@ -193,6 +193,10 @@ function Boy:enableInvincible(enabled)
 	self.invincibleEnabled = enabled
 end
 
+function Boy:enableBomb(enabled)
+	-- body
+end
+
 function Boy:left( )
 	if self.state == "jumping" then
 		self.speed.x = jumpingGoLeftSpeed
