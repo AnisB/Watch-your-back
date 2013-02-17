@@ -32,7 +32,7 @@ function Boy.new(gameplay)
 	self.pc.fixture:setUserData(self)
 	-- >>>>> Initialisation end
 	
-	
+	self.flyingEnabled = false
 	self.teleportEnabled=false
 	self.loopJump=false
 	self.isTeleporing=false
@@ -45,10 +45,14 @@ function Boy.new(gameplay)
 end
 
 function Boy:jump()
+
 	if self.state ~= "jumping" then
 		self.pc.body:applyLinearImpulse(0, -200)
 		self.state = "jumping"
+		if self.teleportEnabled or self.flyingEnabled then
+		else
 		self:loadAnimation("startjumping",true)
+		end
 		self.loopJump=true
 	end
 end
@@ -62,7 +66,7 @@ function Boy:collideWith( object, collision )
 		self.state = "running"
 	end
 	-- print ("Colliding with", tostring(object))
-		if self.loopJump then
+		if self.loopJump and not self.teleportEnabled and not self.flyingEnabled then
 			self:loadAnimation("landing",true)
 			self.loopJump=false
 		end
@@ -70,10 +74,9 @@ function Boy:collideWith( object, collision )
 end
 
 function Boy:unCollideWith( object, collision )
-		if self.loopJump then
+		if self.loopJump and not self.teleportEnabled and not self.flyingEnabled then
 			self:loadAnimation("landing",true)
 			self.loopJump=false
-
 		end
 end
 
@@ -89,13 +92,28 @@ end
 
 function Boy:enableTeleport(value)
 	if value then
+		self:loadAnimation('teleport',true)
 		Sound.playMusic('themetele')
 	else
+		self:loadAnimation('running',true)
 		Sound.playMusic('themeprincipal')
 
 	end
 	self.teleportEnabled= value
 end
+
+
+function Boy:enableFlying(value)
+	if value then
+		Sound.playMusic('themevol')
+	else
+		Sound.playMusic('themeprincipal')
+
+	end
+	self.flyingEnabled= value
+end
+
+
 function Boy:left( )
 	self.speed.x = slowerSpeed
 end
@@ -132,14 +150,18 @@ function Boy:draw()
 	-- print ("boyX=", x)
 	-- print ("scroll=", self.gp.scrolledDistance)
 	-- print ("Boy is currently at x, y = ", x, y)
-	love.graphics.draw(self.anim:getSprite(), x, y-130,0, 0.1,0.1)
 	
 	if self.teleportEnabled and self.isTeleporing then
 		if 	self.animState then
 			self.animState= not self.animState
 			love.graphics.draw(self.teleport1, x, y-130,0, 0.1,0.1)
-		else
+			return 
+		else 
 			love.graphics.draw(self.teleport1, x, y-130,0, 0.1,0.1)
+			return
 		end
 	end
+	
+	love.graphics.draw(self.anim:getSprite(), x, y-130,0, 0.1,0.1)
+
 end

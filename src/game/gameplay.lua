@@ -66,6 +66,10 @@ function Gameplay:new()
 	-- counter teleport --
 	self.timerT = 0
 	self.teleportActive=false
+	
+	-- counter flying --
+	self.timerFlying = 0
+	self.flyingActive=false
 	return self
 end
 
@@ -84,6 +88,10 @@ function Gameplay:keyPressed(key, unicode)
 	if key == "t" then
 		self:enableTeleport()
 	end
+	
+	if key == "f" then
+		self:enableFlying()
+	end
 end
 
 function Gameplay:keyReleased(key, unicode)
@@ -92,20 +100,35 @@ end
 
 
 function Gameplay:enableTeleport()
-	print("Enable")
 	self.teleportActive=true
 	self.timerT=10
 	p:enableTeleport(true)
 end
+
+function Gameplay:enableFlying()
+	self.flyingActive=true
+	self.timerFlying=10
+	p:enableFlying(true)
+end
+
 function Gameplay:update(dt)
 	if self.teleportActive then
-		print("active")
 		self.timerT = self.timerT-dt
 		if  self.timerT<=0 then
 			p:enableTeleport(false)
 			self.teleportActive=false
 		end
 	end 
+	
+	if self.flyingActive then
+		self.timerFlying = self.timerFlying-dt
+		if  self.timerFlying<=0 then
+			p:enableFlying(false)
+			self.flyingActive=false
+		end
+	end 
+	
+	
 	if self.firstRun then
 	Sound.playMusic("themeprincipal")
 	self.firstRun =false
