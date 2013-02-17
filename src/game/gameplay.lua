@@ -169,7 +169,11 @@ function Gameplay:update(dt)
 	
 	self.timeelapsed=self.timeelapsed+dt
 	self.environment:update(dt)
-	self.scrolledDistance = self.scrolledDistance+dt*200+self.timeelapsed/100
+	if StopScroll then 
+		self.scrolledDistance = 0
+	else
+		self.scrolledDistance = self.scrolledDistance+dt*200+self.timeelapsed/100
+	end
 
 	self.background:update(dt)
 	self.backgroundinter1:update(dt)

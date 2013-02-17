@@ -13,6 +13,7 @@ p = nil
 objects = {}
 
 ShowHitBoxes = false
+StopScroll = false
 
 PHY_METER_RATIO = 64
 GRAVITY = 9.81
