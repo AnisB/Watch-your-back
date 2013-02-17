@@ -38,7 +38,7 @@ function Boy.new(gameplay)
 	self.pc.fixture:setUserData(self)
 	-- >>>>> Initialisation end
 	
-	
+	self.flyingEnabled = false
 	self.teleportEnabled=false
 	self.loopJump=false
 	self.isTeleporing=false
@@ -51,10 +51,14 @@ function Boy.new(gameplay)
 end
 
 function Boy:jump()
+
 	if self.state ~= "jumping" then
 		self.pc.body:applyLinearImpulse(0, -100)
 		self.state = "jumping"
+		if self.teleportEnabled or self.flyingEnabled then
+		else
 		self:loadAnimation("startjumping",true)
+		end
 		self.loopJump=true
 	end
 end
@@ -71,13 +75,19 @@ function Boy:collideWith( object, collision )
 		self:loadAnimation("landing",true)
 		self.loopJump=false
 	end
+	-- print ("Colliding with", tostring(object))
+	if self.loopJump and not self.teleportEnabled and not self.flyingEnabled then
+		self:loadAnimation("landing",true)
+		self.loopJump=false
+	end
+
 end
 
 function Boy:unCollideWith( object, collision )
-		if self.loopJump then
-			self:loadAnimation("landing",true)
-			self.loopJump=false
-		end
+	if self.loopJump and not self.teleportEnabled and not self.flyingEnabled then
+		self:loadAnimation("landing",true)
+		self.loopJump=false
+	end
 end
 
 function Boy:still(  )
@@ -92,17 +102,29 @@ end
 
 function Boy:enableTeleport(value)
 	if value then
+		self:loadAnimation('teleport',true)
 		Sound.playMusic('themetele')
 	else
+		self:loadAnimation('running',true)
 		Sound.playMusic('themeprincipal')
 
 	end
 	self.teleportEnabled= value
 end
 
+function Boy:enableFlying(value)
+	if value then
+		Sound.playMusic('themevol')
+	else
+		Sound.playMusic('themeprincipal')
+
+	end
+	self.flyingEnabled= value
+end
+
 function Boy:enableInvincible(enabled)
 	if enabled then
-		Sound.playMusic('themetele')
+		Sound.playMusic('themeinv')
 		this.pc.body.setDensity(0.0)
 	else
 		this.pc.body.setDensity(1.0)
@@ -146,17 +168,21 @@ function Boy:draw()
 	-- love.graphics.setColor(72, 160, 14) -- set the drawing color to green for the ground
  --  love.graphics.circle("fill", self.pc.body:getX(), self.pc.body:getY(), self.pc.shape:getRadius())
 	if self.invincibleEnabled then
-		love.graphics.draw(self.anim:getSprite(), x, y-260,0, 0.2,0.2)
-	else
-		love.graphics.draw(self.anim:getSprite(), x, y-130,0, 0.1,0.1)
+		love.graphics.draw(self.anim:getSprite(), x, y-140,0, 0.5,0.5)
+		return
 	end
 	
 	if self.teleportEnabled and self.isTeleporing then
 		if 	self.animState then
 			self.animState= not self.animState
-			love.graphics.draw(self.teleport1, x, y-130,0, 0.1,0.1)
-		else
-			love.graphics.draw(self.teleport1, x, y-130,0, 0.1,0.1)
+			love.graphics.draw(self.teleport1, x, y,0, 0.25,0.25)
+			return 
+		else 
+			love.graphics.draw(self.teleport1, x, y,0, 0.25,0.25)
+			return
 		end
 	end
+	
+	love.graphics.draw(self.anim:getSprite(), x, y,0, 0.25,0.25)
+
 end

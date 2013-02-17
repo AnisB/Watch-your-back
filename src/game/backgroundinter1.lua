@@ -6,7 +6,7 @@ BackgroundInter1 = {}
 BackgroundInter1.__index =  BackgroundInter1
 function BackgroundInter1:new(gameplay)
     local self = {}
-    self.bgsize = 4000
+    self.bgsize = 2000
     setmetatable(self,BackgroundInter1)
     self.gp = gameplay
     self.backs ={ImgDirectory.."boules.png", ImgDirectory.."boules.png"}

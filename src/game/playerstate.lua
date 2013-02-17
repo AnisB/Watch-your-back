@@ -20,6 +20,7 @@ function PlayerState:new(gameplay)
 
 	self.gp = gameplay
 	self.currentPowerUp = nil
+	self.dangerLevel = nil
 	self.hp = PLAYERSTATE_LIFES
 	self.lifes = PLAYERSTATE_MAX_HP
 	self.score = 0
@@ -46,6 +47,16 @@ function PlayerState:useNextLife()
 end
 
 
+function PlayerState:updateDangerLevel()
+	local x = p:getPos() - self.gp.scrolledDistance
+	if x < 0 then
+		x = 0
+	elseif x > love.graphics.getWidth() then
+		x = love.graphics.getWidth()
+	end
+	self.dangerLevel = 100 - x/love.graphics.getWidth()*100
+end
+
 function PlayerState:updateScore()
 	local xSpeed, _ = p:getSpeed()
 	local speedBonus = 0
@@ -56,7 +67,7 @@ function PlayerState:updateScore()
 	self.lastScrolledDist = self.gp.scrolledDistance
 end
 
-
 function PlayerState:update()
+	self:updateDangerLevel()
 	self:updateScore()
 end
