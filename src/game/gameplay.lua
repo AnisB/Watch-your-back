@@ -118,13 +118,14 @@ function Gameplay:enableTeleport()
 	self.teleportActive=true
 	self.timerT=10
 	p:enableTeleport(true)
+	self:disableGravity()
 end
 
 function Gameplay:enableFlying()
 	self.flyingActive=true
 	self.timerFlying=10
 	p:enableFlying(true)
-	
+	self:disableGravity()
 	end
 function Gameplay:enableInvincible()
 	print("Enable Invincible")
@@ -133,6 +134,15 @@ function Gameplay:enableInvincible()
 	p:enableInvincible(true)
 end
 
+function Gameplay:disableGravity(  )
+	world:setGravity(0.0, 0.0)
+	p:disableUpPulse()
+end
+
+function Gameplay:enableGravity(  )
+	world:setGravity(0.0, GRAVITY*PHY_METER_RATIO)	
+	p:enableUpPulse()
+end
 
 function Gameplay:update(dt)
 	if self.teleportActive then
@@ -140,6 +150,7 @@ function Gameplay:update(dt)
 		if  self.timerT<=0 then
 			p:enableTeleport(false)
 			self.teleportActive=false
+			self:enableGravity()
 		end
 	end
 	if self.invincibleActive then
@@ -153,9 +164,10 @@ function Gameplay:update(dt)
 	
 	if self.flyingActive then
 		self.timerFlying = self.timerFlying-dt
-		if  self.timerFlying<=0 then
+		if self.timerFlying<=0 then
 			p:enableFlying(false)
 			self.flyingActive=false
+			self:enableGravity()
 		end
 	end 
 	
@@ -170,6 +182,9 @@ function Gameplay:update(dt)
 		p:right()
 	elseif love.keyboard.isDown("q") or love.keyboard.isDown("a") then --press the left arrow key to push the ball to the left
 		p:left()
+	elseif love.keyboard.isDown("s") then
+		p:down()
+		print "DOWN"
 	else 
 		p:still()
 	end
@@ -204,21 +219,21 @@ function Gameplay:update(dt)
 	self.playerState:update()
 	self.foreground:setAlphaFromDangerLevel(self.playerState.dangerLevel)
 	
-		 local x,y = p:getPos()
-	 if (x- self.scrolledDistance)> 1024 then
-	 	x=	1023 + self.scrolledDistance
-	 end
-	 if (x- self.scrolledDistance)< 0 then
-	 	gameState:changeState('GameOver')
-	 end
-	 
-	 if y<-400 then
-	 	y=-399
-	 end
-	 
-	 	 
-	 	p.pc.body:setPosition(x,y)
-	 self.pedobear:update(dt)
+	local x,y = p:getPos()
+	if (x- self.scrolledDistance)> 1024 then
+		x=	1023 + self.scrolledDistance
+	end
+	if (x- self.scrolledDistance)< 0 then
+		gameState:changeState('GameOver')
+	end
+
+	if y<-400 then
+		y=-399
+	end
+
+
+	p.pc.body:setPosition(x,y)
+	self.pedobear:update(dt)
 end
 
 function Gameplay:draw()
