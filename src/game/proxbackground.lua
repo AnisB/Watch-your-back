@@ -48,8 +48,8 @@ function ProxBackground:update(dt)
 end
 
 function ProxBackground:draw()
-		love.graphics.draw(self.currentBg,self.cx-self.myScrolled,0)
+		--love.graphics.draw(self.currentBg,self.cx-self.myScrolled,0)
 		if self.drawNext then
-		love.graphics.draw(self.nextBg,self.nx-self.myScrolled,0)
+		--love.graphics.draw(self.nextBg,self.nx-self.myScrolled,0)
 		end
 end

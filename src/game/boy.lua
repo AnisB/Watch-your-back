@@ -1,4 +1,5 @@
 require 'game/anim'
+require 'game/sound'
 
 Boy = {}
 Boy.__index = Boy
@@ -85,6 +86,17 @@ function Boy:getSpeed(  )
 end
 
 function Boy:collideWith( object, collision )
+	if object.bonus then
+		print("WWAAAAAAAH A BONUS !!! =>", object.name)
+		-- self.gp.playerState:enablePowerUp(object.name)
+		object:delete()
+		if not object.details.malus then
+			Sound.playSound("buff")
+		else
+			Sound.playSound("malus")
+		end
+		return
+	end
 	if object.name == "paltform" then
 		print "Colliding with a paltform"
 		local x, y = self:getPosition()
@@ -115,6 +127,7 @@ end
 
 function Boy:teleport( x,y )
 	self.isTeleporing=true
+	Sound.playSound("teleportation")
 	self.timeT=0.15
 	self.pc.body:setPosition(x,y)
 end
