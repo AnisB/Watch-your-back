@@ -158,10 +158,11 @@ function Boy:enableTeleport(value)
 		self:setState("teleporting")
 	else
 		self:loadAnimation('running',true)
+		self:still()
 		Sound.playMusic('themeprincipal')
 		self:setState("running")
 	end
-	self.teleportEnabled= value
+	self.teleportEnabled = value
 end
 
 function Boy:enableFlying(enabled)
@@ -169,15 +170,14 @@ function Boy:enableFlying(enabled)
 	if enabled then
 		Sound.playMusic('themevol')
 		self:loadAnimation('invincible',true)
-		self.upPulse = 0
 		self:setState("flying")
 	else
+		self:still()
 		self:loadAnimation('running',true)
 		Sound.playMusic('themeprincipal')
-		self.upPulse = stdUpPulse
 		self:setState("running")
 	end
-	self.flyingEnabled= enabled
+	self.flyingEnabled = enabled
 end
 
 function Boy:enableInvincible(enabled)

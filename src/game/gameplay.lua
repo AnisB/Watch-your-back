@@ -101,13 +101,17 @@ function Gameplay:keyReleased(key, unicode)
 end
 
 function Gameplay:disableGravity(  )
+	print ("Gravity was ", world:getGravity())
 	world:setGravity(0.0, 0.0)
 	p:disableUpPulse()
+	print ("Gravity is now", world:getGravity())
 end
 
 function Gameplay:enableGravity(  )
+	print "Re-enabling GRAVITY"
 	world:setGravity(0.0, GRAVITY*PHY_METER_RATIO)
 	p:enableUpPulse()
+	print ("Gravity is now", world:getGravity())
 end
 
 function Gameplay:update(dt)

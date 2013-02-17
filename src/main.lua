@@ -16,11 +16,11 @@ ShowHitBoxes = false
 StopScroll = false
 
 PHY_METER_RATIO = 64
-GRAVITY = 9.81
+GRAVITY = 20.92 -- 9.81
 
 function initPhysics(  )
-	world = love.physics.newWorld(0, GRAVITY*PHY_METER_RATIO, true) --create a world for the bodies to exist in with horizontal gravity of 0 and vertical gravity of 9.81
 	love.physics.setMeter(PHY_METER_RATIO) --the height of a meter our worlds will be 64px
+	world = love.physics.newWorld(0, GRAVITY*PHY_METER_RATIO, true) --create a world for the bodies to exist in with horizontal gravity of 0 and vertical gravity of 9.81
 	world:setCallbacks(beginContact, endContact, preSolve, postSolve)
 end
 SourceDirectory="./"
