@@ -5,6 +5,7 @@ Watch your Back - Nico, Théo, Fred, Piero, Valentin, Anis
 require('strict') -- JS strict mode emulation!
 require("game.environment")
 require("game.background")
+require("game.foreground")
 require("game.proxbackground")
 require("game.hud")
 require("game.pedobear")
@@ -53,6 +54,9 @@ function Gameplay:new()
 
 	-- PEDO
 	self.pedobear = Pedobear:new()
+
+	-- Foreground (red filter)
+	self.foreground = Foreground:new(255, 0, 0)
 
 	self.firstRun=true
 	
@@ -162,14 +166,15 @@ function Gameplay:update(dt)
 	if love.keyboard.isDown("z") or love.keyboard.isDown("w") or love.keyboard.isDown(" ") then --press the left arrow key to push the ball to the left
 		p:jump()
 	end
-	self.timeelapsed=self.timeelapsed +dt
+	self.timeelapsed=self.timeelapsed+dt
 	self.environment:update(dt)
-	self.scrolledDistance=math.floor(self.scrolledDistance+dt*200+self.timeelapsed/100)
+	self.scrolledDistance=self.scrolledDistance+dt*200+self.timeelapsed/100
 	self.background:update(dt)
 	self.backgroundinter1:update(dt)
 	self.backgroundinter2:update(dt)
 	self.proxbackground:update(dt)
 	self.playerState:update()
+	self.foreground:setAlphaFromDangerLevel(self.playerState.dangerLevel)
 end
 
 function Gameplay:draw()
@@ -180,6 +185,7 @@ function Gameplay:draw()
 	self.backgroundinter2:draw()
 	p:draw()
 	self.pedobear:draw()
+	self.foreground:draw()
 	-- Draw the HUD (obviously at the end)
 	self.hud:draw()
 	-- Are you trying to write something after this line? Did you read the previous comment? Hmm.
