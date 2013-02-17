@@ -37,6 +37,7 @@ function Boy.new(gameplay)
 	self.anim = Anim.new('boy')
 	self.mode = "r"
 	self.jumpTimer = 0
+	self.dtUpPulse = 0.0
 
 	-- Physics Component (pc)
 	if self.mode == "c" then
@@ -217,8 +218,13 @@ end
 
 function Boy:update(seconds)
 	self.jumpTimer = self.jumpTimer + seconds
+	self.dtUpPulse = self.dtUpPulse + seconds
 	self.pc.body:applyForce(self.speed.x, self.speed.y)
-	self.pc.body:applyLinearImpulse(0.0, self.upPulse)
+	self.pc.body:applyLinearImpulse(0.0, 0.0)
+	if self.dtUpPulse > 0.1 then
+		self.dtUpPulse = 0.0
+		self.pc.body:applyLinearImpulse(0.0, self.upPulse)
+	end
 	self.anim:update(seconds)
 	self.timeT = self.timeT-seconds
 	if self.timeT <= 0 then
