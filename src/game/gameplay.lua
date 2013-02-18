@@ -72,6 +72,7 @@ function Gameplay:new()
 end
 
 function Gameplay:reset()
+	world:setCallbacks(nil, function() collectgarbage() end)
 	world:destroy()
 	love.physics.setMeter(PHY_METER_RATIO) --the height of a meter our worlds will be 64px
 	world = love.physics.newWorld(0, GRAVITY*PHY_METER_RATIO, true) --create a world for the bodies to exist in with horizontal gravity of 0 and vertical gravity of 9.81
@@ -214,10 +215,10 @@ end
 
 function Gameplay:draw()
 	self.background:draw()
-	self.proxbackground:draw()
-	self.environment:draw()
 	self.backgroundinter1:draw()
 	self.backgroundinter2:draw()
+	self.proxbackground:draw()
+	self.environment:draw()
 	p:draw()
 	for i=1, #self.bonuses do
 		self.bonuses[i]:draw()

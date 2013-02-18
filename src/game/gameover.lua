@@ -37,6 +37,7 @@ function GameOver:update(dt)
 	self.timer= self.timer-dt
 	if self.timer<=0 then
 		self.gp:reset()
+		self.timer = 5
 		gameState:changeState('Menu')
 	end
 	
