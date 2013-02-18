@@ -30,6 +30,22 @@ function Environment:new(gameplay)
 	return self
 end
 
+function Environment:reset()
+
+	self.myScrooled =0
+	self.cx= 0 -- cx = Current X
+	self.nextPL = 2
+	self.currentPL = 1
+	
+	self.done =false
+	self.done2 = false
+	self.nbBlocs =0
+	self.currentPlatformSet = nil
+	self.currentPlatformSet = PlatformSet.new(1, self.gp.scrolledDistance)
+	self.drawNext=nil
+
+end
+
 function Environment:mousePressed(x, y, button)
 
 end

@@ -26,6 +26,18 @@ function ProxBackground:new(gameplay)
     return self
 end
 
+function ProxBackground:reset()
+    self.currentbgnum=1
+    self.currentBg=self.back1
+    self.nextBg=self.back2
+    self.isclicked=false
+    self.cx =0
+    self.nx=1281
+    self.drawNext=false
+    self.myScrolled =0
+    self.nbBlocs=0
+end
+
 function ProxBackground:update(dt)
 	self.myScrolled=self.gp.scrolledDistance
 	if self.myScrolled+1024 -self.nbBlocs*self.bgsize>1024 and not self.done then

@@ -53,6 +53,7 @@ function Boy.new(gameplay)
 
 		self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.R, self.pos.x, self.pos.y, false, {width=self.w, height=self.h})
 	end
+
 	self.pc.body:setLinearDamping(0.6)
 	self.pc.body:setMass(0.15)
 	self.pc.fixture:setFriction(0.7)
@@ -72,6 +73,45 @@ function Boy.new(gameplay)
 	return self
 end
 
+function Boy:reset()
+	self.pos = {x = 700, y = 300}
+	self.w = 110
+	self.h = 155
+	-- self.r = 90
+	self.speed = {x = stdSpeed, y = 0.0}
+	self.upPulse = stdUpPulse
+	self:setState("running")
+	self.jumpTimer = 0
+	self.dtUpPulse = 0.0
+	-- Physics Component (pc)
+	if self.mode == "c" then
+		drawingOffsetX = -45
+		drawingOffsetY = -52
+
+		self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.C, self.pos.x, self.pos.y, false, {r=self.r})
+	else
+		drawingOffsetX = -115
+		drawingOffsetY = -105
+
+		self.pc = PhysicsComponent.new(PhysicsComponent.ShapeType.R, self.pos.x, self.pos.y, false, {width=self.w, height=self.h})
+	end
+
+	self.pc.body:setLinearDamping(0.6)
+	self.pc.body:setMass(0.15)
+	self.pc.fixture:setFriction(0.7)
+	self.pc.fixture:setRestitution(0.0) --let the PhysicsComponent bounce
+	self.pc.fixture:setUserData(self)
+
+	self.invincibleEnabled = false
+	self.flyingEnabled = false
+	self.teleportEnabled=false
+	self.loopJump=false
+	self.isTeleporing=false
+	self.timeT=0
+	self.jumpTimer=0
+	self:loadAnimation("running",true)
+
+	end
 function Boy:jump()
 	if self.state == "running" and self.jumpTimer >= JUMP_SAFE_DELAY then
 		self.jumpTimer = 0

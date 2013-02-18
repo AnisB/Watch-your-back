@@ -13,7 +13,7 @@ function GameOver:new(gameplay)
     setmetatable(self, GameOver)
     self.gp = gameplay
     self.background = love.graphics.newImage(ImgDirectory.."gameover.png")
-
+	self.timer = 5
     return self
 end
 
@@ -34,6 +34,12 @@ end
 
 
 function GameOver:update(dt)
+	self.timer= self.timer-dt
+	if self.timer<=0 then
+		self.gp:reset()
+		gameState:changeState('Menu')
+	end
+	
 end
 
 function GameOver:draw()

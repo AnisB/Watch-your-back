@@ -20,19 +20,7 @@ Gameplay.__index = Gameplay
 function Gameplay:new()
 	local self = {}
 	setmetatable(self, Gameplay)
-	p = Boy.new(self)
 
-
-	-- the character position
-	self.character = {400,400} -- x,y
-
-	-- a bunch of objects, each with a position
-	self.objects = {}
-	self.objects[1] = {550,370}
-	self.objects[2] = {220,390}
-	self.objects[3] = {600,410}
-	self.objects[4] = {300,450}
-	self.objects[5] = {400,530}
 
 	-- Background --
 	self.scrolledDistance=0
@@ -47,7 +35,7 @@ function Gameplay:new()
 	self.environment = Environment:new(self)
 
 	-- Character -- 
-	-- self.boy = Boy
+	p = Boy.new(self)
 	
 	-- Player state --
 	self.playerState = PlayerState:new(self)
@@ -81,6 +69,37 @@ function Gameplay:new()
 	end)
 
 	return self
+end
+
+function Gameplay:reset()
+	world:destroy()
+	love.physics.setMeter(PHY_METER_RATIO) --the height of a meter our worlds will be 64px
+	world = love.physics.newWorld(0, GRAVITY*PHY_METER_RATIO, true) --create a world for the bodies to exist in with horizontal gravity of 0 and vertical gravity of 9.81
+	world:setCallbacks(beginContact, endContact, preSolve, postSolve)
+	PhysicsComponent.reset()
+	self.scrolledDistance=0
+	self.speed=100
+	self.ceil = 0
+	self.timeelapsed=0
+	p:reset()
+	self.pedobear:reset()
+	self.background:reset()
+	self.proxbackground:reset()
+	self.backgroundinter1:reset()
+	self.backgroundinter2:reset()
+	self.environment:reset()
+	self.playerState:reset()
+	self.firstRun=true
+	self.coeff_value = 1
+	self.bonuses = {}
+	local function popBonus()
+		local choice = math.random(1, #Bonus.NUMANIMS)
+		choice = Bonus.NUMANIMS[choice]
+		Bonus.new(self, self.bonuses, choice.name)
+		self.cron.after(math.random(12, 15), popBonus)
+	end
+	self.cron.after(math.random(12, 15), popBonus)
+	
 end
 
 function Gameplay:mousePressed(x, y, button)

@@ -26,6 +26,19 @@ function BackgroundInter1:new(gameplay)
     return self
 end
 
+
+function BackgroundInter1:reset()
+    self.currentbgnum=1
+    self.currentBg=self.back1
+    self.nextBg=self.back2
+    self.isclicked=false
+    self.cx =0
+    self.nx=self.bgsize
+    self.drawNext=false
+    self.myScrolled =0
+        self.nbBlocs =0
+    self.done =false
+end
 function BackgroundInter1:update(dt)
 	self.myScrolled=self.gp.scrolledDistance/3
 	

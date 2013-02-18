@@ -7,6 +7,7 @@ PhysicsComponent['ShapeType'] = { C=1, R=3 }
 
 PhysicsComponent.__index = PhysicsComponent
 
+
 function PhysicsComponent.new(shape_type, x, y, isStatic, options)
 	local pc = {}						 -- our new object
 	setmetatable(pc, PhysicsComponent)	-- make PhysicsComponent handle lookup
@@ -42,3 +43,7 @@ function PhysicsComponent.new(shape_type, x, y, isStatic, options)
 
 	return pc
 end
+function PhysicsComponent:reset()
+PhysicsComponent['ShapeType'] = { C=1, R=3 }
+end
+

@@ -9,6 +9,8 @@ require("game.gameover")
 require("game.tutorial")
 require("game.highscore")
 require("game.sound")
+require("game.prelude")
+require("game.storyline")
 
 GameState = {}
 GameState.__index = GameState
@@ -22,8 +24,10 @@ function GameState:new()
     self.state['Gameplay']  = Gameplay:new()
     self.state['GameOver']  = GameOver:new(self.state.Gameplay)
     self.state['HighScore'] = HighScore:new()
-    self.currentState='Menu'
-    Sound.playMusic("berceuse")
+    self.state['Prelude'] = Prelude:new()
+    self.state['Storyline'] = Storyline:new()
+    self.currentState='Prelude'
+    Sound.playMusic("berceuse",true)
 	return self
 end
 
@@ -52,5 +56,5 @@ function GameState:draw()
 end
 
 function GameState:changeState(newState)
-	self.currentState= newState
+	self.currentState=newState
 end

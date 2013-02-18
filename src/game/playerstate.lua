@@ -30,6 +30,15 @@ function PlayerState:new(gameplay)
 	return self
 end
 
+function PlayerState:reset()
+	self.currentPowerUp = nil
+	self.dangerLevel = nil
+	self.hp = PLAYERSTATE_LIFES
+	self.lifes = PLAYERSTATE_MAX_HP
+	self.powerUpRemTime = nil
+	self.score = 0
+	self.lastScrolledDist = 0
+end
 
 function PlayerState:getScore()
 	return math.floor(self.score)

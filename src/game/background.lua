@@ -28,6 +28,17 @@ function Background:new(gameplay)
     return self
 end
 
+function Background:reset()
+    self.currentbgnum=1
+    self.currentBg=self.back1
+    self.nextBg=self.back2
+    self.isclicked=false
+    self.cx =0
+    self.nx=self.bgsize
+    self.drawNext=false
+    self.myScrolled =0
+end
+
 function Background:update(dt)
 	self.myScrolled=self.gp.scrolledDistance/10
 	

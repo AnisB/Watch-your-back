@@ -26,6 +26,12 @@ function Pedobear:update(dt)
 	end
 end
 
+function Pedobear:reset()
+    self.increase=true
+    self.decrease=false
+    self.counter=0
+end
+
 function Pedobear:draw()
 	--bg = love.graphics.newImage.createEmpty(480,272 )
 	--black = Color.new(0,0,0,120)
